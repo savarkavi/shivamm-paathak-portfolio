@@ -4,7 +4,7 @@ import { VscLinkExternal } from "react-icons/vsc";
 
 const HomeHeader = () => {
   return (
-    <div className="fixed top-0 left-0 z-10 flex w-full items-center justify-between bg-linear-to-b from-black/60 to-transparent px-12 py-4 text-sm leading-4 font-bold text-white uppercase backdrop-blur-md">
+    <div className="fixed top-0 left-0 z-10 flex w-full flex-wrap items-center justify-between gap-20 bg-linear-to-b from-black/60 to-transparent px-4 py-4 text-sm leading-4 font-bold text-white uppercase backdrop-blur-md lg:px-12">
       <div>
         <p>
           Based in{" "}
