@@ -8,7 +8,7 @@ export default function Home() {
         style={{
           backgroundImage: "url('/grainy-effect.webp')",
           mixBlendMode: "hard-light",
-          opacity: 0.08,
+          opacity: 0.09,
           pointerEvents: "none",
         }}
       />
