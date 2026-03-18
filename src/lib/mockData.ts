@@ -125,3 +125,46 @@ export const mockHomePagePhotos = [
     altText: "Home Page Image 25",
   },
 ];
+
+export const featuredData = [
+  {
+    _id: "1",
+    title: "Jully Issue",
+    image: "/jully-issue.jpg",
+  },
+  {
+    _id: "2",
+    title: "House of Eda",
+    image: "/house-of-eda.jpg",
+  },
+  {
+    _id: "3",
+    title: "Dhruv Kapoor",
+    image: "/dhruv-kapoor.jpg",
+  },
+  {
+    _id: "4",
+    title: "Roqa",
+    image: "/roqa.jpg",
+  },
+  {
+    _id: "5",
+    title: "Estrella",
+    image: "/estrella.jpg",
+  },
+  {
+    _id: "6",
+    title: "Gauri & Nainika",
+    image: "/gauri-and-nainika.jpg",
+  },
+  {
+    _id: "7",
+    title: "Preeti Kler",
+    image: "/preeti-kler.jpg",
+  },
+  {
+    _id: "8",
+    title: "Libas",
+    image: "/libas.jpg",
+  },
+];
