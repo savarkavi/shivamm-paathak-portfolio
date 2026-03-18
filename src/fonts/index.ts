@@ -1,4 +1,9 @@
-import { Inconsolata, Jersey_25, Anton } from "next/font/google";
+import {
+  Inconsolata,
+  Jersey_25,
+  Anton,
+  Just_Me_Again_Down_Here,
+} from "next/font/google";
 
 export const inconsolata = Inconsolata({
   subsets: ["latin"],
@@ -11,6 +16,11 @@ export const jersey25 = Jersey_25({
 });
 
 export const anton = Anton({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+export const justMeAGain = Just_Me_Again_Down_Here({
   subsets: ["latin"],
   weight: ["400"],
 });
