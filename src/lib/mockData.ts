@@ -126,45 +126,61 @@ export const mockHomePagePhotos = [
   },
 ];
 
-export const featuredData = [
+export const archiveData = [
   {
     _id: "1",
     title: "Jully Issue",
     image: "/jully-issue.jpg",
+    stackImages: ["/jully-issue-2.jpg", "/jully-issue-3.jpg"],
+    year: 2022,
   },
   {
     _id: "2",
     title: "House of Eda",
     image: "/house-of-eda.jpg",
+    stackImages: ["/jully-issue-2.jpg", "/jully-issue-3.jpg"],
+    year: 2022,
   },
   {
     _id: "3",
     title: "Dhruv Kapoor",
     image: "/dhruv-kapoor.jpg",
+    stackImages: ["/jully-issue-2.jpg", "/jully-issue-3.jpg"],
+    year: 2023,
   },
   {
     _id: "4",
     title: "Roqa",
     image: "/roqa.jpg",
+    stackImages: ["/jully-issue-2.jpg", "/jully-issue-3.jpg"],
+    year: 2024,
   },
   {
     _id: "5",
     title: "Estrella",
     image: "/estrella.jpg",
+    stackImages: ["/jully-issue-2.jpg", "/jully-issue-3.jpg"],
+    year: 2024,
   },
   {
     _id: "6",
     title: "Gauri & Nainika",
     image: "/gauri-and-nainika.jpg",
+    stackImages: ["/jully-issue-2.jpg", "/jully-issue-3.jpg"],
+    year: 2025,
   },
   {
     _id: "7",
     title: "Preeti Kler",
     image: "/preeti-kler.jpg",
+    stackImages: ["/jully-issue-2.jpg", "/jully-issue-3.jpg"],
+    year: 2025,
   },
   {
     _id: "8",
     title: "Libas",
     image: "/libas.jpg",
+    stackImages: ["/jully-issue-2.jpg", "/jully-issue-3.jpg"],
+    year: 2026,
   },
 ];

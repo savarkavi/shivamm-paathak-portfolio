@@ -1,13 +1,13 @@
-import { justMeAGain } from "@/fonts";
-import { featuredData } from "@/lib/mockData";
+import { archiveData } from "@/lib/mockData";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Observer, ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
+import WorkInfo from "./WorkInfo";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, Observer);
 
-const FeaturedContent = () => {
+const ArchiveContent = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const list1Ref = useRef<HTMLDivElement>(null);
   const list2Ref = useRef<HTMLDivElement>(null);
@@ -50,47 +50,21 @@ const FeaturedContent = () => {
   });
 
   return (
-    <div ref={wrapperRef} className="z-50 mt-36 flex flex-col gap-50">
-      <div
-        ref={list1Ref}
-        className="featured-list relative flex flex-col gap-50"
-      >
-        {featuredData.map((data, i) => {
+    <div ref={wrapperRef} className="z-10 mt-16 flex flex-col">
+      <div ref={list1Ref} className="archive-list relative flex flex-col">
+        {archiveData.map((data, i) => {
           const isLeft = i % 2 === 0;
-          return (
-            <p
-              key={data._id}
-              className={`flex flex-col ${justMeAGain.className} ${
-                isLeft ? "-translate-x-[60%] text-right" : "translate-x-[60%]"
-              }`}
-            >
-              {data.title}
-              <span className="text-lg text-gray-500">02 Files</span>
-            </p>
-          );
+          return <WorkInfo key={data._id} data={data} isLeft={isLeft} />;
         })}
       </div>
-      <div
-        ref={list2Ref}
-        className="featured-list relative flex flex-col gap-50"
-      >
-        {featuredData.map((data, i) => {
+      <div ref={list2Ref} className="archive-list relative flex flex-col">
+        {archiveData.map((data, i) => {
           const isLeft = i % 2 === 0;
-          return (
-            <p
-              key={`${data._id}-dup`}
-              className={`flex flex-col ${justMeAGain.className} ${
-                isLeft ? "-translate-x-[60%] text-right" : "translate-x-[60%]"
-              }`}
-            >
-              {data.title}
-              <span className="text-lg text-gray-500">02 Files</span>
-            </p>
-          );
+          return <WorkInfo key={data._id} data={data} isLeft={isLeft} />;
         })}
       </div>
     </div>
   );
 };
 
-export default FeaturedContent;
+export default ArchiveContent;
