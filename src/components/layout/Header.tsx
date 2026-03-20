@@ -1,10 +1,11 @@
 import { MdLocationPin } from "react-icons/md";
 import { CiGlobe } from "react-icons/ci";
 import { VscLinkExternal } from "react-icons/vsc";
+import Link from "next/link";
 
 const Header = () => {
   return (
-    <div className="fixed top-0 left-0 z-60 flex w-full flex-wrap items-center justify-between gap-20 bg-linear-to-b from-black/60 to-transparent px-4 py-4 text-sm leading-4 font-bold text-white uppercase backdrop-blur-md lg:px-12">
+    <div className="fixed top-0 left-0 z-60 flex w-full flex-wrap items-center justify-between gap-20 bg-linear-to-b from-black/60 to-transparent px-4 py-2 text-sm leading-4 font-bold text-white uppercase backdrop-blur-md lg:px-12">
       <div>
         <p>
           Based in{" "}
@@ -19,24 +20,44 @@ const Header = () => {
           </span>
         </p>
       </div>
-      <div>
-        <p>[Works]</p>
-        <p className="text-white/50 underline">Featured</p>
-        <p className="text-white/50 underline">Archive</p>
+      <div className="flex flex-col">
+        <p className="text-base">[Works]</p>
+        <Link
+          href="/featured-work"
+          className="text-white/50 underline hover:text-white/80"
+        >
+          Featured
+        </Link>
+        <Link
+          href="/archive"
+          className="text-white/50 underline hover:text-white/80"
+        >
+          Archive
+        </Link>
       </div>
-      <div>
-        <p>[Profile]</p>
-        <p className="text-white/50 underline">About</p>
-        <p className="text-white/50 underline">BTS</p>
+      <div className="flex flex-col">
+        <p className="text-base">[Profile]</p>
+        <Link
+          href="/about"
+          className="text-white/50 underline hover:text-white/80"
+        >
+          About
+        </Link>
+        <Link
+          href="/bts"
+          className="text-white/50 underline hover:text-white/80"
+        >
+          BTS
+        </Link>
       </div>
-      <div>
-        <p>[Socials]</p>
-        <p className="text-white/50 underline">
+      <div className="flex flex-col">
+        <p className="text-base">[Socials]</p>
+        <Link href="/" className="text-white/50 underline hover:text-white/80">
           Instagram <VscLinkExternal className="inline size-3" />
-        </p>
-        <p className="text-white/50 underline">
+        </Link>
+        <Link href="/" className="text-white/50 underline hover:text-white/80">
           Youtube <VscLinkExternal className="inline size-3" />
-        </p>
+        </Link>
       </div>
     </div>
   );
