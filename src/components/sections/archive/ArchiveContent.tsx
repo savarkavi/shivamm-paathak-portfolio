@@ -50,7 +50,7 @@ const ArchiveContent = () => {
   });
 
   return (
-    <div ref={wrapperRef} className="z-10 mt-16 flex flex-col">
+    <div ref={wrapperRef} className="z-50 mt-20 flex flex-col">
       <div ref={list1Ref} className="archive-list relative flex flex-col">
         {archiveData.map((data, i) => {
           const isLeft = i % 2 === 0;
