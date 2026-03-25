@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <div className="fixed top-0 left-0 z-60 flex w-full flex-wrap items-center justify-between gap-20 bg-linear-to-b from-black/60 to-transparent px-4 py-2 text-sm leading-4 font-bold text-white uppercase backdrop-blur-md lg:px-12">
+    <div className="fixed top-0 left-0 z-60 flex w-full flex-wrap items-center justify-between gap-10 bg-linear-to-b from-black/60 to-transparent px-4 py-2 text-sm leading-4 font-bold text-white uppercase before:absolute before:inset-0 before:-z-10 before:mask-[linear-gradient(to_bottom,black_90%,transparent)] before:backdrop-blur-lg lg:px-12">
       <div>
         <p>
           Based in{" "}
