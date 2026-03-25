@@ -18,6 +18,11 @@ const HeroGallery = () => {
   useGSAP(() => {
     const strips = gsap.utils.toArray<HTMLDivElement>(".col-strip");
 
+    gsap.set(heroGallery.current, {
+      left: "50%",
+      x: "-50%",
+    });
+
     const handleMouseMove = (e: MouseEvent) => {
       const galleryXPos = gsap.utils.mapRange(
         0,
