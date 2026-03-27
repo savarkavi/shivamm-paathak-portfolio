@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { mockHomePagePhotos } from "@/lib/mockData";
+import { mockPhotos } from "@/lib/mockData";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
@@ -98,9 +98,8 @@ const HeroGallery = () => {
             <div className={`flex flex-col gap-2`}>
               {Array.from({ length: photosPerColumn }).map((_, photoIndex) => {
                 const index =
-                  (colIndex * photosPerColumn + photoIndex) %
-                  mockHomePagePhotos.length;
-                const photo = mockHomePagePhotos[index];
+                  (colIndex * photosPerColumn + photoIndex) % mockPhotos.length;
+                const photo = mockPhotos[index];
                 return (
                   <div
                     key={`set1-${colIndex}-${photoIndex}`}
@@ -122,9 +121,8 @@ const HeroGallery = () => {
             <div className={`flex flex-col gap-2`}>
               {Array.from({ length: photosPerColumn }).map((_, photoIndex) => {
                 const index =
-                  (colIndex * photosPerColumn + photoIndex) %
-                  mockHomePagePhotos.length;
-                const photo = mockHomePagePhotos[index];
+                  (colIndex * photosPerColumn + photoIndex) % mockPhotos.length;
+                const photo = mockPhotos[index];
                 return (
                   <div
                     key={`set2-${colIndex}-${photoIndex}`}
