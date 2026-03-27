@@ -1,4 +1,4 @@
-export const mockHomePagePhotos = [
+export const mockPhotos = [
   {
     _id: "1",
     imageUrl: "/homepage-img1.jpg",
