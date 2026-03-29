@@ -4,6 +4,7 @@ import "../globals.css";
 import { inconsolata } from "@/fonts";
 import { ReactLenis } from "lenis/react";
 import Header from "../../components/layout/Header";
+import Intro from "@/components/sections/Intro";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inconsolata.className} antialiased`}
       >
+        <Intro />
         <div
           className="fixed top-0 left-0 z-10 h-screen w-screen"
           style={{
