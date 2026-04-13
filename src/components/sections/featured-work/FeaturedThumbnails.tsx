@@ -49,8 +49,8 @@ const FeaturedThumbnails = () => {
         ))}
       </div>
       <div className="absolute top-1/2 left-1/2 -translate-1/2 overflow-hidden">
-        <p className="thumbnail-text relative flex gap-1 uppercase">
-          {"Scroll to experience".split("").map((l, i) => (
+        <p className="thumbnail-text relative flex gap-1 text-sm tracking-wider uppercase">
+          {"[Scroll to experience]".split("").map((l, i) => (
             <span key={i} className="thumbnail-text-letter block translate-y-6">
               {l}
             </span>

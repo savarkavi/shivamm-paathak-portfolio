@@ -81,14 +81,14 @@ const FeaturedGallerySlider = () => {
 
           clearTimeout(scrollTimeout);
 
-          gsap.to(slidesRef.current, {
+          gsap.to([slidesRef.current, ".gallery-gradient"], {
             opacity: 1,
             duration: 0.3,
             overwrite: "auto",
           });
 
           scrollTimeout = setTimeout(() => {
-            gsap.to(slidesRef.current, {
+            gsap.to([slidesRef.current, ".gallery-gradient"], {
               opacity: 0,
               duration: 0.3,
               overwrite: "auto",
@@ -121,7 +121,7 @@ const FeaturedGallerySlider = () => {
       ref={containerRef}
       className="relative h-screen w-screen touch-none overflow-hidden font-mono select-none"
     >
-      <div className="fixed inset-0 h-screen w-screen">
+      <div className="pointer-events-none fixed inset-0 z-999 h-screen w-screen">
         {slidesData.map((data, i) => (
           <div
             key={`${data._id}-${i}`}
@@ -143,8 +143,8 @@ const FeaturedGallerySlider = () => {
         ))}
 
         {/* Gradient Overlays */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-32 bg-linear-to-r from-black to-transparent md:w-80" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-32 bg-linear-to-l from-black to-transparent md:w-80" />
+        <div className="gallery-gradient pointer-events-none absolute inset-y-0 left-0 z-10 w-32 bg-linear-to-r from-black to-transparent opacity-0 md:w-80" />
+        <div className="gallery-gradient pointer-events-none absolute inset-y-0 right-0 z-10 w-32 bg-linear-to-l from-black to-transparent opacity-0 md:w-80" />
       </div>
     </div>
   );
