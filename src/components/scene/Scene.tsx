@@ -30,8 +30,7 @@ export default function Scene() {
   return (
     <div
       ref={containerRef}
-      style={{ width: "100vw", height: "100vh", backgroundColor: "#050505" }}
-      className="fixed top-0 left-0 z-999"
+      className="fixed top-0 left-0 z-999 h-dvh w-full bg-[#050505]"
     >
       <h1
         className={`${anton.className} absolute top-10 left-1/2 -translate-x-1/2 text-2xl text-white uppercase`}
