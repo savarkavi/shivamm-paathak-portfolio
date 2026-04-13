@@ -8,7 +8,7 @@ const HomeFooter = () => {
       >
         Shivamm Paathak
       </h1>
-      <div className="text-center text-sm">
+      <div className="max-w-lg text-center text-sm md:text-base lg:text-left">
         <p className="select-none">
           Shivamm Paathak is a Fashion & Fine-Art Photographer, exploring the
           intersection of mythology and modern India.
