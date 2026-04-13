@@ -23,7 +23,7 @@ const Header = () => {
       <div className="flex flex-col">
         <p className="text-base">[Works]</p>
         <Link
-          href="/featured-work"
+          href="/spotlight"
           className="text-white/50 underline hover:text-white/80"
         >
           Spotlight
