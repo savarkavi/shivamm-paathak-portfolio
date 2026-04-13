@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import gsap from "gsap";
+import { useMediaQuery } from "usehooks-ts";
 
 import { Canvas } from "@react-three/fiber";
 import AshOrb from "./AshOrb";
@@ -12,6 +13,8 @@ import { anton } from "@/fonts";
 export default function Scene() {
   const [isMounted, setIsMounted] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const handleLoadingComplete = () => {
     gsap.to(containerRef.current, {
@@ -38,7 +41,7 @@ export default function Scene() {
       <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
         <AshOrb
           count={25000}
-          radius={1.4}
+          radius={isMobile ? 0.8 : 1.4}
           sizeMultiplier={20}
           edgeWidth={0.1}
           maxOpacity={0.5}
