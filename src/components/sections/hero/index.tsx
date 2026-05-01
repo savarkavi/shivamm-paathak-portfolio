@@ -28,7 +28,7 @@ const Hero = () => {
           <div className="h-1 w-full bg-white" />
         </div>
         <p
-          className={`${anton.className} scale-y-120 text-9xl leading-50 tracking-wide text-white uppercase 2xl:text-[11rem] 2xl:leading-60`}
+          className={`${anton.className} scale-y-120 text-9xl leading-50 tracking-wide text-white uppercase 2xl:text-[10rem] 2xl:leading-60`}
         >
           Shivamm
         </p>
@@ -48,7 +48,7 @@ const Hero = () => {
           <p className="scale-y-120 text-5xl">Now</p>
         </div>
         <p
-          className={`${anton.className} scale-y-120 text-9xl leading-50 tracking-wide text-white uppercase 2xl:text-[11rem] 2xl:leading-60`}
+          className={`${anton.className} scale-y-120 text-9xl leading-50 tracking-wide text-white uppercase 2xl:text-[10rem] 2xl:leading-60`}
         >
           Paathak
         </p>
