@@ -9,7 +9,7 @@ import { ScrollTrigger } from "gsap/all";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const HeroGallery = () => {
+const CategoryGallery = () => {
   const columns = 5;
   const photosPerColumn = 5;
 
@@ -146,4 +146,4 @@ const HeroGallery = () => {
   );
 };
 
-export default HeroGallery;
+export default CategoryGallery;
