@@ -6,7 +6,9 @@ const HeroFooter = () => {
     <div
       className={`${inconsolata.className} absolute bottom-0 left-0 z-30 flex w-full items-end justify-between p-6 text-white uppercase`}
     >
-      <div className={`intro-text max-w-xl text-justify text-sm uppercase`}>
+      <div
+        className={`intro-text max-w-sm text-justify text-[0.7rem] uppercase 2xl:max-w-xl 2xl:text-sm`}
+      >
         <p>
           Shivamm Paathak is a photographer and filmmaker driven by a deep
           curiosity for people, culture, and the emotions that live between
