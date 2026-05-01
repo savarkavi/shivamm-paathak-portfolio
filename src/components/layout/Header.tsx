@@ -54,40 +54,28 @@ const Header = () => {
       </div>
       <div className="flex flex-col">
         <p className="text-base">[Works]</p>
-        <Link
-          href="/spotlight"
-          className="text-white/50 underline hover:text-white/80"
-        >
+        <Link href="#" className="text-white/50 underline hover:text-white/80">
           Spotlight
         </Link>
-        <Link
-          href="/archive"
-          className="text-white/50 underline hover:text-white/80"
-        >
+        <Link href="#" className="text-white/50 underline hover:text-white/80">
           Archive
         </Link>
       </div>
       <div className="flex flex-col">
         <p className="text-base">[Profile]</p>
-        <Link
-          href="/about"
-          className="text-white/50 underline hover:text-white/80"
-        >
+        <Link href="#" className="text-white/50 underline hover:text-white/80">
           About
         </Link>
-        <Link
-          href="/bts"
-          className="text-white/50 underline hover:text-white/80"
-        >
+        <Link href="#" className="text-white/50 underline hover:text-white/80">
           BTS
         </Link>
       </div>
       <div className="flex flex-col">
         <p className="text-base">[Socials]</p>
-        <Link href="/" className="text-white/50 underline hover:text-white/80">
+        <Link href="#" className="text-white/50 underline hover:text-white/80">
           Instagram <VscLinkExternal className="inline size-3" />
         </Link>
-        <Link href="/" className="text-white/50 underline hover:text-white/80">
+        <Link href="#" className="text-white/50 underline hover:text-white/80">
           Youtube <VscLinkExternal className="inline size-3" />
         </Link>
       </div>
