@@ -11,7 +11,7 @@ const Hero = () => {
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-black">
+    <div className="relative h-dvh w-full overflow-hidden bg-black">
       <LoadingScreen isLoaded={isSceneLoaded} />
       <UnicornScene
         projectId="uuFN3TIxyJS1Ve3Pz1Rq"
