@@ -3,6 +3,7 @@
 import gsap from "gsap/all";
 import ArchiveFooter from "./ArchiveFooter";
 import ArchiveContent from "./ArchiveContent";
+import CategoryIndicator from "./CategoryIndicator";
 import { useGSAP } from "@gsap/react";
 import { useState } from "react";
 import UnicornScene from "unicornstudio-react";
@@ -27,6 +28,12 @@ const Archive = () => {
           sdkUrl="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@2.1.11/dist/unicornStudio.umd.js"
         />
       </div>
+
+      <CategoryIndicator
+        activeCategory={activeCategory}
+        className="absolute top-0 left-1/2 z-50 -translate-x-1/2 mix-blend-difference md:hidden"
+      />
+
       <ArchiveContent setActiveCategory={setActiveCategory} />
       <ArchiveFooter activeCategory={activeCategory} />
     </div>
