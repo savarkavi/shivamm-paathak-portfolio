@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { justMeAGain } from "@/fonts";
+import { useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { inconsolata } from "@/fonts";
+import Image from "next/image";
+
+gsap.registerPlugin(useGSAP);
 
 interface LoadingScreenProps {
   isLoaded: boolean;
@@ -12,84 +15,39 @@ interface LoadingScreenProps {
 const LoadingScreen = ({ isLoaded }: LoadingScreenProps) => {
   const [show, setShow] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
-  const progressObj = useRef({ value: 0 });
 
-  const { contextSafe } = useGSAP(
-    () => {
-      gsap.to(progressObj.current, {
-        value: 99,
-        duration: 3,
-        ease: "power1.out",
-        onUpdate: () => {
-          if (textRef.current) {
-            textRef.current.innerText = Math.round(progressObj.current.value)
-              .toString()
-              .padStart(2, "0");
-          }
-        },
-      });
-    },
-    { scope: containerRef },
-  );
+  useGSAP(() => {
+    if (!isLoaded) return;
 
-  useEffect(() => {
-    if (isLoaded) {
-      const runComplete = contextSafe(() => {
-        gsap.killTweensOf(progressObj.current);
-
-        const tl = gsap.timeline({
-          onComplete: () => setShow(false),
-        });
-
-        tl.to(progressObj.current, {
-          value: 100,
-          duration: 0.5,
-          ease: "power2.out",
-          onUpdate: () => {
-            if (textRef.current) {
-              textRef.current.innerText = Math.round(progressObj.current.value)
-                .toString()
-                .padStart(2, "0");
-            }
-          },
-        })
-          .to(
-            textRef.current,
-            {
-              opacity: 0,
-              duration: 0.6,
-              ease: "power2.inOut",
-            },
-            "+=0.2",
-          )
-          .to(
-            containerRef.current,
-            {
-              opacity: 0,
-              duration: 0.8,
-              ease: "power2.inOut",
-            },
-            "-=0.4",
-          );
-      });
-
-      runComplete();
-    }
-  }, [isLoaded, contextSafe]);
+    gsap.to(containerRef.current, {
+      opacity: 0,
+      duration: 0.8,
+      delay: 1,
+      ease: "power2.inOut",
+      onComplete: () => setShow(false),
+    });
+  }, [isLoaded]);
 
   if (!show) return null;
 
   return (
     <div
       ref={containerRef}
-      className={`absolute inset-0 z-100 flex items-center justify-center bg-black font-light`}
+      className="absolute inset-0 z-100 flex flex-col items-center justify-center bg-black"
     >
+      <div className="relative h-100 w-100 lg:h-180 lg:w-180 xl:h-200 xl:w-200">
+        <Image
+          src="/intro_glow2.gif"
+          alt="black hole"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
       <p
-        ref={textRef}
-        className={`${justMeAGain.className} scale-y-150 text-[15rem] leading-none font-light tracking-wider text-white`}
+        className={`${inconsolata.className} mt-4 text-sm tracking-[0.3em] text-white/60`}
       >
-        00
+        LOADING...
       </p>
     </div>
   );
