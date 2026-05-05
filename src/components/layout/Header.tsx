@@ -30,7 +30,7 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 z-60 flex w-full flex-wrap items-center justify-between gap-3 px-4 py-2 text-sm leading-4 font-bold text-white uppercase lg:px-12">
+    <div className="top-0 left-0 z-60 hidden w-full flex-wrap items-center justify-between gap-3 px-4 py-2 text-sm leading-4 font-bold text-white uppercase lg:fixed lg:flex lg:px-12">
       <div>
         <p>
           Based in{" "}
