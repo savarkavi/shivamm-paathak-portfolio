@@ -3,7 +3,9 @@ import {
   Jersey_25,
   Anton,
   Just_Me_Again_Down_Here,
+  Pixelify_Sans,
 } from "next/font/google";
+import localFont from "next/font/local";
 
 export const inconsolata = Inconsolata({
   subsets: ["latin"],
@@ -23,4 +25,19 @@ export const anton = Anton({
 export const justMeAGain = Just_Me_Again_Down_Here({
   subsets: ["latin"],
   weight: ["400"],
+});
+
+export const pixelifySans = Pixelify_Sans({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+export const nihonium = localFont({
+  src: "./Nihonium113.ttf",
+  variable: "--font-nihonium",
+});
+
+export const yarndings = localFont({
+  src: "./Yarndings20-Regular.ttf",
+  variable: "--font-yarndings",
 });
