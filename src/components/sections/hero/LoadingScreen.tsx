@@ -22,9 +22,8 @@ const LoadingScreen = ({ isLoaded }: LoadingScreenProps) => {
 
     gsap.to(containerRef.current, {
       opacity: 0,
-      duration: 0.8,
-      delay: 1,
-      ease: "power2.inOut",
+      duration: 1,
+      delay: 2,
       onComplete: () => setShow(false),
     });
   }, [isLoaded, isImageLoaded]);
@@ -46,7 +45,7 @@ const LoadingScreen = ({ isLoaded }: LoadingScreenProps) => {
           onLoad={() => setIsImageLoaded(true)}
         />
       </div>
-      <div className={`mt-4 h-6 ${isImageLoaded ? "opacity-100" : "opacity-0"}`}>
+      <div className={`mt-4 h-6`}>
         <p
           className={`${inconsolata.className} text-sm tracking-[0.3em] text-white/60`}
         >
