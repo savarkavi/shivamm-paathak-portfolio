@@ -49,14 +49,16 @@ const ArchiveContent = ({
 
     let targetScroll = 0;
     let currentScroll = 0;
-    const easeFactor = 0.08;
+    const easeFactor = 0.12;
 
     Observer.create({
       target: window,
       type: "wheel,touch,pointer",
       preventDefault: true,
       onChange: (self) => {
-        targetScroll += self.deltaY * 2;
+        const isWheel = self.event.type === "wheel";
+        const multiplier = isWheel ? 2 : 8; // Much faster for touch drag
+        targetScroll += self.deltaY * multiplier;
       },
     });
 
