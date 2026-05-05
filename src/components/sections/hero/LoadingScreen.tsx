@@ -14,10 +14,11 @@ interface LoadingScreenProps {
 
 const LoadingScreen = ({ isLoaded }: LoadingScreenProps) => {
   const [show, setShow] = useState(true);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || !isImageLoaded) return;
 
     gsap.to(containerRef.current, {
       opacity: 0,
@@ -26,7 +27,7 @@ const LoadingScreen = ({ isLoaded }: LoadingScreenProps) => {
       ease: "power2.inOut",
       onComplete: () => setShow(false),
     });
-  }, [isLoaded]);
+  }, [isLoaded, isImageLoaded]);
 
   if (!show) return null;
 
@@ -40,15 +41,18 @@ const LoadingScreen = ({ isLoaded }: LoadingScreenProps) => {
           src="/intro_glow2.gif"
           alt="black hole"
           fill
-          className="object-cover"
+          className={`object-cover transition-opacity duration-300 ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
           priority
+          onLoad={() => setIsImageLoaded(true)}
         />
       </div>
-      <p
-        className={`${inconsolata.className} mt-4 text-sm tracking-[0.3em] text-white/60`}
-      >
-        LOADING...
-      </p>
+      <div className={`mt-4 h-6 ${isImageLoaded ? "opacity-100" : "opacity-0"}`}>
+        <p
+          className={`${inconsolata.className} text-sm tracking-[0.3em] text-white/60`}
+        >
+          LOADING...
+        </p>
+      </div>
     </div>
   );
 };
