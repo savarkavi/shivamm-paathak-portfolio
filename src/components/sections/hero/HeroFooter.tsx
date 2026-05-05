@@ -4,17 +4,16 @@ import Image from "next/image";
 const HeroFooter = () => {
   return (
     <div
-      className={`${inconsolata.className} absolute bottom-0 left-0 z-30 flex w-full items-end justify-between p-6 text-white uppercase`}
+      className={`${inconsolata.className} absolute bottom-0 left-0 z-30 flex w-full flex-col items-center justify-between gap-6 p-6 text-white uppercase lg:flex-row lg:items-end`}
     >
       <div
-        className={`intro-text max-w-sm text-justify text-[0.7rem] uppercase 2xl:max-w-xl 2xl:text-sm`}
+        className={`intro-text w-full text-center text-[0.6rem] uppercase lg:max-w-2xs lg:text-justify xl:max-w-sm xl:text-xs 2xl:max-w-lg 2xl:text-sm`}
       >
         <p>
           Shivamm Paathak is a photographer and filmmaker driven by a deep
           curiosity for people, culture, and the emotions that live between
-          moments. His work sits at the intersection of fashion, art, and
-          storytelling—where every frame is intentional, every light carefully
-          shaped, and every subject approached with honesty.
+          moments. His work sits at the intersection of fashion, art, and Indian
+          Mythology.
         </p>
       </div>
       <div className="flex items-center gap-6">
