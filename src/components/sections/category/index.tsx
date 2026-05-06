@@ -1,11 +1,15 @@
-import HeroGallery from "./CategoryGallery";
-import HomeFooter from "./CategoryFooter";
+import CategoryGallery from "./CategoryGallery";
+import CategoryFooter from "./CategoryFooter";
 
-const Category = () => {
+type CategoryProps = {
+  categoryName: string;
+};
+
+const Category = ({ categoryName }: CategoryProps) => {
   return (
     <div className="relative h-screen w-full overflow-hidden">
-      <HeroGallery />
-      <HomeFooter />
+      <CategoryGallery />
+      <CategoryFooter categoryName={categoryName} />
     </div>
   );
 };

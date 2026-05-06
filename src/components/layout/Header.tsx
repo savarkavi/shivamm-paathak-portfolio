@@ -34,51 +34,27 @@ const Header = () => {
       <div>
         <p>
           Based in{" "}
-          <span className="inline-flex items-center gap-1 text-white/50">
+          <span className="inline-flex items-center gap-1">
             India <MdLocationPin className="inline" />
           </span>
         </p>
-        <p className="flex flex-col">
-          <span>
-            Available{" "}
-            <span className="inline-flex items-center gap-1 text-white/50">
-              worldwide <CiGlobe className="inline" />
-            </span>
-          </span>
+        {/* <p className="flex flex-col">
           {time && (
             <span className="mt-1 font-mono tracking-widest text-white/50">
               {time} IST
             </span>
           )}
-        </p>
+        </p> */}
       </div>
-      <div className="flex flex-col">
+      <Link href="/archive">
         <p className="text-base">[Works]</p>
-        <Link href="#" className="text-white/50 underline hover:text-white/80">
-          Spotlight
-        </Link>
-        <Link href="#" className="text-white/50 underline hover:text-white/80">
-          Archive
-        </Link>
-      </div>
-      <div className="flex flex-col">
+      </Link>
+      <Link href="#">
         <p className="text-base">[Profile]</p>
-        <Link href="#" className="text-white/50 underline hover:text-white/80">
-          About
-        </Link>
-        <Link href="#" className="text-white/50 underline hover:text-white/80">
-          BTS
-        </Link>
-      </div>
-      <div className="flex flex-col">
-        <p className="text-base">[Socials]</p>
-        <Link href="#" className="text-white/50 underline hover:text-white/80">
-          Instagram <VscLinkExternal className="inline size-3" />
-        </Link>
-        <Link href="#" className="text-white/50 underline hover:text-white/80">
-          Youtube <VscLinkExternal className="inline size-3" />
-        </Link>
-      </div>
+      </Link>
+      <Link href="#">
+        <p className="text-base">[Store]</p>
+      </Link>
     </div>
   );
 };
