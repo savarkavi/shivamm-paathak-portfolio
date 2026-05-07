@@ -1,0 +1,262 @@
+"use client";
+
+import { useState, useRef, useCallback } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { bebasNeue, inconsolata } from "@/fonts";
+
+gsap.registerPlugin(useGSAP);
+
+const NAV_ITEMS = [
+  { label: "Works", href: "/archive" },
+  { label: "Profile", href: "#" },
+  { label: "Store", href: "#" },
+];
+
+const MobileHeader = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const navItemsRef = useRef<HTMLAnchorElement[]>([]);
+  const dividerRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+
+  const setNavItemRef = useCallback(
+    (index: number) => (el: HTMLAnchorElement | null) => {
+      if (el) navItemsRef.current[index] = el;
+    },
+    [],
+  );
+
+  // Animate the overlay open
+  useGSAP(
+    () => {
+      if (!overlayRef.current) return;
+
+      // Kill previous timeline if it exists
+      if (tlRef.current) {
+        tlRef.current.kill();
+      }
+
+      if (isOpen) {
+        const tl = gsap.timeline();
+        tlRef.current = tl;
+
+        tl.fromTo(
+          overlayRef.current,
+          {
+            clipPath: "circle(0% at calc(100% - 40px) 28px)",
+            opacity: 0,
+          },
+          {
+            clipPath: "circle(150% at calc(100% - 40px) 28px)",
+            opacity: 1,
+            duration: 0.7,
+            ease: "power3.inOut",
+          },
+        )
+          .fromTo(
+            dividerRef.current,
+            { scaleX: 0 },
+            {
+              scaleX: 1,
+              duration: 0.5,
+              ease: "power2.out",
+            },
+            "-=0.3",
+          )
+          .fromTo(
+            navItemsRef.current,
+            {
+              y: 40,
+              opacity: 0,
+            },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.5,
+              stagger: 0.08,
+              ease: "power3.out",
+            },
+            "-=0.3",
+          )
+          .fromTo(
+            closeRef.current,
+            { opacity: 0, scale: 0.8 },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.3,
+              ease: "back.out(1.7)",
+            },
+            "-=0.2",
+          );
+      } else {
+        // Close animation
+        const tl = gsap.timeline({
+          onComplete: () => {
+            if (overlayRef.current) {
+              gsap.set(overlayRef.current, { opacity: 0 });
+            }
+          },
+        });
+        tlRef.current = tl;
+
+        tl.to(navItemsRef.current, {
+          y: -20,
+          opacity: 0,
+          duration: 0.3,
+          stagger: 0.04,
+          ease: "power2.in",
+        })
+          .to(
+            closeRef.current,
+            {
+              opacity: 0,
+              scale: 0.8,
+              duration: 0.2,
+              ease: "power2.in",
+            },
+            "<",
+          )
+          .to(overlayRef.current, {
+            clipPath: "circle(0% at calc(100% - 40px) 28px)",
+            duration: 0.5,
+            ease: "power3.inOut",
+          });
+      }
+    },
+    { dependencies: [isOpen], scope: containerRef },
+  );
+
+  return (
+    <div ref={containerRef} className={`${inconsolata.className}`}>
+      {/* Fixed Header Bar */}
+      <div className="fixed top-0 right-0 left-0 z-100 flex items-center justify-between px-4 py-3 lg:hidden">
+        {/* Logo */}
+        <Link href="/" className="relative h-14 w-14">
+          <Image
+            src="/shivamm-logo.svg"
+            alt="Shivamm Paathak Logo"
+            fill
+            className="object-contain"
+          />
+        </Link>
+
+        {/* Menu Button */}
+        <button
+          onClick={() => setIsOpen(true)}
+          className="group flex items-center gap-2 text-white"
+          aria-label="Open menu"
+        >
+          <span className="text-base font-bold tracking-[0.2em] uppercase">
+            Menu
+          </span>
+          <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/60 transition-colors duration-300 group-hover:bg-white">
+            <span className="block h-1 w-1 rounded-full bg-white transition-colors duration-300 group-hover:bg-black" />
+          </span>
+        </button>
+      </div>
+
+      {/* Overlay Menu */}
+      <div
+        ref={overlayRef}
+        className="fixed inset-0 z-200 flex flex-col opacity-0 lg:hidden"
+        style={{
+          clipPath: "circle(0% at calc(100% - 40px) 28px)",
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)",
+          backdropFilter: "blur(24px) saturate(1.4)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.4)",
+        }}
+      >
+        {/* Subtle glass border effect */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            border: "1px solid rgba(255,255,255,0.06)",
+          }}
+        />
+
+        {/* Close Button — top right */}
+        <div className="flex items-center justify-end px-4 py-3">
+          <button
+            ref={closeRef}
+            onClick={() => setIsOpen(false)}
+            className="group flex items-center gap-2 text-white opacity-0"
+            aria-label="Close menu"
+          >
+            <span className="text-xs font-bold tracking-[0.2em] uppercase">
+              Close
+            </span>
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/60 transition-colors duration-300 group-hover:bg-white">
+              <svg
+                width="8"
+                height="8"
+                viewBox="0 0 8 8"
+                className="text-white transition-colors duration-300 group-hover:text-black"
+              >
+                <line
+                  x1="1"
+                  y1="1"
+                  x2="7"
+                  y2="7"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+                <line
+                  x1="7"
+                  y1="1"
+                  x2="1"
+                  y2="7"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        {/* Divider */}
+        <div
+          ref={dividerRef}
+          className="mx-6 h-px origin-left bg-white/10"
+          style={{ transform: "scaleX(0)" }}
+        />
+
+        {/* Nav Items */}
+        <nav className="flex flex-1 flex-col items-center justify-center gap-8">
+          {NAV_ITEMS.map((item, index) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              ref={setNavItemRef(index)}
+              onClick={() => setIsOpen(false)}
+              className={`${bebasNeue.className} group relative text-4xl tracking-[0.15em] text-black uppercase opacity-0`}
+            >
+              <span className="relative inline-block">
+                {item.label}
+                {/* Underline on hover */}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-white/50 transition-all duration-300 group-hover:w-full" />
+              </span>
+            </Link>
+          ))}
+        </nav>
+
+        {/* Bottom line / tagline */}
+        <div className="px-6 pb-8 text-center">
+          <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase">
+            Fine art photographer & Creative director
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MobileHeader;

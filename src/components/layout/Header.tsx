@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { MdLocationPin } from "react-icons/md";
-import { CiGlobe } from "react-icons/ci";
-import { VscLinkExternal } from "react-icons/vsc";
 import Link from "next/link";
+import Image from "next/image";
 
 // bg-linear-to-b to-transparent before:absolute before:inset-0 before:-z-10 before:mask-[linear-gradient(to_bottom,black_90%,transparent)] before:backdrop-blur-lg
 
@@ -30,24 +29,34 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="top-0 left-0 z-60 hidden w-full flex-wrap items-center justify-between gap-3 px-4 py-2 text-sm leading-4 font-bold text-white uppercase lg:fixed lg:flex lg:px-12">
-      <div>
-        <p>
-          Based in{" "}
-          <span className="inline-flex items-center gap-1">
-            India <MdLocationPin className="inline" />
-          </span>
-        </p>
-        {/* <p className="flex flex-col">
-          {time && (
-            <span className="mt-1 font-mono tracking-widest text-white/50">
-              {time} IST
+    <div className="relative z-60 hidden w-full flex-wrap items-center justify-between gap-3 border-b border-dashed border-gray-400 px-4 leading-4 font-bold text-white uppercase lg:fixed lg:flex lg:px-6">
+      <div className="-ml-2 flex items-center">
+        <div>
+          <p>
+            Based in{" "}
+            <span className="inline-flex items-center gap-1">
+              India <MdLocationPin className="inline" />
             </span>
-          )}
-        </p> */}
+          </p>
+          <p className="flex flex-col">
+            {time && (
+              <span className="mt-1 font-mono tracking-widest">{time} IST</span>
+            )}
+          </p>
+        </div>
       </div>
       <Link href="/archive">
         <p className="text-base">[Works]</p>
+      </Link>
+      <Link href="/">
+        <div className="relative h-14 w-14">
+          <Image
+            src="/shivamm-logo.svg"
+            alt="logo"
+            fill
+            className="object-cover"
+          />
+        </div>
       </Link>
       <Link href="#">
         <p className="text-base">[Profile]</p>

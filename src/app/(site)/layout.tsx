@@ -4,6 +4,7 @@ import "../globals.css";
 import { inconsolata } from "@/fonts";
 import { ReactLenis } from "lenis/react";
 import Header from "../../components/layout/Header";
+import MobileHeader from "../../components/layout/MobileHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <ReactLenis root />
         <Header />
+        <MobileHeader />
         {children}
       </body>
     </html>
