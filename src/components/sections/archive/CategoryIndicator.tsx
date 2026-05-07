@@ -35,7 +35,7 @@ const CategoryIndicator = ({
       className={`relative flex h-fit w-full flex-wrap items-center justify-center gap-x-6 gap-y-4 tracking-wider text-white hover:bg-white hover:text-black ${className}`}
     >
       <div
-        className={`${nihonium.className} pointer-events-auto relative flex h-8 min-w-42 items-center justify-center border border-dashed border-gray-500 text-2xl transition-all`}
+        className={`${nihonium.className} pointer-events-auto relative top-24 flex h-8 min-w-42 items-center justify-center border border-dashed border-gray-500 text-2xl transition-all lg:top-0`}
       >
         {categories.map((cat) => (
           <Link

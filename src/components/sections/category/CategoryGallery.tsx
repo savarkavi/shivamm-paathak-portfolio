@@ -133,6 +133,7 @@ const CategoryGallery = () => {
         trigger: gallery.current,
         cursor: "grab",
         activeCursor: "grabbing",
+        minimumMovement: 5,
         onPressInit: () => {
           lastDragY = 0;
 
@@ -143,6 +144,13 @@ const CategoryGallery = () => {
         },
         onDrag: updateDraggedGallery,
         onRelease: updateDraggedGallery,
+        onClick: function (e: PointerEvent) {
+          const target = e.target as HTMLElement;
+          const anchor = target.closest("a");
+          if (anchor?.href) {
+            window.location.href = anchor.href;
+          }
+        },
       })[0];
 
       let scrollTimeout: number;

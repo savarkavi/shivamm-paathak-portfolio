@@ -5,7 +5,7 @@ import { anton } from "@/fonts";
 const HeroTextMobile = () => {
   return (
     <div
-      className={`${anton.className} absolute top-24 left-1/2 z-30 flex w-full -translate-x-1/2 flex-col items-center text-white uppercase md:hidden`}
+      className={`${anton.className} absolute top-28 left-1/2 z-30 flex w-full -translate-x-1/2 flex-col items-center text-white uppercase md:hidden`}
     >
       <div className="flex items-center gap-3">
         <p className="scale-y-120 text-2xl">2015</p>
