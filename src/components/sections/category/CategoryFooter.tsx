@@ -13,7 +13,7 @@ const CategoryFooter = ({ categoryName }: CategoryFooterProps) => {
         {categoryName}
       </h1>
       <div className="max-w-lg text-center text-sm md:text-lg lg:text-left">
-        <p className="uppercase select-none">
+        <p className="leading-tight uppercase select-none">
           Drag / scroll to interact with the gallery. Click on the image to open
           the project.
         </p>

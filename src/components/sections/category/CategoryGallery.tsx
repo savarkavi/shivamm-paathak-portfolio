@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { mockPhotos } from "@/lib/mockData";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -51,9 +52,10 @@ const CategoryGallery = () => {
   const renderColumnImages = (photos: GalleryPhoto[], setKey: string) => (
     <div className="flex flex-col gap-2">
       {photos.map((photo, photoIndex) => (
-        <div
+        <Link
           key={`${setKey}-${photo._id}-${photoIndex}`}
-          className="relative h-80 w-60 overflow-hidden bg-black lg:h-100 lg:w-80 xl:h-160 xl:w-140"
+          href={`/project/${photo.projectId}`}
+          className="relative h-80 w-60 overflow-hidden bg-black hover:cursor-grab lg:h-100 lg:w-80 xl:h-160 xl:w-140"
         >
           <Image
             src={photo.imageUrl}
@@ -62,7 +64,7 @@ const CategoryGallery = () => {
             className="object-cover opacity-80 grayscale-100 hover:grayscale-0"
             priority={setKey === "repeat-0-col-0-set-1" && photoIndex < 2}
           />
-        </div>
+        </Link>
       ))}
     </div>
   );
