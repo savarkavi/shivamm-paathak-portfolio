@@ -7,7 +7,7 @@ const HeroFooter = () => {
       className={`${inconsolata.className} absolute bottom-0 left-0 z-30 flex w-full flex-col items-center justify-between gap-6 p-6 text-white uppercase lg:flex-row lg:items-end`}
     >
       <div
-        className={`intro-text w-full text-center text-[0.6rem] uppercase lg:max-w-2xs lg:text-justify xl:max-w-sm xl:text-xs 2xl:max-w-lg 2xl:text-sm`}
+        className={`intro-text w-full text-center text-[0.6rem] uppercase lg:max-w-2xs lg:text-justify xl:max-w-sm xl:text-xs 2xl:max-w-lg 2xl:text-sm [@media(min-width:1920px)]:max-w-xl`}
       >
         <p>
           Shivamm Paathak is a photographer and filmmaker driven by a deep
