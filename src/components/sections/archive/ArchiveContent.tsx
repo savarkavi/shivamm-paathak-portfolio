@@ -116,7 +116,7 @@ const ArchiveContent = ({
           return (
             <div
               key={cat.name}
-              className="category-layer absolute flex items-center justify-center"
+              className="category-layer absolute flex scale-[0.50] items-center justify-center md:scale-100"
               style={{
                 transform: `translateZ(${-i * 1000}px)`,
               }}
