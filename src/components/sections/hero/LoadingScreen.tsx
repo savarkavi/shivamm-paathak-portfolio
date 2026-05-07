@@ -35,6 +35,7 @@ const LoadingScreen = ({ isLoaded, onIntroComplete }: LoadingScreenProps) => {
       .to(sceneRef.current, {
         opacity: 1,
         duration: 1.2,
+        delay: 0.5,
         ease: "power2.out",
       })
       .to(sceneRef.current, {
