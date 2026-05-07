@@ -192,22 +192,14 @@ const ProjectImageSequence = () => {
       ref={containerRef}
       className="relative flex h-screen w-screen touch-none justify-center gap-8 overflow-hidden bg-zinc-950"
     >
-      <div className="absolute top-20 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col items-center gap-16 font-bold text-white lg:top-auto lg:bottom-10 lg:left-[20%] lg:items-end">
+      <div className="absolute top-24 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col items-center gap-16 font-bold text-white lg:top-auto lg:bottom-10 lg:left-[20%] lg:items-end">
         <div className="flex flex-col items-center gap-2 lg:items-end">
           <div
-            className={`${bebasNeue.className} flex flex-row items-end text-5xl lg:flex-col xl:text-9xl`}
+            className={`${bebasNeue.className} flex flex-row items-end text-4xl lg:flex-col xl:text-9xl`}
           >
             <p>FL. {formatImageNumber(activeIndex)}</p>
             <p>/ {String(projectImages.length).padStart(2, "0")}</p>
           </div>
-          <button
-            type="button"
-            aria-label="Open project info"
-            className="flex size-8 appearance-none items-center justify-center border-0 bg-transparent p-0 text-white transition-opacity hover:opacity-70 lg:hidden"
-            onClick={() => setIsProjectInfoOpen(true)}
-          >
-            <FaInfoCircle />
-          </button>
         </div>
         <div className="hidden max-w-50 flex-col gap-4 text-right text-sm text-white uppercase lg:flex">
           <div>
@@ -224,14 +216,24 @@ const ProjectImageSequence = () => {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-20 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm font-bold text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
-        <div
-          aria-hidden="true"
-          className="h-5 w-60 border border-white/50 lg:hidden"
-          style={{
-            backgroundImage: `linear-gradient(to right, ${firstImageColors})`,
-          }}
-        />
+      <div className="absolute bottom-18 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm font-bold text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
+        <div className="flex flex-col items-center gap-2">
+          <div
+            aria-hidden="true"
+            className="h-5 w-60 border border-white/50 lg:hidden"
+            style={{
+              backgroundImage: `linear-gradient(to right, ${firstImageColors})`,
+            }}
+          />
+          <button
+            type="button"
+            aria-label="Open project info"
+            className="flex size-8 appearance-none items-center justify-center border-0 bg-transparent p-0 text-white transition-opacity hover:opacity-70 lg:hidden"
+            onClick={() => setIsProjectInfoOpen(true)}
+          >
+            <FaInfoCircle />
+          </button>
+        </div>
         <div
           aria-hidden="true"
           className="hidden h-60 w-5 border border-white/50 lg:block"
