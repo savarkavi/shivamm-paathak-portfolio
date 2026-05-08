@@ -166,8 +166,10 @@ const ProjectImageSequence = () => {
         type: "wheel,touch,pointer",
         preventDefault: true,
         tolerance: 12,
-        onUp: () => goToNextImage(),
-        onDown: () => goToPreviousImage(),
+        onUp: () =>
+          window.innerWidth >= 1024 ? goToPreviousImage() : goToNextImage(),
+        onDown: () =>
+          window.innerWidth >= 1024 ? goToNextImage() : goToPreviousImage(),
       });
 
       return () => {
@@ -214,7 +216,7 @@ const ProjectImageSequence = () => {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-[5%] left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm font-bold text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
+      <div className="absolute bottom-2 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm font-bold text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
         <div className="flex flex-col items-center gap-2">
           <div
             aria-hidden="true"
