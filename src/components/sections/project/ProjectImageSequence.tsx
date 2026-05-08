@@ -7,7 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Observer } from "gsap/all";
 import { bebasNeue } from "@/fonts";
-import { FaEye, FaInfoCircle, FaTimes } from "react-icons/fa";
+import { FaEye, FaInfoCircle, FaTimes, FaArrowsAltV } from "react-icons/fa";
 
 gsap.registerPlugin(useGSAP, Observer);
 
@@ -166,18 +166,8 @@ const ProjectImageSequence = () => {
         type: "wheel,touch,pointer",
         preventDefault: true,
         tolerance: 12,
-        onChange: (self) => {
-          const dominantDelta =
-            Math.abs(self.deltaY) >= Math.abs(self.deltaX)
-              ? self.deltaY
-              : self.deltaX;
-
-          if (dominantDelta > 0) {
-            goToNextImage();
-          } else if (dominantDelta < 0) {
-            goToPreviousImage();
-          }
-        },
+        onUp: () => goToNextImage(),
+        onDown: () => goToPreviousImage(),
       });
 
       return () => {
@@ -190,17 +180,25 @@ const ProjectImageSequence = () => {
   return (
     <main
       ref={containerRef}
-      className="relative flex h-screen w-screen touch-none justify-center gap-8 overflow-hidden bg-zinc-950"
+      className="relative flex h-dvh w-screen touch-none justify-center gap-8 overflow-hidden bg-zinc-950"
     >
-      <div className="absolute top-24 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col items-center gap-16 font-bold text-white lg:top-auto lg:bottom-10 lg:left-[20%] lg:items-end">
-        <div className="flex flex-col items-center gap-2 lg:items-end">
+      <div className="absolute top-24 right-5 left-5 z-10 flex flex-row items-center justify-between font-bold text-white lg:top-auto lg:right-auto lg:bottom-10 lg:left-[20%] lg:w-fit lg:-translate-x-1/2 lg:flex-col lg:items-end lg:gap-16">
+        <div className="flex flex-col items-start gap-2 lg:items-end">
           <div
-            className={`${bebasNeue.className} flex flex-row items-end text-4xl lg:flex-col xl:text-9xl`}
+            className={`${bebasNeue.className} flex flex-row items-center text-3xl lg:flex-col lg:items-end xl:text-9xl`}
           >
             <p>FL. {formatImageNumber(activeIndex)}</p>
             <p>/ {String(projectImages.length).padStart(2, "0")}</p>
           </div>
         </div>
+        <button
+          type="button"
+          aria-label="Open project info"
+          className="flex size-8 appearance-none items-center justify-center border-0 bg-transparent p-0 text-white transition-opacity hover:opacity-70 lg:hidden"
+          onClick={() => setIsProjectInfoOpen(true)}
+        >
+          <FaInfoCircle size={16} />
+        </button>
         <div className="hidden max-w-50 flex-col gap-4 text-right text-sm text-white uppercase lg:flex">
           <div>
             <p>Project category:</p>
@@ -225,14 +223,10 @@ const ProjectImageSequence = () => {
               backgroundImage: `linear-gradient(to right, ${firstImageColors})`,
             }}
           />
-          <button
-            type="button"
-            aria-label="Open project info"
-            className="flex size-8 appearance-none items-center justify-center border-0 bg-transparent p-0 text-white transition-opacity hover:opacity-70 lg:hidden"
-            onClick={() => setIsProjectInfoOpen(true)}
-          >
-            <FaInfoCircle />
-          </button>
+          <div className="flex animate-bounce items-center gap-2 pt-2 text-xs font-normal normal-case tracking-widest text-white/70 lg:hidden">
+            <span>Scroll</span>
+            <FaArrowsAltV />
+          </div>
         </div>
         <div
           aria-hidden="true"
