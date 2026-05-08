@@ -214,7 +214,7 @@ const ProjectImageSequence = () => {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-18 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm font-bold text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
+      <div className="absolute bottom-[5%] left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm font-bold text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
         <div className="flex flex-col items-center gap-2">
           <div
             aria-hidden="true"
@@ -223,7 +223,7 @@ const ProjectImageSequence = () => {
               backgroundImage: `linear-gradient(to right, ${firstImageColors})`,
             }}
           />
-          <div className="flex animate-bounce items-center gap-2 pt-2 text-xs font-normal normal-case tracking-widest text-white/70 lg:hidden">
+          <div className="flex animate-bounce items-center gap-2 pt-2 text-xs font-normal tracking-widest text-white/70 normal-case lg:hidden">
             <span>Scroll</span>
             <FaArrowsAltV />
           </div>
