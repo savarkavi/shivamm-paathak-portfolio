@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { MdLocationPin } from "react-icons/md";
+import TransitionLink from "./TransitionLink";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -45,9 +46,9 @@ const Header = () => {
           </p>
         </div>
       </div>
-      <Link href="/archive">
+      <TransitionLink href="/archive">
         <p className="text-base">[Works]</p>
-      </Link>
+      </TransitionLink>
       <Link href="/">
         <div className="relative h-14 w-14">
           <Image
@@ -58,12 +59,12 @@ const Header = () => {
           />
         </div>
       </Link>
-      <Link href="#">
+      <TransitionLink href="#">
         <p className="text-base">[Profile]</p>
-      </Link>
-      <Link href="#">
+      </TransitionLink>
+      <TransitionLink href="#">
         <p className="text-base">[Store]</p>
-      </Link>
+      </TransitionLink>
     </div>
   );
 };

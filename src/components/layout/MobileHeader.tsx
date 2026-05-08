@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import TransitionLink from "./TransitionLink";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
@@ -232,7 +233,7 @@ const MobileHeader = () => {
         {/* Nav Items */}
         <nav className="flex flex-1 flex-col items-center justify-center gap-8">
           {NAV_ITEMS.map((item, index) => (
-            <Link
+            <TransitionLink
               key={item.label}
               href={item.href}
               ref={setNavItemRef(index)}
@@ -244,7 +245,7 @@ const MobileHeader = () => {
                 {/* Underline on hover */}
                 <span className="absolute -bottom-1 left-0 h-px w-0 bg-white/50 transition-all duration-300 group-hover:w-full" />
               </span>
-            </Link>
+            </TransitionLink>
           ))}
         </nav>
 

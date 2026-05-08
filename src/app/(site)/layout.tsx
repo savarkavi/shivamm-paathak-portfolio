@@ -5,6 +5,7 @@ import { inconsolata } from "@/fonts";
 import { ReactLenis } from "lenis/react";
 import Header from "../../components/layout/Header";
 import MobileHeader from "../../components/layout/MobileHeader";
+import PageTransition from "../../components/layout/PageTransition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inconsolata.className} antialiased`}
       >
         <ReactLenis root />
+        <PageTransition />
         <Header />
         <MobileHeader />
         {children}

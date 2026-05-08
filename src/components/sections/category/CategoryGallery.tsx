@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import TransitionLink from "@/components/layout/TransitionLink";
 import { mockPhotos } from "@/lib/mockData";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -52,7 +52,7 @@ const CategoryGallery = () => {
   const renderColumnImages = (photos: GalleryPhoto[], setKey: string) => (
     <div className="flex flex-col gap-2">
       {photos.map((photo, photoIndex) => (
-        <Link
+        <TransitionLink
           key={`${setKey}-${photo._id}-${photoIndex}`}
           href={`/project/${photo.projectId}`}
           className="relative h-80 w-60 overflow-hidden bg-black hover:cursor-grab lg:h-100 lg:w-80 xl:h-160 xl:w-140"
@@ -64,7 +64,7 @@ const CategoryGallery = () => {
             className="object-cover opacity-80 grayscale-100 hover:grayscale-0"
             priority={setKey === "repeat-0-col-0-set-1" && photoIndex < 2}
           />
-        </Link>
+        </TransitionLink>
       ))}
     </div>
   );
@@ -148,7 +148,37 @@ const CategoryGallery = () => {
           const target = e.target as HTMLElement;
           const anchor = target.closest("a");
           if (anchor?.href) {
-            window.location.href = anchor.href;
+            const wrapper = document.getElementById("page-transition");
+            const white = document.getElementById("transition-white");
+            const black = document.getElementById("transition-black");
+
+            if (wrapper && white && black) {
+              gsap.set(wrapper, { pointerEvents: "all" });
+              gsap.set(white, { clipPath: "inset(100% 0% 0% 0%)" });
+              gsap.set(black, { clipPath: "inset(100% 0% 0% 0%)" });
+
+              const tl = gsap.timeline({
+                onComplete: () => {
+                  window.location.href = anchor.href;
+                },
+              });
+
+              tl.to(white, {
+                clipPath: "inset(0% 0% 0% 0%)",
+                duration: 1,
+                ease: "power4.inOut",
+              }).to(
+                black,
+                {
+                  clipPath: "inset(0% 0% 0% 0%)",
+                  duration: 1,
+                  ease: "power4.inOut",
+                },
+                "-=0.8",
+              );
+            } else {
+              window.location.href = anchor.href;
+            }
           }
         },
       })[0];
