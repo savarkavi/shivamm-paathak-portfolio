@@ -59,7 +59,7 @@ const Header = () => {
           />
         </div>
       </Link>
-      <TransitionLink href="#">
+      <TransitionLink href="/about">
         <p className="text-base">[Profile]</p>
       </TransitionLink>
       <TransitionLink href="#">
