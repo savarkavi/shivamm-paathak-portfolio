@@ -3,9 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { inconsolata } from "@/fonts";
 import { ReactLenis } from "lenis/react";
-import Header from "../../components/layout/Header";
-import MobileHeader from "../../components/layout/MobileHeader";
 import PageTransition from "../../components/layout/PageTransition";
+import SiteChrome from "../../components/layout/SiteChrome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,8 +33,7 @@ export default function RootLayout({
       >
         <ReactLenis root />
         <PageTransition />
-        <Header />
-        <MobileHeader />
+        <SiteChrome />
         {children}
       </body>
     </html>
