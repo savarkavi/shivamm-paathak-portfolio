@@ -98,7 +98,7 @@ const AboutContent = () => {
         alt="shivamm photo"
         width={1920}
         height={1080}
-        className="fixed inset-0 h-dvh w-screen object-cover brightness-60 2xl:relative 2xl:h-auto 2xl:w-screen"
+        className="fixed inset-0 h-screen w-screen object-cover brightness-60 2xl:relative 2xl:h-auto 2xl:w-screen"
       />
       <h1
         style={{ willChange: "transform" }}
