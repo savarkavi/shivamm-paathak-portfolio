@@ -91,22 +91,22 @@ const AboutContent = () => {
   return (
     <div
       ref={container}
-      className={"relative h-[200vh] w-full text-white 2xl:h-auto"}
+      className={"relative h-[200vh] w-full bg-black text-white 2xl:h-auto"}
     >
       <Image
         src="/shivamm-profile.jpeg"
         alt="shivamm photo"
         width={1920}
         height={1080}
-        className="fixed inset-0 -z-10 h-screen w-screen object-cover brightness-60 2xl:relative 2xl:h-auto 2xl:w-screen"
+        className="fixed inset-0 h-dvh w-screen object-cover brightness-60 2xl:relative 2xl:h-auto 2xl:w-screen"
       />
       <h1
         style={{ willChange: "transform" }}
         ref={titleRef}
-        className={`${bebasNeue.className} text-glow absolute top-20 left-1/2 w-[90%] -translate-x-1/2 scale-y-110 text-center text-6xl font-bold uppercase 2xl:top-26 2xl:left-8 2xl:w-auto 2xl:translate-x-0 2xl:text-left 2xl:text-[12rem]`}
+        className={`${bebasNeue.className} text-glow absolute top-24 left-1/2 w-[90%] -translate-x-1/2 scale-y-110 text-center text-6xl font-bold uppercase 2xl:top-26 2xl:left-8 2xl:w-auto 2xl:translate-x-0 2xl:text-left 2xl:text-[12rem]`}
       >
-        <span className="font-sans">(</span>Shivamm Paathak
-        <span className="font-sans">)</span>
+        <span className="hidden font-sans lg:block">(</span>Shivamm Paathak
+        <span className="hidden font-sans lg:block">)</span>
       </h1>
       <p
         style={{ willChange: "transform" }}
