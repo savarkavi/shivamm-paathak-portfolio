@@ -12,7 +12,7 @@ gsap.registerPlugin(useGSAP);
 
 const NAV_ITEMS = [
   { label: "Works", href: "/archive" },
-  { label: "Profile", href: "#" },
+  { label: "Profile", href: "/about" },
   { label: "Store", href: "#" },
 ];
 
