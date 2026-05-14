@@ -105,8 +105,8 @@ const AboutContent = () => {
         ref={titleRef}
         className={`${bebasNeue.className} text-glow absolute top-24 left-1/2 w-[90%] -translate-x-1/2 scale-y-110 text-center text-6xl font-bold uppercase 2xl:top-26 2xl:left-8 2xl:w-auto 2xl:translate-x-0 2xl:text-left 2xl:text-[12rem]`}
       >
-        <span className="hidden font-sans lg:block">(</span>Shivamm Paathak
-        <span className="hidden font-sans lg:block">)</span>
+        <span className="hidden font-sans lg:inline">(</span>Shivamm Paathak
+        <span className="hidden font-sans lg:inline">)</span>
       </h1>
       <p
         style={{ willChange: "transform" }}
