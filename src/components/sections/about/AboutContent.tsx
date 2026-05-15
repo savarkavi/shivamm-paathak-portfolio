@@ -4,6 +4,7 @@ import { bebasNeue } from "@/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import type { PointerEvent } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
@@ -14,11 +15,14 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const AboutContent = () => {
   const container = useRef<HTMLDivElement>(null);
+  const maskRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const btsRef = useRef<HTMLHeadingElement>(null);
   const originalCharsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const duplicateCharsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const hoverTl = useRef<gsap.core.Timeline | null>(null);
+  const maskXTo = useRef<gsap.QuickToFunc | null>(null);
+  const maskYTo = useRef<gsap.QuickToFunc | null>(null);
   const text1Ref = useRef<HTMLParagraphElement>(null);
   const text2Ref = useRef<HTMLParagraphElement>(null);
 
@@ -26,6 +30,26 @@ const AboutContent = () => {
     () => {
       const blinkTl = gsap.timeline({ repeat: -1, repeatDelay: 1.5 });
       const blinkTargets = [titleRef.current, btsRef.current];
+      const mask = maskRef.current;
+
+      if (mask) {
+        gsap.set(mask, {
+          xPercent: -50,
+          yPercent: -50,
+          opacity: 0,
+          scale: 0.92,
+        });
+
+        maskXTo.current = gsap.quickTo(mask, "x", {
+          duration: 0.45,
+          ease: "power3.out",
+        });
+        maskYTo.current = gsap.quickTo(mask, "y", {
+          duration: 0.45,
+          ease: "power3.out",
+        });
+      }
+
       blinkTl
         .to(blinkTargets, { opacity: 0.2, duration: 0.05 })
         .to(blinkTargets, { opacity: 1, duration: 0.05 })
@@ -85,12 +109,34 @@ const AboutContent = () => {
 
   const handleMouseEnter = () => hoverTl.current?.play();
   const handleMouseLeave = () => hoverTl.current?.reverse();
+  const handleMaskMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "touch") return;
+
+    maskXTo.current?.(event.clientX);
+    maskYTo.current?.(event.clientY);
+    gsap.to(maskRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.28,
+      ease: "power3.out",
+    });
+  };
+  const hideMask = () => {
+    gsap.to(maskRef.current, {
+      opacity: 0,
+      scale: 0.92,
+      duration: 0.28,
+      ease: "power3.out",
+    });
+  };
 
   const btsText = ["B", "T", "S"];
 
   return (
     <div
       ref={container}
+      onPointerMove={handleMaskMove}
+      onPointerLeave={hideMask}
       className={"relative h-[200vh] w-full bg-black text-white 2xl:h-auto"}
     >
       <Image
@@ -141,6 +187,25 @@ const AboutContent = () => {
         Taapsee Pannu, and Rahul Mishra, bringing a refined editorial
         sensibility to every collaboration.
       </p>
+
+      <div
+        ref={maskRef}
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 z-30 h-105 w-105"
+        style={{
+          backgroundColor: "#fff",
+          mixBlendMode: "difference",
+          maskImage: "url('/blob.svg')",
+          WebkitMaskImage: "url('/blob.svg')",
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "100% 100%",
+          WebkitMaskSize: "100% 100%",
+          opacity: 1,
+        }}
+      />
 
       <Link
         href="/about/bts"
