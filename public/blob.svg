@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <radialGradient id="blobFill" cx="42%" cy="38%" r="62%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="42%" stop-color="#ffffff" stop-opacity="0.98"/>
+      <stop offset="72%" stop-color="#ffffff" stop-opacity="0.82"/>
+      <stop offset="92%" stop-color="#ffffff" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="haloFill" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="65%" stop-color="#ffffff" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="fluff" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.022" numOctaves="6" seed="9" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="42" xChannelSelector="R" yChannelSelector="G" result="warp"/>
+      <feGaussianBlur in="warp" stdDeviation="2.2"/>
+    </filter>
+
+    <filter id="fluffSoft" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.025 0.03" numOctaves="5" seed="17" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="34" xChannelSelector="R" yChannelSelector="G" result="warp"/>
+      <feGaussianBlur in="warp" stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#fluffSoft)" opacity="0.72">
+    <ellipse cx="240" cy="230" rx="170" ry="155" fill="url(#haloFill)"/>
+    <ellipse cx="270" cy="265" rx="140" ry="130" fill="url(#haloFill)"/>
+  </g>
+
+  <g filter="url(#fluff)">
+    <ellipse cx="248" cy="248" rx="148" ry="138" fill="url(#blobFill)"/>
+    <ellipse cx="232" cy="232" rx="120" ry="110" fill="url(#blobFill)" opacity="0.9"/>
+    <ellipse cx="270" cy="262" rx="105" ry="100" fill="url(#blobFill)" opacity="0.8"/>
+    <ellipse cx="245" cy="235" rx="78" ry="72" fill="#ffffff" opacity="0.85"/>
+    <ellipse cx="238" cy="225" rx="46" ry="42" fill="#ffffff"/>
+  </g>
+</svg>
