@@ -149,9 +149,7 @@ const MobileHeader = () => {
               aria-pressed={isGlyphScene}
               aria-label="Toggle hero glyph effect"
             >
-              <span className="text-xs font-bold tracking-[0.18em] uppercase">
-                Glyph
-              </span>
+              <span className="text-xs tracking-[0.18em] uppercase">Glyph</span>
               <span className="relative h-4 w-8 rounded-full border border-current transition-colors duration-300 group-hover:bg-white/15">
                 <span
                   className={`absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full bg-current transition-transform duration-300 ${
@@ -163,7 +161,7 @@ const MobileHeader = () => {
           ) : (
             <TransitionLink
               href="/"
-              className="flex items-center gap-1 font-bold tracking-[0.18em] uppercase transition-opacity hover:opacity-70"
+              className="flex items-center gap-1 tracking-[0.18em] uppercase transition-opacity hover:opacity-70"
             >
               <span>←</span>
               <span>Back Home</span>
@@ -176,9 +174,7 @@ const MobileHeader = () => {
             className="group flex items-center gap-2"
             aria-label="Open menu"
           >
-            <span className="text-base font-bold tracking-[0.2em] uppercase">
-              Menu
-            </span>
+            <span className="text-base tracking-[0.2em] uppercase">Menu</span>
             <span className="flex h-5 w-5 items-center justify-center rounded-full border border-current transition-colors duration-300 group-hover:bg-white">
               <span className="block h-1 w-1 rounded-full bg-current transition-colors duration-300 group-hover:bg-black" />
             </span>

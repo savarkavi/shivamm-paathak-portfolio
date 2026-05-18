@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
     <div
-      className={`relative z-60 hidden w-full flex-wrap items-center justify-between gap-3 border-dashed border-gray-400 px-4 py-2 leading-4 font-bold ${
+      className={`relative z-60 hidden w-full flex-wrap items-center justify-between gap-3 border-dashed border-gray-400 px-4 py-2 leading-4 ${
         isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"
       } uppercase lg:fixed lg:flex lg:px-6`}
     >
@@ -26,7 +26,10 @@ const Header = () => {
               </span>
             </p>
           ) : (
-            <TransitionLink href="/" className="flex items-center gap-1 text-base transition-opacity hover:opacity-70">
+            <TransitionLink
+              href="/"
+              className="flex items-center gap-1 text-base transition-opacity hover:opacity-70"
+            >
               <span>←</span>
               <span>Back Home</span>
             </TransitionLink>
