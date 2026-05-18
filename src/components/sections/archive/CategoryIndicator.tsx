@@ -1,4 +1,3 @@
-import { nihonium } from "@/fonts";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { categories } from "./ArchiveContent";
@@ -35,7 +34,7 @@ const CategoryIndicator = ({
       className={`relative flex h-fit w-full flex-wrap items-center justify-center gap-x-6 gap-y-4 tracking-wider text-white hover:bg-white hover:text-black ${className}`}
     >
       <div
-        className={`${nihonium.className} pointer-events-auto relative top-24 flex h-8 min-w-42 items-center justify-center overflow-hidden border border-dashed border-gray-500 text-2xl transition-all lg:top-0`}
+        className={`pointer-events-auto relative top-24 flex h-8 min-w-42 items-center justify-center overflow-hidden border border-dashed border-gray-500 text-xl transition-all lg:top-0`}
       >
         {categories.map((cat) => (
           <TransitionLink

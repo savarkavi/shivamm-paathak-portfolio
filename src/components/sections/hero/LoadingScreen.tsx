@@ -4,6 +4,7 @@ import UnicornScene from "unicornstudio-react/next";
 import { useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { UNICORN_STUDIO_SDK_URL } from "@/lib/unicorn";
 
 gsap.registerPlugin(useGSAP);
 
@@ -99,7 +100,7 @@ const LoadingScreen = ({ isLoaded, onIntroComplete }: LoadingScreenProps) => {
             scale={1}
             dpi={1}
             onLoad={() => setIsIntroSceneLoaded(true)}
-            sdkUrl="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@2.1.12/dist/unicornStudio.umd.js"
+            sdkUrl={UNICORN_STUDIO_SDK_URL}
           />
         </div>
       )}

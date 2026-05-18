@@ -6,11 +6,14 @@ import ArchiveContent from "./ArchiveContent";
 import CategoryIndicator from "./CategoryIndicator";
 import { useGSAP } from "@gsap/react";
 import { useState } from "react";
-import UnicornScene from "unicornstudio-react";
+import UnicornScene from "unicornstudio-react/next";
+import { UNICORN_STUDIO_SDK_URL } from "@/lib/unicorn";
 
 gsap.registerPlugin(useGSAP);
 
 const Archive = () => {
+  const ARCHIVE_SCENE = "/archive_scene.json";
+
   const [activeCategory, setActiveCategory] = useState<string>("Editorial");
 
   useGSAP(() => {
@@ -21,11 +24,11 @@ const Archive = () => {
     <div className="relative flex min-h-screen w-full justify-center overflow-hidden bg-black py-8 text-4xl text-white">
       <div className="absolute top-0 left-0 h-full w-full">
         <UnicornScene
-          projectId="xAx8ZLdZuX2621skX5ZF"
           production={true}
+          jsonFilePath={ARCHIVE_SCENE}
           scale={1}
-          dpi={1.5}
-          sdkUrl="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@2.1.11/dist/unicornStudio.umd.js"
+          dpi={1}
+          sdkUrl={UNICORN_STUDIO_SDK_URL}
         />
       </div>
 
