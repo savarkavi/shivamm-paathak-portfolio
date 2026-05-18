@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import TransitionLink from "./TransitionLink";
-import Link from "next/link";
-import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { bebasNeue, inconsolata } from "@/fonts";
+import { bebasNeue } from "@/fonts";
+import { useHeroScene } from "@/components/sections/hero/HeroSceneContext";
 
 gsap.registerPlugin(useGSAP);
 
@@ -18,6 +18,9 @@ const NAV_ITEMS = [
 
 const MobileHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isGlyphScene, toggleScene } = useHeroScene();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const overlayRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<HTMLAnchorElement[]>([]);
   const dividerRef = useRef<HTMLDivElement>(null);
@@ -32,12 +35,10 @@ const MobileHeader = () => {
     [],
   );
 
-  // Animate the overlay open
   useGSAP(
     () => {
       if (!overlayRef.current) return;
 
-      // Kill previous timeline if it exists
       if (tlRef.current) {
         tlRef.current.kill();
       }
@@ -96,7 +97,6 @@ const MobileHeader = () => {
             "-=0.2",
           );
       } else {
-        // Close animation
         const tl = gsap.timeline({
           onComplete: () => {
             if (overlayRef.current) {
@@ -134,32 +134,56 @@ const MobileHeader = () => {
   );
 
   return (
-    <div ref={containerRef} className={`${inconsolata.className}`}>
+    <div ref={containerRef}>
       {/* Fixed Header Bar */}
       <div className="fixed top-0 right-0 left-0 z-100 flex items-center justify-between px-4 py-3 lg:hidden">
-        {/* Logo */}
-        <Link href="/" className="relative h-14 w-14">
-          <Image
-            src="/shivamm-logo.svg"
-            alt="Shivamm Paathak Logo"
-            fill
-            className="object-contain"
-          />
-        </Link>
-
-        {/* Menu Button */}
-        <button
-          onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2 text-white"
-          aria-label="Open menu"
+        {/* Logo / Back Link */}
+        <div
+          className={`flex w-full items-center justify-between gap-4 ${isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"}`}
         >
-          <span className="text-base font-bold tracking-[0.2em] uppercase">
-            Menu
-          </span>
-          <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/60 transition-colors duration-300 group-hover:bg-white">
-            <span className="block h-1 w-1 rounded-full bg-white transition-colors duration-300 group-hover:bg-black" />
-          </span>
-        </button>
+          {isHome ? (
+            <button
+              type="button"
+              onClick={toggleScene}
+              className="group flex items-center gap-2"
+              aria-pressed={isGlyphScene}
+              aria-label="Toggle hero glyph effect"
+            >
+              <span className="text-xs font-bold tracking-[0.18em] uppercase">
+                Glyph
+              </span>
+              <span className="relative h-4 w-8 rounded-full border border-current transition-colors duration-300 group-hover:bg-white/15">
+                <span
+                  className={`absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full bg-current transition-transform duration-300 ${
+                    isGlyphScene ? "translate-x-5" : "translate-x-1"
+                  }`}
+                />
+              </span>
+            </button>
+          ) : (
+            <TransitionLink
+              href="/"
+              className="flex items-center gap-1 font-bold tracking-[0.18em] uppercase transition-opacity hover:opacity-70"
+            >
+              <span>←</span>
+              <span>Back Home</span>
+            </TransitionLink>
+          )}
+
+          {/* Menu Button */}
+          <button
+            onClick={() => setIsOpen(true)}
+            className="group flex items-center gap-2"
+            aria-label="Open menu"
+          >
+            <span className="text-base font-bold tracking-[0.2em] uppercase">
+              Menu
+            </span>
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-current transition-colors duration-300 group-hover:bg-white">
+              <span className="block h-1 w-1 rounded-full bg-current transition-colors duration-300 group-hover:bg-black" />
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Overlay Menu */}

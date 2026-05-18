@@ -1,8 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { inconsolata } from "@/fonts";
+import { flexiIBM } from "@/fonts";
 import { ReactLenis } from "lenis/react";
 import PageTransition from "../../components/layout/PageTransition";
 import SiteChrome from "../../components/layout/SiteChrome";
+import { HeroSceneProvider } from "@/components/sections/hero/HeroSceneContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,12 +22,14 @@ export default function SiteLayout({
 }) {
   return (
     <div
-      className={`${geistSans.variable} ${geistMono.variable} ${inconsolata.className} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${flexiIBM.className} antialiased`}
     >
-      <ReactLenis root />
-      <PageTransition />
-      <SiteChrome />
-      {children}
+      <HeroSceneProvider>
+        <ReactLenis root />
+        <PageTransition />
+        <SiteChrome />
+        {children}
+      </HeroSceneProvider>
     </div>
   );
 }

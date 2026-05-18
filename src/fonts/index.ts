@@ -6,6 +6,7 @@ import {
   Pixelify_Sans,
   Zilla_Slab_Highlight,
   Noto_Serif,
+  Chonburi,
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -57,4 +58,14 @@ export const yarndings = localFont({
 export const bebasNeue = localFont({
   src: "./BebasNeue-Regular.otf",
   variable: "--font-bebas",
+});
+
+export const flexiIBM = localFont({
+  src: "./Flexi_IBM_VGA_True.ttf",
+  variable: "--font-flexi",
+});
+
+export const chonburi = Chonburi({
+  subsets: ["latin"],
+  weight: ["400"],
 });
