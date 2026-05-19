@@ -1,9 +1,9 @@
-import AboutContent from "./AboutContent";
+import About from "./About";
 
 const AboutSection = () => {
   return (
     <section className="min-h-screen">
-      <AboutContent />
+      <About />
     </section>
   );
 };
