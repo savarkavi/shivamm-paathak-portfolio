@@ -1,14 +1,16 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { categories } from "./ArchiveContent";
 import TransitionLink from "@/components/layout/TransitionLink";
+import type { WorkCategory } from "@/sanity/lib/queries";
 
 interface CategoryIndicatorProps {
+  categories: WorkCategory[];
   activeCategory: string;
   className?: string;
 }
 
 const CategoryIndicator = ({
+  categories,
   activeCategory,
   className = "",
 }: CategoryIndicatorProps) => {
@@ -34,15 +36,15 @@ const CategoryIndicator = ({
       className={`relative flex h-fit w-full flex-wrap items-center justify-center gap-x-6 gap-y-4 tracking-wider text-white hover:bg-white hover:text-black ${className}`}
     >
       <div
-        className={`pointer-events-auto relative top-24 flex h-8 min-w-42 items-center justify-center overflow-hidden border border-dashed border-gray-500 text-xl transition-all lg:top-0`}
+        className={`pointer-events-auto relative top-24 flex h-8 min-w-52 items-center justify-center overflow-hidden border border-dashed border-gray-500 text-xl transition-all lg:top-0`}
       >
         {categories.map((cat) => (
           <TransitionLink
-            href={`/archive/${cat.name.toLowerCase()}`}
-            key={cat.name}
-            className={`category-item category-item-${cat.name} absolute top-0 left-0 flex h-full w-full flex-nowrap items-center justify-center text-center opacity-0 ${activeCategory === cat.name ? "pointer-events-auto" : "pointer-events-none"}`}
+            href={`/archive/${cat.slug}`}
+            key={cat._id}
+            className={`category-item category-item-${cat.slug} absolute top-0 left-0 flex h-full w-full flex-nowrap items-center justify-center text-center opacity-0 ${activeCategory === cat.slug ? "pointer-events-auto" : "pointer-events-none"}`}
           >
-            <span className="text-center uppercase">{cat.name}</span>
+            <span className="text-center uppercase">{cat.title}</span>
           </TransitionLink>
         ))}
       </div>

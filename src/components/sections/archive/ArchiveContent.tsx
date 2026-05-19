@@ -5,34 +5,15 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Observer } from "gsap/all";
 import { useRef } from "react";
+import type { WorkCategory } from "@/sanity/lib/queries";
 
 gsap.registerPlugin(useGSAP, Observer);
 
-export const categories = [
-  { name: "Editorial", count: 15 },
-  { name: "Fashion", count: 25 },
-  { name: "Commercial", count: 20 },
-  { name: "Personal", count: 20 },
-  { name: "Films", count: 10 },
-];
-
-const getCategory = (index: number) => {
-  let sum = 0;
-  for (const cat of categories) {
-    if (index < sum + cat.count) return cat.name;
-    sum += cat.count;
-  }
-  return "Unknown";
-};
-
-const imagesData = Array.from({ length: 90 }).map((_, i) => ({
-  src: `https://picsum.photos/seed/${i + 201}/500/600.webp`,
-  category: getCategory(i),
-}));
-
 const ArchiveContent = ({
+  categories,
   setActiveCategory,
 }: {
+  categories: WorkCategory[];
   setActiveCategory: (cat: string) => void;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,7 +32,7 @@ const ArchiveContent = ({
     let currentScroll = 0;
     const easeFactor = 0.12;
 
-    Observer.create({
+    const observer = Observer.create({
       target: window,
       type: "wheel,touch,pointer",
       preventDefault: true,
@@ -65,7 +46,7 @@ const ArchiveContent = ({
     const smoothScroll = () => {
       currentScroll += (targetScroll - currentScroll) * easeFactor;
 
-      let activeCat = categories[0].name;
+      let activeCat = categories[0]?.slug ?? "";
       let minZDist = Infinity;
 
       layers.forEach((layer, i) => {
@@ -85,7 +66,7 @@ const ArchiveContent = ({
         const focusPoint = -250;
         if (Math.abs(wrappedZ - focusPoint) < minZDist) {
           minZDist = Math.abs(wrappedZ - focusPoint);
-          activeCat = categories[i].name;
+          activeCat = categories[i]?.slug ?? "";
         }
       });
 
@@ -98,9 +79,10 @@ const ArchiveContent = ({
     gsap.ticker.add(smoothScroll);
 
     return () => {
+      observer.kill();
       gsap.ticker.remove(smoothScroll);
     };
-  }, []);
+  }, [categories]);
 
   return (
     <div
@@ -109,54 +91,51 @@ const ArchiveContent = ({
     >
       <div className="relative flex h-full w-full items-center justify-center transform-3d">
         {categories.map((cat, i) => {
-          const catImages = imagesData
-            .filter((img) => img.category === cat.name)
-            .slice(0, 4);
-
+          const catImages = cat.previewImages.slice(0, 4);
           return (
             <div
-              key={cat.name}
+              key={cat._id}
               className="category-layer absolute flex scale-[0.50] items-center justify-center md:scale-100"
               style={{
                 transform: `translateZ(${-i * 1000}px)`,
               }}
             >
               {catImages[0] && (
-                <div className="absolute top-[-350px] left-1/2 h-[250px] w-[200px] -translate-x-1/2 overflow-hidden">
+                <div className="absolute top-87.5 left-1/2 h-62.5 w-50 -translate-x-1/2 overflow-hidden">
                   <Image
-                    src={catImages[0].src}
+                    src={catImages[0].url}
                     fill
-                    alt={`${cat.name} Top`}
+                    alt={catImages[0].alt}
                     className="object-cover"
                   />
                 </div>
               )}
               {catImages[1] && (
-                <div className="absolute bottom-[-350px] left-1/2 h-[250px] w-[200px] -translate-x-1/2 overflow-hidden">
+                <div className="absolute bottom-87.5 left-1/2 h-62.5 w-50 -translate-x-1/2 overflow-hidden">
                   <Image
-                    src={catImages[1].src}
+                    src={catImages[1].url}
                     fill
-                    alt={`${cat.name} Bottom`}
+                    alt={catImages[1].alt}
                     className="object-cover"
                   />
                 </div>
               )}
               {catImages[2] && (
-                <div className="absolute top-1/2 left-[-400px] h-[250px] w-[200px] -translate-y-1/2 overflow-hidden">
+                <div className="absolute top-1/2 left-100 h-62.5 w-50 -translate-y-1/2 overflow-hidden">
                   <Image
-                    src={catImages[2].src}
+                    src={catImages[2].url}
                     fill
-                    alt={`${cat.name} Left`}
+                    alt={catImages[2].alt}
                     className="object-cover"
                   />
                 </div>
               )}
               {catImages[3] && (
-                <div className="absolute top-1/2 right-[-400px] h-[250px] w-[200px] -translate-y-1/2 overflow-hidden">
+                <div className="absolute top-1/2 right-100 h-62.5 w-50 -translate-y-1/2 overflow-hidden">
                   <Image
-                    src={catImages[3].src}
+                    src={catImages[3].url}
                     fill
-                    alt={`${cat.name} Right`}
+                    alt={catImages[3].alt}
                     className="object-cover"
                   />
                 </div>
