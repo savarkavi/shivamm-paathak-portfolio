@@ -184,8 +184,8 @@ const ProjectImageSequence = () => {
       ref={containerRef}
       className="relative flex h-dvh w-screen touch-none justify-center gap-8 overflow-hidden bg-zinc-950"
     >
-      <div className="absolute top-24 right-5 left-5 z-10 flex flex-row items-center justify-between font-bold text-white lg:top-auto lg:right-auto lg:bottom-10 lg:left-[20%] lg:w-fit lg:-translate-x-1/2 lg:flex-col lg:items-end lg:gap-16">
-        <div className="flex flex-col items-start gap-2 lg:items-end">
+      <div className="absolute top-24 right-5 left-5 z-10 flex flex-row items-center justify-between text-white lg:top-auto lg:right-auto lg:bottom-10 lg:left-[20%] lg:w-fit lg:-translate-x-1/2 lg:flex-col lg:items-end lg:gap-16">
+        <div className="flex flex-col items-start gap-2 font-bold lg:items-end">
           <div
             className={`${bebasNeue.className} flex flex-row items-center text-3xl lg:flex-col lg:items-end xl:text-9xl`}
           >
@@ -201,7 +201,7 @@ const ProjectImageSequence = () => {
         >
           <FaInfoCircle size={16} />
         </button>
-        <div className="hidden max-w-50 flex-col gap-4 text-right text-sm text-white uppercase lg:flex">
+        <div className="hidden max-w-50 flex-col gap-4 text-right text-sm text-white uppercase md:text-base lg:flex">
           <div>
             <p>Project category:</p>
             <p>Editorial</p>
@@ -216,7 +216,7 @@ const ProjectImageSequence = () => {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-2 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm font-bold text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
+      <div className="absolute bottom-2 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
         <div className="flex flex-col items-center gap-2">
           <div
             aria-hidden="true"
@@ -237,7 +237,7 @@ const ProjectImageSequence = () => {
             backgroundImage: `linear-gradient(to bottom, ${firstImageColors})`,
           }}
         />
-        <div className="hidden flex-col gap-4 lg:flex">
+        <div className="hidden flex-col gap-4 md:text-base lg:flex">
           <div>
             <p>Date created:</p>
             <p>2026</p>
@@ -279,7 +279,7 @@ const ProjectImageSequence = () => {
       </div>
       {isProjectInfoOpen && (
         <div className="absolute inset-0 z-20 flex items-end bg-black/25 px-5 py-8 backdrop-blur-md lg:hidden">
-          <div className="w-full border border-white/25 bg-white/10 p-5 text-sm font-bold text-white uppercase shadow-2xl backdrop-blur-xl">
+          <div className="w-full border border-white/25 bg-white/10 p-5 text-sm text-white uppercase shadow-2xl backdrop-blur-xl">
             <div className="mb-8 flex items-center justify-between tracking-wider">
               <p className={`${bebasNeue.className} text-4xl`}>Project info</p>
               <button

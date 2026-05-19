@@ -23,7 +23,7 @@ const Page = async ({ params }: CategoryPageProps) => {
         style={{
           backgroundImage: "url('/grainy-effect.webp')",
           mixBlendMode: "hard-light",
-          opacity: 0.09,
+          opacity: 0.07,
           pointerEvents: "none",
         }}
       ></div>
