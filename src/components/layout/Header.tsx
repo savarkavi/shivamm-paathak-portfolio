@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { MdLocationPin } from "react-icons/md";
 import TransitionLink from "./TransitionLink";
 import { useHeroScene } from "@/components/sections/hero/HeroSceneContext";
+import Link from "next/link";
 
 const Header = () => {
   const { isGlyphScene, toggleScene } = useHeroScene();
@@ -26,13 +27,10 @@ const Header = () => {
               </span>
             </p>
           ) : (
-            <TransitionLink
-              href="/"
-              className="flex items-center gap-1 text-base transition-opacity hover:opacity-70"
-            >
+            <Link href="/" className="flex items-center gap-1 text-base">
               <span>←</span>
               <span>Back Home</span>
-            </TransitionLink>
+            </Link>
           )}
         </div>
       </div>

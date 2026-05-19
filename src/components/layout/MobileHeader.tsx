@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { bebasNeue } from "@/fonts";
 import { useHeroScene } from "@/components/sections/hero/HeroSceneContext";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
 
@@ -159,13 +160,13 @@ const MobileHeader = () => {
               </span>
             </button>
           ) : (
-            <TransitionLink
+            <Link
               href="/"
-              className="flex items-center gap-1 tracking-[0.18em] uppercase transition-opacity hover:opacity-70"
+              className="flex items-center gap-1 tracking-[0.18em] uppercase"
             >
               <span>←</span>
               <span>Back Home</span>
-            </TransitionLink>
+            </Link>
           )}
 
           {/* Menu Button */}
