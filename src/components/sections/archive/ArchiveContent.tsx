@@ -101,7 +101,7 @@ const ArchiveContent = ({
               }}
             >
               {catImages[0] && (
-                <div className="absolute top-87.5 left-1/2 h-62.5 w-50 -translate-x-1/2 overflow-hidden">
+                <div className="absolute top-[-350px] left-1/2 h-[250px] w-[200px] -translate-x-1/2 overflow-hidden">
                   <Image
                     src={catImages[0].url}
                     fill
@@ -111,7 +111,7 @@ const ArchiveContent = ({
                 </div>
               )}
               {catImages[1] && (
-                <div className="absolute bottom-87.5 left-1/2 h-62.5 w-50 -translate-x-1/2 overflow-hidden">
+                <div className="absolute bottom-[-350px] left-1/2 h-[250px] w-[200px] -translate-x-1/2 overflow-hidden">
                   <Image
                     src={catImages[1].url}
                     fill
@@ -121,7 +121,7 @@ const ArchiveContent = ({
                 </div>
               )}
               {catImages[2] && (
-                <div className="absolute top-1/2 left-100 h-62.5 w-50 -translate-y-1/2 overflow-hidden">
+                <div className="absolute top-1/2 left-[-400px] h-[250px] w-[200px] -translate-y-1/2 overflow-hidden">
                   <Image
                     src={catImages[2].url}
                     fill
@@ -131,7 +131,7 @@ const ArchiveContent = ({
                 </div>
               )}
               {catImages[3] && (
-                <div className="absolute top-1/2 right-100 h-62.5 w-50 -translate-y-1/2 overflow-hidden">
+                <div className="absolute top-1/2 right-[-400px] h-[250px] w-[200px] -translate-y-1/2 overflow-hidden">
                   <Image
                     src={catImages[3].url}
                     fill
