@@ -6,8 +6,9 @@ import { getPaletteSync } from "colorthief";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Observer } from "gsap/all";
-import { bebasNeue } from "@/fonts";
-import { FaEye, FaInfoCircle, FaTimes, FaArrowsAltV } from "react-icons/fa";
+import ProjectImageControls from "./ProjectImageControls";
+import ProjectGradientStrip from "./ProjectGradientStrip";
+import ProjectPhotoNumber from "./ProjectPhotoNumber";
 
 gsap.registerPlugin(useGSAP, Observer);
 
@@ -38,141 +39,138 @@ const projectImages = [
   },
 ];
 
-const expandedClipPath = "inset(0% 0% 0% 0%)";
-const collapsedClipPath = "inset(100% 0% 0% 0%)";
-const formatImageNumber = (index: number) => String(index + 1).padStart(2, "0");
-const fallbackColors = "#18181b, #27272a, #3f3f46";
+const fallbackGradient = "linear-gradient(to right, #18181b, #27272a, #3f3f46)";
 
 const ProjectImageSequence = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const gradientsRef = useRef<string[]>([]);
   const activeIndexRef = useRef(0);
   const isAnimatingRef = useRef(false);
+  const showImageRef = useRef<((direction: 1 | -1) => void) | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [firstImageColors, setFirstImageColors] = useState(fallbackColors);
-  const [isProjectInfoOpen, setIsProjectInfoOpen] = useState(false);
+  const [stripGradient, setStripGradient] = useState(fallbackGradient);
 
-  const extractFirstImageGradient = (image: HTMLImageElement) => {
+  const extractImageGradient = (index: number, image: HTMLImageElement) => {
     try {
       const palette = getPaletteSync(image, {
-        colorCount: 6,
+        colorCount: 5,
         quality: 8,
         colorSpace: "oklch",
       });
 
       if (!palette?.length) return;
 
-      setFirstImageColors(palette.map((color) => color.css("rgb")).join(", "));
+      const colors = palette.map((color) => color.css("rgb"));
+      const gradient = `linear-gradient(to right, ${colors.join(", ")})`;
+
+      gradientsRef.current[index] = gradient;
+
+      if (activeIndexRef.current === index) {
+        setStripGradient(gradient);
+      }
     } catch {
-      setFirstImageColors(fallbackColors);
+      gradientsRef.current[index] = fallbackGradient;
     }
   };
 
   useGSAP(
     () => {
+      const container = containerRef.current;
       const images = imageRefs.current.filter(Boolean) as HTMLDivElement[];
 
-      if (!containerRef.current || images.length === 0) return;
+      if (!container || images.length === 0) return;
 
       gsap.set(images, {
-        clipPath: collapsedClipPath,
+        autoAlpha: 0,
+        yPercent: 100,
+        z: 0,
+        rotateX: 0,
         zIndex: 0,
       });
 
       gsap.set(images[0], {
-        clipPath: expandedClipPath,
-        zIndex: 1,
+        autoAlpha: 1,
+        yPercent: 0,
+        zIndex: 2,
       });
 
-      const goToNextImage = () => {
+      const showImage = (direction: 1 | -1) => {
         if (isAnimatingRef.current) return;
 
         const currentIndex = activeIndexRef.current;
-        const nextIndex = (currentIndex + 1) % images.length;
+        const nextIndex =
+          (currentIndex + direction + images.length) % images.length;
+        const currentImage = images[currentIndex];
         const nextImage = images[nextIndex];
 
         isAnimatingRef.current = true;
+        setStripGradient(gradientsRef.current[nextIndex] ?? fallbackGradient);
 
         gsap.set(nextImage, {
-          clipPath: collapsedClipPath,
-          zIndex: 2,
+          autoAlpha: 1,
+          yPercent: direction === 1 ? 100 : -100,
+          z: 0,
+          zIndex: 3,
         });
 
-        const timeline = gsap.timeline({
-          onComplete: () => {
-            gsap.set(images[currentIndex], {
-              clipPath: expandedClipPath,
-              zIndex: 0,
-            });
-            gsap.set(nextImage, { zIndex: 1 });
+        gsap
+          .timeline({
+            defaults: {
+              duration: 0.95,
+              ease: "power3.inOut",
+            },
+            onComplete: () => {
+              gsap.set(currentImage, {
+                autoAlpha: 0,
+                yPercent: 100,
+                z: 0,
+                rotateX: 0,
+                zIndex: 0,
+              });
+              gsap.set(nextImage, {
+                autoAlpha: 1,
+                yPercent: 0,
+                z: 0,
+                zIndex: 2,
+              });
 
-            activeIndexRef.current = nextIndex;
-            setActiveIndex(nextIndex);
-            isAnimatingRef.current = false;
-          },
-        });
-
-        timeline.to(
-          nextImage,
-          {
-            clipPath: expandedClipPath,
-            duration: 1,
-            ease: "power3.inOut",
-          },
-          0,
-        );
+              activeIndexRef.current = nextIndex;
+              setActiveIndex(nextIndex);
+              isAnimatingRef.current = false;
+            },
+          })
+          .to(
+            currentImage,
+            {
+              autoAlpha: 0.2,
+              z: -420,
+              rotateX: direction === 1 ? 30 : -30,
+            },
+            0,
+          )
+          .to(
+            nextImage,
+            {
+              yPercent: 0,
+            },
+            0,
+          );
       };
 
-      const goToPreviousImage = () => {
-        if (isAnimatingRef.current) return;
-
-        const currentIndex = activeIndexRef.current;
-        const previousIndex =
-          (currentIndex - 1 + images.length) % images.length;
-        const currentImage = images[currentIndex];
-        const previousImage = images[previousIndex];
-
-        isAnimatingRef.current = true;
-
-        gsap.set(previousImage, {
-          clipPath: expandedClipPath,
-          zIndex: 1,
-        });
-        gsap.set(currentImage, { zIndex: 2 });
-
-        const timeline = gsap.timeline({
-          onComplete: () => {
-            gsap.set(currentImage, { zIndex: 0 });
-
-            activeIndexRef.current = previousIndex;
-            setActiveIndex(previousIndex);
-            isAnimatingRef.current = false;
-          },
-        });
-
-        timeline.to(
-          currentImage,
-          {
-            clipPath: collapsedClipPath,
-            duration: 1,
-            ease: "power3.inOut",
-          },
-          0,
-        );
-      };
+      showImageRef.current = showImage;
 
       const observer = Observer.create({
-        target: containerRef.current,
+        target: container,
         type: "wheel,touch,pointer",
         preventDefault: true,
         tolerance: 12,
-        onUp: () =>
-          window.innerWidth >= 1024 ? goToPreviousImage() : goToNextImage(),
-        onDown: () =>
-          window.innerWidth >= 1024 ? goToNextImage() : goToPreviousImage(),
+        onDown: () => showImage(1),
+        onUp: () => showImage(-1),
       });
 
       return () => {
+        showImageRef.current = null;
         observer.kill();
       };
     },
@@ -182,140 +180,42 @@ const ProjectImageSequence = () => {
   return (
     <main
       ref={containerRef}
-      className="relative flex h-dvh w-screen touch-none justify-center gap-8 overflow-hidden bg-zinc-950"
+      className="relative h-dvh w-screen touch-none overflow-hidden bg-white perspective-distant"
     >
-      <div className="absolute top-24 right-5 left-5 z-10 flex flex-row items-center justify-between text-white lg:top-auto lg:right-auto lg:bottom-10 lg:left-[20%] lg:w-fit lg:-translate-x-1/2 lg:flex-col lg:items-end lg:gap-16">
-        <div className="flex flex-col items-start gap-2 font-bold lg:items-end">
-          <div
-            className={`${bebasNeue.className} flex flex-row items-center text-3xl lg:flex-col lg:items-end xl:text-9xl`}
-          >
-            <p>FL. {formatImageNumber(activeIndex)}</p>
-            <p>/ {String(projectImages.length).padStart(2, "0")}</p>
-          </div>
-        </div>
-        <button
-          type="button"
-          aria-label="Open project info"
-          className="flex size-8 appearance-none items-center justify-center border-0 bg-transparent p-0 text-white transition-opacity hover:opacity-70 lg:hidden"
-          onClick={() => setIsProjectInfoOpen(true)}
-        >
-          <FaInfoCircle size={16} />
-        </button>
-        <div className="hidden max-w-50 flex-col gap-4 text-right text-sm text-white uppercase md:text-base lg:flex">
-          <div>
-            <p>Project category:</p>
-            <p>Editorial</p>
-          </div>
-          <div>
-            <p>Shot for:</p>
-            <p>Lakme Fashion</p>
-          </div>
-          <div>
-            <p>Credits:</p>
-            <p>Shivamm Paathak / Amita Aggarwal / Anu Ahuja</p>
-          </div>
-        </div>
-      </div>
-      <div className="absolute bottom-2 left-1/2 z-10 flex w-fit -translate-x-1/2 flex-col gap-20 text-sm text-white uppercase lg:right-[20%] lg:bottom-10 lg:left-auto lg:translate-x-0">
-        <div className="flex flex-col items-center gap-2">
-          <div
-            aria-hidden="true"
-            className="h-5 w-60 border border-white/50 lg:hidden"
-            style={{
-              backgroundImage: `linear-gradient(to right, ${firstImageColors})`,
-            }}
-          />
-          <div className="flex animate-bounce items-center gap-2 pt-2 text-xs font-normal tracking-widest text-white/70 normal-case lg:hidden">
-            <span>Scroll</span>
-            <FaArrowsAltV />
-          </div>
-        </div>
-        <div
-          aria-hidden="true"
-          className="hidden h-60 w-5 border border-white/50 lg:block"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, ${firstImageColors})`,
-          }}
-        />
-        <div className="hidden flex-col gap-4 md:text-base lg:flex">
-          <div>
-            <p>Date created:</p>
-            <p>2026</p>
-          </div>
-          <div>
-            <p>See on:</p>
-            <p>Instagram</p>
-          </div>
-          <p className="flex items-center gap-2">
-            Hide <FaEye />
-          </p>
-        </div>
-      </div>
-      <div className="w-fit border border-white">
+      <ProjectPhotoNumber
+        current={activeIndex + 1}
+        total={projectImages.length}
+      />
+      <ProjectGradientStrip gradient={stripGradient} />
+      <ProjectImageControls
+        onPrevious={() => showImageRef.current?.(-1)}
+        onNext={() => showImageRef.current?.(1)}
+      />
+      <div className="absolute inset-0 flex items-center justify-center transform-3d">
         {projectImages.map((image, index) => (
           <div
             key={image.src}
             ref={(el) => {
               imageRefs.current[index] = el;
             }}
-            className="border-fit absolute inset-0 flex h-screen items-center justify-center overflow-hidden border bg-zinc-950 will-change-[clip-path]"
+            className="absolute inset-0 flex items-center justify-center bg-black will-change-[transform,opacity]"
           >
             <Image
               src={image.src}
               alt={image.alt}
               width={image.width}
               height={image.height}
-              className="h-screen w-auto object-contain object-center"
+              className="h-auto w-screen max-w-none object-contain lg:h-dvh lg:w-auto"
               priority={index === 0}
               sizes="100vh"
+              draggable={false}
               onLoad={(event) => {
-                if (index === 0) {
-                  extractFirstImageGradient(event.currentTarget);
-                }
+                extractImageGradient(index, event.currentTarget);
               }}
             />
           </div>
         ))}
       </div>
-      {isProjectInfoOpen && (
-        <div className="absolute inset-0 z-20 flex items-end bg-black/25 px-5 py-8 backdrop-blur-md lg:hidden">
-          <div className="w-full border border-white/25 bg-white/10 p-5 text-sm text-white uppercase shadow-2xl backdrop-blur-xl">
-            <div className="mb-8 flex items-center justify-between tracking-wider">
-              <p className={`${bebasNeue.className} text-4xl`}>Project info</p>
-              <button
-                type="button"
-                aria-label="Close project info"
-                className="flex size-8 appearance-none items-center justify-center border-0 bg-transparent p-0 text-white transition-opacity hover:opacity-70"
-                onClick={() => setIsProjectInfoOpen(false)}
-              >
-                <FaTimes />
-              </button>
-            </div>
-            <div className="grid gap-5">
-              <div>
-                <p>Project category:</p>
-                <p>Editorial</p>
-              </div>
-              <div>
-                <p>Date created:</p>
-                <p>2026</p>
-              </div>
-              <div>
-                <p>Shot for:</p>
-                <p>Lakme Fashion</p>
-              </div>
-              <div>
-                <p>See on:</p>
-                <p>Instagram</p>
-              </div>
-              <div>
-                <p>Credits:</p>
-                <p>Shivamm Paathak / Amita Aggarwal / Anu Ahuja</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </main>
   );
 };
