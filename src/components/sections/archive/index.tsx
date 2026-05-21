@@ -6,8 +6,6 @@ import ArchiveContent from "./ArchiveContent";
 import CategoryIndicator from "./CategoryIndicator";
 import { useGSAP } from "@gsap/react";
 import { useState } from "react";
-import UnicornScene from "unicornstudio-react/next";
-import { UNICORN_STUDIO_SDK_URL } from "@/lib/unicorn";
 import type { WorkCategory } from "@/sanity/lib/queries";
 
 gsap.registerPlugin(useGSAP);
@@ -17,8 +15,6 @@ type ArchiveProps = {
 };
 
 const Archive = ({ categories }: ArchiveProps) => {
-  const ARCHIVE_SCENE = "/archive_scene.json";
-
   const [activeCategory, setActiveCategory] = useState<string>(
     categories[0]?.slug ?? "",
   );
@@ -29,16 +25,6 @@ const Archive = ({ categories }: ArchiveProps) => {
 
   return (
     <div className="relative flex min-h-screen w-full justify-center overflow-hidden bg-black py-8 text-4xl text-white">
-      <div className="absolute top-0 left-0 h-full w-full">
-        <UnicornScene
-          production={true}
-          jsonFilePath={ARCHIVE_SCENE}
-          scale={1}
-          dpi={1}
-          sdkUrl={UNICORN_STUDIO_SDK_URL}
-        />
-      </div>
-
       <CategoryIndicator
         categories={categories}
         activeCategory={activeCategory}

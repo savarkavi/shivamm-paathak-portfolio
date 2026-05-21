@@ -23,7 +23,7 @@ const ArchiveContent = ({
     const layers = gsap.utils.toArray<HTMLElement>(".category-layer");
     if (!layers.length) return;
 
-    const spacing = 2000;
+    const spacing = 1500;
     const maxBound = spacing;
     const minBound = -spacing * (categories.length - 1);
     const wrapFn = gsap.utils.wrap(minBound, maxBound);
