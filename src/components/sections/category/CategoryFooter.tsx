@@ -13,9 +13,13 @@ const CategoryFooter = ({ categoryName }: CategoryFooterProps) => {
         {categoryName}
       </h1>
       <div className="max-w-lg text-center text-sm md:text-xl lg:text-left">
-        <p className="font-light uppercase select-none">
-          Drag / scroll to interact with the gallery. Click on the image to open
-          the project.
+        <p className="font-light uppercase select-none md:hidden">
+          Drag / scroll to interact with the gallery. Tap an image to open the
+          project.
+        </p>
+        <p className="hidden font-light uppercase select-none md:block">
+          Move your cursor / scroll to interact with the gallery. Click an image
+          to open the project.
         </p>
       </div>
     </div>

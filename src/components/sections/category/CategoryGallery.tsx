@@ -55,7 +55,7 @@ const CategoryGallery = () => {
         <TransitionLink
           key={`${setKey}-${photo._id}-${photoIndex}`}
           href={`/project/${photo.projectId}`}
-          className="relative h-80 w-60 overflow-hidden bg-black hover:cursor-grab lg:h-100 lg:w-80 xl:h-160 xl:w-140"
+          className="relative h-80 w-60 overflow-hidden bg-black hover:cursor-grab md:hover:cursor-pointer lg:h-100 lg:w-80 xl:h-160 xl:w-140"
         >
           <Image
             src={photo.imageUrl}
@@ -105,6 +105,7 @@ const CategoryGallery = () => {
       });
 
       let lastDragY = 0;
+      let hoverDirection = 0;
 
       const updateDraggedGallery = () => {
         const wrappedX = wrapX(gsap.getProperty(proxy, "x") as number);
@@ -128,60 +129,115 @@ const CategoryGallery = () => {
         }
       };
 
-      const draggable = Draggable.create(proxy, {
-        type: "x,y",
-        trigger: gallery.current,
-        cursor: "grab",
-        activeCursor: "grabbing",
-        minimumMovement: 5,
-        onPressInit: () => {
-          lastDragY = 0;
+      const updateHoveredGallery = (_time: number, deltaTime: number) => {
+        if (hoverDirection === 0) return;
 
-          gsap.set(proxy, {
-            x: gsap.getProperty(track, "x") as number,
-            y: 0,
-          });
-        },
-        onDrag: updateDraggedGallery,
-        onRelease: updateDraggedGallery,
-        onClick: function (e: PointerEvent) {
-          const target = e.target as HTMLElement;
-          const anchor = target.closest("a");
-          if (anchor?.href) {
-            const wrapper = document.getElementById("page-transition");
-            const white = document.getElementById("transition-white");
-            const black = document.getElementById("transition-black");
+        const currentX = gsap.getProperty(track, "x") as number;
+        const nextX = wrapX(currentX - hoverDirection * deltaTime * 0.9);
 
-            if (wrapper && white && black) {
-              gsap.set(wrapper, { pointerEvents: "all" });
-              gsap.set(white, { clipPath: "inset(100% 0% 0% 0%)" });
-              gsap.set(black, { clipPath: "inset(100% 0% 0% 0%)" });
+        gsap.set(track, { x: nextX });
+      };
 
-              const tl = gsap.timeline({
-                onComplete: () => {
-                  window.location.href = anchor.href;
-                },
-              });
+      const handlePointerMove = (e: PointerEvent) => {
+        const rect = gallery.current?.getBoundingClientRect();
+        if (!rect) return;
 
-              tl.to(white, {
-                clipPath: "inset(0% 0% 0% 0%)",
-                duration: 1,
-                ease: "power4.inOut",
-              }).to(
-                black,
-                {
+        const hoverX = gsap.utils.mapRange(
+          rect.left,
+          rect.right,
+          -1,
+          1,
+          e.clientX,
+        );
+
+        hoverDirection = Math.abs(hoverX) < 0.08 ? 0 : hoverX;
+      };
+
+      const stopHoveredGallery = () => {
+        hoverDirection = 0;
+      };
+
+      const createMobileDraggable = () =>
+        Draggable.create(proxy, {
+          type: "x,y",
+          trigger: gallery.current,
+          cursor: "grab",
+          activeCursor: "grabbing",
+          minimumMovement: 5,
+          onPressInit: () => {
+            lastDragY = 0;
+
+            gsap.set(proxy, {
+              x: gsap.getProperty(track, "x") as number,
+              y: 0,
+            });
+          },
+          onDrag: updateDraggedGallery,
+          onRelease: updateDraggedGallery,
+          onClick: function (e: PointerEvent) {
+            const target = e.target as HTMLElement;
+            const anchor = target.closest("a");
+            if (anchor?.href) {
+              const wrapper = document.getElementById("page-transition");
+              const white = document.getElementById("transition-white");
+              const black = document.getElementById("transition-black");
+
+              if (wrapper && white && black) {
+                gsap.set(wrapper, { pointerEvents: "all" });
+                gsap.set(white, { clipPath: "inset(100% 0% 0% 0%)" });
+                gsap.set(black, { clipPath: "inset(100% 0% 0% 0%)" });
+
+                const tl = gsap.timeline({
+                  onComplete: () => {
+                    window.location.href = anchor.href;
+                  },
+                });
+
+                tl.to(white, {
                   clipPath: "inset(0% 0% 0% 0%)",
                   duration: 1,
                   ease: "power4.inOut",
-                },
-                "-=0.8",
-              );
-            } else {
-              window.location.href = anchor.href;
+                }).to(
+                  black,
+                  {
+                    clipPath: "inset(0% 0% 0% 0%)",
+                    duration: 1,
+                    ease: "power4.inOut",
+                  },
+                  "-=0.8",
+                );
+              } else {
+                window.location.href = anchor.href;
+              }
             }
-          }
-        },
-      })[0];
+          },
+        })[0];
+
+      const media = gsap.matchMedia();
+
+      media.add("(max-width: 767px)", () => {
+        const draggable = createMobileDraggable();
+
+        return () => draggable.kill();
+      });
+
+      media.add("(min-width: 768px)", () => {
+        const galleryElement = gallery.current;
+        if (!galleryElement) return;
+
+        galleryElement.addEventListener("pointermove", handlePointerMove);
+        galleryElement.addEventListener("pointerleave", stopHoveredGallery);
+        gsap.ticker.add(updateHoveredGallery);
+
+        return () => {
+          galleryElement.removeEventListener("pointermove", handlePointerMove);
+          galleryElement.removeEventListener(
+            "pointerleave",
+            stopHoveredGallery,
+          );
+          gsap.ticker.remove(updateHoveredGallery);
+        };
+      });
 
       let scrollTimeout: number;
 
@@ -209,7 +265,7 @@ const CategoryGallery = () => {
       window.addEventListener("wheel", handleWheel);
 
       return () => {
-        draggable.kill();
+        media.revert();
         window.removeEventListener("wheel", handleWheel);
         clearTimeout(scrollTimeout);
       };
