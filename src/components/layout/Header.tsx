@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <div
-      className={`relative z-60 hidden w-full flex-wrap items-center justify-between gap-3 border-dashed border-gray-400 px-4 py-2 leading-4 mix-blend-difference ${
+      className={`relative z-60 hidden w-full flex-wrap items-center justify-between gap-3 border-dashed border-gray-400 px-4 py-2 leading-4 ${
         isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"
       } uppercase lg:fixed lg:flex lg:px-6`}
     >

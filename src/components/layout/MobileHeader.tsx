@@ -137,7 +137,7 @@ const MobileHeader = () => {
   return (
     <div ref={containerRef}>
       {/* Fixed Header Bar */}
-      <div className="fixed top-0 right-0 left-0 z-100 flex items-center justify-between px-4 py-3 mix-blend-difference lg:hidden">
+      <div className="fixed top-0 right-0 left-0 z-100 flex items-center justify-between px-4 py-3 lg:hidden">
         {/* Logo / Back Link */}
         <div
           className={`flex w-full items-center justify-between gap-4 ${isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"}`}

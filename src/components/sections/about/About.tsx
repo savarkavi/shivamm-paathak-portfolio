@@ -19,14 +19,14 @@ const About = () => {
           sdkUrl={UNICORN_STUDIO_SDK_URL}
         />
       </div>
-      <div className="relative z-10 flex min-h-screen w-full max-w-3xl flex-col items-center overflow-y-auto px-4 pt-[10vh] pb-2 text-center text-lg text-white xl:mx-auto xl:w-auto">
-        <div className="flex flex-col items-center gap-12">
-          <p className="text-xl">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center overflow-y-auto px-4 pt-24 pb-8 text-center text-lg text-white lg:pt-20 xl:w-auto">
+        <div className="flex flex-1 flex-col items-center justify-center gap-6">
+          <p>
             Shivamm Paathak is a Delhi–based fashion and fine-art photographer
             known for blending mythology, emotion, and contemporary visual
             storytelling into a distinct cinematic style.
           </p>
-          <div className="relative h-80 w-60 shrink-0">
+          <div className="relative h-70 w-50 shrink-0">
             <Image
               src="/about-photo.jpg"
               alt="profile"
