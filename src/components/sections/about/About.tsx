@@ -9,7 +9,7 @@ const About = () => {
   const ABOUT_SCENE = "/about_background_scene.json";
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center">
+    <div className="relative min-h-screen">
       <div className="fixed top-0 left-0 h-screen w-full">
         <UnicornScene
           production={true}
@@ -19,8 +19,8 @@ const About = () => {
           sdkUrl={UNICORN_STUDIO_SDK_URL}
         />
       </div>
-      <div className="absolute top-[15%] left-1/2 flex h-full w-full -translate-x-1/2 flex-col items-center justify-between gap-6 px-4 py-2 text-center text-lg text-white xl:top-1/2 xl:w-auto xl:-translate-y-1/2">
-        <div className="flex flex-1 flex-col items-center justify-center gap-6">
+      <div className="relative z-10 flex min-h-screen w-full max-w-3xl flex-col items-center overflow-y-auto px-4 pt-[10vh] pb-2 text-center text-lg text-white xl:mx-auto xl:w-auto">
+        <div className="flex flex-col items-center gap-12">
           <p className="text-xl">
             Shivamm Paathak is a Delhi–based fashion and fine-art photographer
             known for blending mythology, emotion, and contemporary visual
@@ -57,7 +57,7 @@ const About = () => {
             </Link>
           </div>
         </div>
-        <div className="flex w-full flex-col items-center gap-4 text-center text-lg text-white xl:right-8 xl:left-8 xl:flex-row xl:justify-between xl:text-left">
+        <div className="mt-auto flex w-full flex-col items-center gap-4 pt-12 text-center text-lg text-white xl:right-8 xl:left-8 xl:flex-row xl:justify-between xl:text-left">
           <div className="flex flex-col items-center gap-4 xl:flex-row xl:gap-6">
             <a
               href="mailto:shivammpaathakstudios@gmail.com"
