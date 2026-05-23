@@ -15,11 +15,124 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: src/sanity/extract.json
+export type ClientReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "client";
+};
+
+export type WorkCategoryReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "workCategory";
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  client: ClientReference;
+  shootTitle?: string;
+  shootMonth:
+    | "january"
+    | "february"
+    | "march"
+    | "april"
+    | "may"
+    | "june"
+    | "july"
+    | "august"
+    | "september"
+    | "october"
+    | "november"
+    | "december";
+  shootYear: number;
+  slug: Slug;
+  category: WorkCategoryReference;
+  credits?: Array<string>;
+  instagramUrl?: string;
+  coverImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  coverAlt: string;
+  gallery: Array<
+    {
+      _key: string;
+    } & ProjectImage
+  >;
+  order?: number;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
+export type ProjectImage = {
+  _type: "projectImage";
+  mediaType: "image" | "video";
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  video?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
+  alt?: string;
+};
+
+export type Client = {
+  _id: string;
+  _type: "client";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: Slug;
 };
 
 export type WorkCategory = {
@@ -44,28 +157,6 @@ export type WorkCategory = {
     _type: "previewImage";
     _key: string;
   }>;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -166,11 +257,17 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | ClientReference
+  | WorkCategoryReference
   | SanityImageAssetReference
-  | WorkCategory
+  | Project
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | SanityFileAssetReference
+  | ProjectImage
+  | Client
+  | WorkCategory
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -179,3 +276,67 @@ export type AllSanitySchemaTypes =
   | SanityAssetSourceData
   | SanityImageAsset
   | Geopoint;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: WORK_CATEGORIES_QUERY
+// Query: *[_type == "workCategory" && isVisible == true]    | order(order asc, title asc) {      _id,      title,      "slug": slug.current,      order,      "previewImages": previewImages[0...4] {        alt,        "url": image.asset->url,        "width": image.asset->metadata.dimensions.width,        "height": image.asset->metadata.dimensions.height,        "blurDataURL": image.asset->metadata.lqip      }    }
+export type WORK_CATEGORIES_QUERY_RESULT = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  order: number;
+  previewImages: Array<{
+    alt: string;
+    url: string | null;
+    width: number | null;
+    height: number | null;
+    blurDataURL: string | null;
+  }>;
+}>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: PROJECT_BY_SLUG_QUERY
+// Query: *[_type == "project" && slug.current == $slug][0] {    _id,    "slug": slug.current,    "category": category->title,    shootMonth,    shootYear,    "client": client->name,    instagramUrl,    credits,    shootTitle,    gallery[] {      mediaType,      "image": image.asset-> {        url,        "width": metadata.dimensions.width,        "height": metadata.dimensions.height,        "blurDataURL": metadata.lqip      },      "video": video.asset->url,      alt    }  }
+export type PROJECT_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  slug: string;
+  category: string;
+  shootMonth:
+    | "april"
+    | "august"
+    | "december"
+    | "february"
+    | "january"
+    | "july"
+    | "june"
+    | "march"
+    | "may"
+    | "november"
+    | "october"
+    | "september";
+  shootYear: number;
+  client: string;
+  instagramUrl: string | null;
+  credits: Array<string> | null;
+  shootTitle: string | null;
+  gallery: Array<{
+    mediaType: "image" | "video";
+    image: {
+      url: string;
+      width: number | null;
+      height: number | null;
+      blurDataURL: string | null;
+    } | null;
+    video: string | null;
+    alt: string | null;
+  }>;
+} | null;
+
+// Query TypeMap
+import "@sanity/client";
+declare module "@sanity/client" {
+  interface SanityQueries {
+    '\n  *[_type == "workCategory" && isVisible == true]\n    | order(order asc, title asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      order,\n      "previewImages": previewImages[0...4] {\n        alt,\n        "url": image.asset->url,\n        "width": image.asset->metadata.dimensions.width,\n        "height": image.asset->metadata.dimensions.height,\n        "blurDataURL": image.asset->metadata.lqip\n      }\n    }\n': WORK_CATEGORIES_QUERY_RESULT;
+    '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    "slug": slug.current,\n    "category": category->title,\n    shootMonth,\n    shootYear,\n    "client": client->name,\n    instagramUrl,\n    credits,\n    shootTitle,\n    gallery[] {\n      mediaType,\n      "image": image.asset-> {\n        url,\n        "width": metadata.dimensions.width,\n        "height": metadata.dimensions.height,\n        "blurDataURL": metadata.lqip\n      },\n      "video": video.asset->url,\n      alt\n    }\n  }\n': PROJECT_BY_SLUG_QUERY_RESULT;
+  }
+}

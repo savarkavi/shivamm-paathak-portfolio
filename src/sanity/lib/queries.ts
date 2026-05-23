@@ -32,3 +32,28 @@ export const WORK_CATEGORIES_QUERY = defineQuery(`
       }
     }
 `);
+
+export const PROJECT_BY_SLUG_QUERY = defineQuery(`
+  *[_type == "project" && slug.current == $slug][0] {
+    _id,
+    "slug": slug.current,
+    "category": category->title,
+    shootMonth,
+    shootYear,
+    "client": client->name,
+    instagramUrl,
+    credits,
+    shootTitle,
+    gallery[] {
+      mediaType,
+      "image": image.asset-> {
+        url,
+        "width": metadata.dimensions.width,
+        "height": metadata.dimensions.height,
+        "blurDataURL": metadata.lqip
+      },
+      "video": video.asset->url,
+      alt
+    }
+  }
+`);
