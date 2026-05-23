@@ -7,37 +7,11 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Observer } from "gsap/all";
 import { bebasNeue } from "@/fonts";
-import { FaInfoCircle, FaTimes } from "react-icons/fa";
+import { FaExternalLinkAlt, FaInfoCircle, FaTimes } from "react-icons/fa";
 import ProjectImageControls from "./ProjectImageControls";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP, Observer);
-
-const projectImages = [
-  {
-    src: "/test_project_1.jpg",
-    alt: "Project image 1",
-    width: 1356,
-    height: 1800,
-  },
-  {
-    src: "/test_project_2.jpg",
-    alt: "Project image 2",
-    width: 1356,
-    height: 1800,
-  },
-  {
-    src: "/test_project_3.jpg",
-    alt: "Project image 3",
-    width: 1356,
-    height: 1800,
-  },
-  {
-    src: "/test_project_4.jpg",
-    alt: "Project image 4",
-    width: 1356,
-    height: 1800,
-  },
-];
 
 const expandedClipPath = "inset(0% 0% 0% 0%)";
 const collapsedClipPath = "inset(100% 0% 0% 0%)";
@@ -63,12 +37,22 @@ type ProjectImage = {
   height: number;
 };
 
+export type ProjectInfo = {
+  category: string;
+  dateCreated: string;
+  shotFor: string;
+  seeOn: string | null;
+  credits: string | null;
+};
+
 type ProjectImageSequenceProps = {
-  images?: ProjectImage[];
+  images: ProjectImage[];
+  projectInfo?: ProjectInfo;
 };
 
 const ProjectImageSequence = ({
-  images = projectImages,
+  images,
+  projectInfo,
 }: ProjectImageSequenceProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -314,15 +298,40 @@ const ProjectImageSequence = ({
                 }}
               />
             </div>
-            <div className="grid gap-5">
-              <ProjectDetail label="Project category" value="Editorial" />
-              <ProjectDetail label="Date created" value="2026" />
-              <ProjectDetail label="Shot for" value="Lakme Fashion" />
-              <ProjectDetail label="See on" value="Instagram" />
+            <div className="grid gap-5 text-base font-light">
               <ProjectDetail
-                label="Credits"
-                value="Shivamm Paathak / Amita Aggarwal / Anu Ahuja"
+                label="Project category"
+                value={projectInfo?.category || "Editorial"}
               />
+              <ProjectDetail
+                label="Date created"
+                value={projectInfo?.dateCreated || "2026"}
+              />
+              <ProjectDetail
+                label="Shot for"
+                value={projectInfo?.shotFor || "Lakme Fashion"}
+              />
+              {(projectInfo?.seeOn || !projectInfo) && (
+                <div>
+                  <p>See on:</p>
+                  <Link
+                    href={projectInfo?.seeOn || "#"}
+                    className="underline"
+                    target="_blank"
+                  >
+                    Instagram <FaExternalLinkAlt className="inline size-3" />
+                  </Link>
+                </div>
+              )}
+              {(projectInfo?.credits || !projectInfo) && (
+                <ProjectDetail
+                  label="Credits"
+                  value={
+                    projectInfo?.credits ||
+                    "Shivamm Paathak / Amita Aggarwal / Anu Ahuja"
+                  }
+                />
+              )}
             </div>
           </div>
         </div>
