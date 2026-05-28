@@ -1,10 +1,113 @@
 "use client";
 
+import { useRef } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { MdLocationPin } from "react-icons/md";
 import TransitionLink from "./TransitionLink";
 import { useHeroScene } from "@/components/sections/hero/HeroSceneContext";
-import Link from "next/link";
+
+gsap.registerPlugin(useGSAP);
+
+type AnimatedLabelProps = {
+  label: string;
+  className?: string;
+};
+
+const AnimatedHeaderLabel = ({ label, className }: AnimatedLabelProps) => {
+  const rootRef = useRef<HTMLSpanElement>(null);
+
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      if (!root) return;
+
+      const originals = root.querySelectorAll<HTMLElement>(
+        "[data-char-original]",
+      );
+      const duplicates = root.querySelectorAll<HTMLElement>(
+        "[data-char-duplicate]",
+      );
+
+      gsap.set(originals, { yPercent: 0 });
+      gsap.set(duplicates, { yPercent: 100 });
+
+      const animateIn = () => {
+        gsap.killTweensOf([originals, duplicates]);
+
+        gsap.to(originals, {
+          yPercent: -100,
+          duration: 0.45,
+          stagger: 0.03,
+          ease: "power2.out",
+        });
+
+        gsap.to(duplicates, {
+          yPercent: 0,
+          duration: 0.45,
+          stagger: 0.03,
+          ease: "power2.out",
+        });
+      };
+
+      const animateOut = () => {
+        gsap.killTweensOf([originals, duplicates]);
+
+        gsap.to(originals, {
+          yPercent: 0,
+          duration: 0.45,
+          stagger: 0.03,
+          ease: "power2.out",
+        });
+
+        gsap.to(duplicates, {
+          yPercent: 100,
+          duration: 0.45,
+          stagger: 0.03,
+          ease: "power2.out",
+        });
+      };
+
+      root.addEventListener("mouseenter", animateIn);
+      root.addEventListener("mouseleave", animateOut);
+
+      return () => {
+        root.removeEventListener("mouseenter", animateIn);
+        root.removeEventListener("mouseleave", animateOut);
+      };
+    },
+    { scope: rootRef },
+  );
+
+  return (
+    <span
+      ref={rootRef}
+      className={`inline-flex items-center ${className ?? ""}`}
+      aria-label={label}
+    >
+      {Array.from(label).map((char, index) => {
+        const value = char === " " ? "\u00A0" : char;
+
+        return (
+          <span
+            key={`${char}-${index}`}
+            className="relative inline-block overflow-hidden align-top"
+            aria-hidden="true"
+          >
+            <span data-char-original className="block">
+              {value}
+            </span>
+            <span data-char-duplicate className="absolute inset-0 block">
+              {value}
+            </span>
+          </span>
+        );
+      })}
+    </span>
+  );
+};
 
 const Header = () => {
   const { isGlyphScene, toggleScene } = useHeroScene();
@@ -17,7 +120,7 @@ const Header = () => {
         isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"
       } uppercase lg:fixed lg:flex lg:px-6`}
     >
-      <div className="-ml-2 flex items-center">
+      <div className="-ml-2 flex items-center select-none">
         <div>
           {isHome ? (
             <p>
@@ -28,21 +131,20 @@ const Header = () => {
             </p>
           ) : (
             <Link href="/" className="flex items-center gap-1 text-base">
-              <span>←</span>
-              <span>Back Home</span>
+              <span aria-hidden="true">&larr;</span>
+              <AnimatedHeaderLabel label="Back Home" />
             </Link>
           )}
         </div>
       </div>
-      <TransitionLink href="/archive">
-        <p className="text-base">[Works]</p>
+      <TransitionLink href="/archive" className="text-base">
+        <AnimatedHeaderLabel label="[Works]" />
       </TransitionLink>
-      <TransitionLink href="/about">
-        <p className="text-base">[Profile]</p>
+      <TransitionLink href="/about" className="text-base">
+        <AnimatedHeaderLabel label="[Profile]" />
       </TransitionLink>
-
-      <TransitionLink href="#">
-        <p className="text-base">[Store]</p>
+      <TransitionLink href="#" className="text-base">
+        <AnimatedHeaderLabel label="[Store]" />
       </TransitionLink>
       {isHome && (
         <button
