@@ -57,3 +57,19 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
     }
   }
 `);
+
+export type CategoryProject = {
+  _id: string;
+  projectId: string;
+  imageUrl: string;
+  altText: string;
+};
+
+export const PROJECTS_BY_CATEGORY_QUERY = defineQuery(`
+  *[_type == "project" && category->slug.current == $category] | order(order asc, _createdAt desc) {
+    _id,
+    "projectId": slug.current,
+    "imageUrl": coverImage.asset->url,
+    "altText": coverAlt
+  }
+`);

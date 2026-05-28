@@ -1,4 +1,6 @@
 import Category from "@/components/sections/category";
+import { client } from "@/sanity/lib/client";
+import { PROJECTS_BY_CATEGORY_QUERY, type CategoryProject } from "@/sanity/lib/queries";
 
 type CategoryPageProps = {
   params: Promise<{
@@ -15,6 +17,7 @@ const formatCategoryName = (category: string) =>
 
 const Page = async ({ params }: CategoryPageProps) => {
   const { category } = await params;
+  const projects = await client.fetch<CategoryProject[]>(PROJECTS_BY_CATEGORY_QUERY, { category });
 
   return (
     <div className="min-h-screen bg-black">
@@ -27,7 +30,7 @@ const Page = async ({ params }: CategoryPageProps) => {
           pointerEvents: "none",
         }}
       ></div>
-      <Category categoryName={formatCategoryName(category)} />
+      <Category categoryName={formatCategoryName(category)} projects={projects} />
     </div>
   );
 };

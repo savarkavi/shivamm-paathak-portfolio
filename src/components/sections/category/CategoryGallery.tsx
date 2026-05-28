@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import TransitionLink from "@/components/layout/TransitionLink";
-import { mockPhotos } from "@/lib/mockData";
+import { type CategoryProject } from "@/sanity/lib/queries";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
@@ -14,16 +14,7 @@ const TEST_IMAGE_COUNT = 20;
 const MAX_COLUMNS = 4;
 const MIN_PHOTOS_PER_STRIP = 5;
 
-type GalleryPhoto = (typeof mockPhotos)[number];
-
-const getTestPhotos = (count: number) => {
-  if (count <= 0) return [];
-
-  return Array.from(
-    { length: count },
-    (_, index) => mockPhotos[index % mockPhotos.length],
-  );
-};
+type GalleryPhoto = CategoryProject;
 
 const normalizeStripPhotos = (photos: GalleryPhoto[]) => {
   if (photos.length === 0) return [];
@@ -34,13 +25,24 @@ const normalizeStripPhotos = (photos: GalleryPhoto[]) => {
   );
 };
 
-const CategoryGallery = () => {
+type CategoryGalleryProps = {
+  projects: CategoryProject[];
+};
+
+const CategoryGallery = ({ projects }: CategoryGalleryProps) => {
   const horizontalRepeats = 3;
-  const photos = getTestPhotos(TEST_IMAGE_COUNT);
-  const columns = Math.min(MAX_COLUMNS, Math.max(1, photos.length));
+  
+  const displayPhotos = projects.length >= TEST_IMAGE_COUNT 
+    ? projects 
+    : Array.from(
+        { length: TEST_IMAGE_COUNT },
+        (_, index) => projects[index % projects.length]
+      );
+
+  const columns = Math.min(MAX_COLUMNS, Math.max(1, displayPhotos.length));
   const columnPhotos = Array.from({ length: columns }, (_, colIndex) =>
     normalizeStripPhotos(
-      photos.filter((_, photoIndex) => photoIndex % columns === colIndex),
+      displayPhotos.filter((_, photoIndex) => photoIndex % columns === colIndex),
     ),
   );
 
