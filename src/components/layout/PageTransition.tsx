@@ -1,8 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { inconsolata } from "@/fonts";
-import Image from "next/image";
+
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { usePathname } from "next/navigation";
@@ -89,7 +88,7 @@ const PageTransition = () => {
       >
         {/* Logo + Text at center */}
         <div className="flex flex-col items-center justify-center">
-          <div className="relative mb-2 h-20 w-20">
+          {/* <div className="relative mb-2 h-20 w-20">
             <Image
               src="/shivamm-logo.svg"
               alt="Shivamm Paathak Logo"
@@ -97,9 +96,9 @@ const PageTransition = () => {
               className="object-contain"
               priority
             />
-          </div>
+          </div> */}
           <p
-            className={`${inconsolata.className} text-center text-sm font-light tracking-[0.35em] text-white/80 uppercase`}
+            className={`text-center text-xl font-light tracking-[0.35em] text-white/80 uppercase`}
           >
             Shivamm Paathak Studios
           </p>
