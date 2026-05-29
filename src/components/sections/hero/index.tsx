@@ -27,7 +27,7 @@ const Hero = ({ aboutInfo }: HeroProps) => {
           key={scenePath}
           jsonFilePath={scenePath}
           scale={1}
-          dpi={1}
+          dpi={0.8}
           onLoad={() => setIsSceneLoaded(true)}
         />
       )}
