@@ -1,9 +1,14 @@
+import type { AboutPageContent } from "@/sanity/lib/queries";
 import About from "./About";
 
-const AboutSection = () => {
+type AboutSectionProps = {
+  aboutInfo?: AboutPageContent | null;
+};
+
+const AboutSection = ({ aboutInfo }: AboutSectionProps) => {
   return (
     <section className="min-h-screen">
-      <About />
+      <About aboutInfo={aboutInfo} />
     </section>
   );
 };

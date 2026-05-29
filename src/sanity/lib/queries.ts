@@ -73,3 +73,37 @@ export const PROJECTS_BY_CATEGORY_QUERY = defineQuery(`
     "altText": coverAlt
   }
 `);
+
+export type AboutPageContent = {
+  landingIntro: string;
+  aboutBio: string;
+  collaborationNote: string;
+  aboutImage: {
+    url: string;
+    width?: number;
+    height?: number;
+    blurDataURL?: string;
+  } | null;
+  aboutImageAlt: string;
+  instagramUrl?: string;
+  twitterUrl?: string;
+  email?: string;
+};
+
+export const ABOUT_PAGE_QUERY = defineQuery(`
+  *[_type == "aboutPage"][0] {
+    landingIntro,
+    aboutBio,
+    collaborationNote,
+    "aboutImage": aboutImage.asset-> {
+      url,
+      "width": metadata.dimensions.width,
+      "height": metadata.dimensions.height,
+      "blurDataURL": metadata.lqip
+    },
+    aboutImageAlt,
+    instagramUrl,
+    twitterUrl,
+    email
+  }
+`);

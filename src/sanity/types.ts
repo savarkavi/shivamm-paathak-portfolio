@@ -15,6 +15,51 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: src/sanity/extract.json
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  landingIntro: string;
+  aboutBio: string;
+  collaborationNote: string;
+  aboutImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  aboutImageAlt: string;
+  instagramUrl?: string;
+  twitterUrl?: string;
+  email?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
 export type ClientReference = {
   _ref: string;
   _type: "reference";
@@ -27,13 +72,6 @@ export type WorkCategoryReference = {
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "workCategory";
-};
-
-export type SanityImageAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
 export type Project = {
@@ -76,22 +114,6 @@ export type Project = {
     } & ProjectImage
   >;
   order?: number;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
 };
 
 export type Slug = {
@@ -257,12 +279,13 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | ClientReference
-  | WorkCategoryReference
   | SanityImageAssetReference
-  | Project
+  | AboutPage
   | SanityImageCrop
   | SanityImageHotspot
+  | ClientReference
+  | WorkCategoryReference
+  | Project
   | Slug
   | SanityFileAssetReference
   | ProjectImage
@@ -332,11 +355,42 @@ export type PROJECT_BY_SLUG_QUERY_RESULT = {
   }>;
 } | null;
 
+// Source: src/sanity/lib/queries.ts
+// Variable: PROJECTS_BY_CATEGORY_QUERY
+// Query: *[_type == "project" && category->slug.current == $category] | order(order asc, _createdAt desc) {    _id,    "projectId": slug.current,    "imageUrl": coverImage.asset->url,    "altText": coverAlt  }
+export type PROJECTS_BY_CATEGORY_QUERY_RESULT = Array<{
+  _id: string;
+  projectId: string;
+  imageUrl: string | null;
+  altText: string;
+}>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: ABOUT_PAGE_QUERY
+// Query: *[_type == "aboutPage"][0] {    landingIntro,    aboutBio,    collaborationNote,    "aboutImage": aboutImage.asset-> {      url,      "width": metadata.dimensions.width,      "height": metadata.dimensions.height,      "blurDataURL": metadata.lqip    },    aboutImageAlt,    instagramUrl,    twitterUrl,    email  }
+export type ABOUT_PAGE_QUERY_RESULT = {
+  landingIntro: string;
+  aboutBio: string;
+  collaborationNote: string;
+  aboutImage: {
+    url: string;
+    width: number | null;
+    height: number | null;
+    blurDataURL: string | null;
+  } | null;
+  aboutImageAlt: string;
+  instagramUrl: string | null;
+  twitterUrl: string | null;
+  email: string | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "workCategory" && isVisible == true]\n    | order(order asc, title asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      order,\n      "previewImages": previewImages[0...4] {\n        alt,\n        "url": image.asset->url,\n        "width": image.asset->metadata.dimensions.width,\n        "height": image.asset->metadata.dimensions.height,\n        "blurDataURL": image.asset->metadata.lqip\n      }\n    }\n': WORK_CATEGORIES_QUERY_RESULT;
     '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    "slug": slug.current,\n    "category": category->title,\n    shootMonth,\n    shootYear,\n    "client": client->name,\n    instagramUrl,\n    credits,\n    shootTitle,\n    gallery[] {\n      mediaType,\n      "image": image.asset-> {\n        url,\n        "width": metadata.dimensions.width,\n        "height": metadata.dimensions.height,\n        "blurDataURL": metadata.lqip\n      },\n      "video": video.asset->url,\n      alt\n    }\n  }\n': PROJECT_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "project" && category->slug.current == $category] | order(order asc, _createdAt desc) {\n    _id,\n    "projectId": slug.current,\n    "imageUrl": coverImage.asset->url,\n    "altText": coverAlt\n  }\n': PROJECTS_BY_CATEGORY_QUERY_RESULT;
+    '\n  *[_type == "aboutPage"][0] {\n    landingIntro,\n    aboutBio,\n    collaborationNote,\n    "aboutImage": aboutImage.asset-> {\n      url,\n      "width": metadata.dimensions.width,\n      "height": metadata.dimensions.height,\n      "blurDataURL": metadata.lqip\n    },\n    aboutImageAlt,\n    instagramUrl,\n    twitterUrl,\n    email\n  }\n': ABOUT_PAGE_QUERY_RESULT;
   }
 }

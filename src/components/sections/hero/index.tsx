@@ -1,12 +1,17 @@
 "use client";
 
+import type { AboutPageContent } from "@/sanity/lib/queries";
 import { useState } from "react";
 import UnicornScene from "unicornstudio-react/next";
 import HeroFooter from "./HeroFooter";
 import { useHeroScene } from "./HeroSceneContext";
 import LoadingScreen from "./LoadingScreen";
 
-const Hero = () => {
+type HeroProps = {
+  aboutInfo?: AboutPageContent | null;
+};
+
+const Hero = ({ aboutInfo }: HeroProps) => {
   const [isSceneLoaded, setIsSceneLoaded] = useState(false);
   const [canLoadHeroScene, setCanLoadHeroScene] = useState(false);
   const { isGlyphScene, scenePath } = useHeroScene();
@@ -26,7 +31,7 @@ const Hero = () => {
           onLoad={() => setIsSceneLoaded(true)}
         />
       )}
-      <HeroFooter isGlyphScene={isGlyphScene} />
+      <HeroFooter isGlyphScene={isGlyphScene} aboutInfo={aboutInfo} />
     </div>
   );
 };
