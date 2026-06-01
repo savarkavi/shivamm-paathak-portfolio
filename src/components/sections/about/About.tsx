@@ -1,7 +1,6 @@
 import { UNICORN_STUDIO_SDK_URL } from "@/lib/unicorn";
 import type { AboutPageContent } from "@/sanity/lib/queries";
 import Image from "next/image";
-import Link from "next/link";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import UnicornScene from "unicornstudio-react/next";
@@ -59,15 +58,7 @@ const About = ({ aboutInfo }: AboutProps) => {
               />
             )}
           </div>
-          <div className="flex flex-col gap-4">
-            <p>{content.collaborationNote}</p>
-            <Link
-              href="/about/bts"
-              className="text-white/60 capitalize underline"
-            >
-              Check out behind the scenes & shoots from Shivamm Paathak.
-            </Link>
-          </div>
+          <p>{content.collaborationNote}</p>
         </div>
         <div className="mt-auto flex w-full flex-col items-center gap-4 pt-12 text-center text-lg text-white xl:right-8 xl:left-8 xl:flex-row xl:justify-between xl:text-left">
           <div className="flex flex-col items-center gap-4 xl:flex-row xl:gap-6">

@@ -7,7 +7,12 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Observer } from "gsap/all";
 import { bebasNeue } from "@/fonts";
-import { FaExternalLinkAlt, FaInfoCircle, FaTimes } from "react-icons/fa";
+import {
+  FaCamera,
+  FaExternalLinkAlt,
+  FaInfoCircle,
+  FaTimes,
+} from "react-icons/fa";
 import ProjectImageControls from "./ProjectImageControls";
 import Link from "next/link";
 
@@ -48,11 +53,13 @@ export type ProjectInfo = {
 type ProjectImageSequenceProps = {
   images: ProjectImage[];
   projectInfo?: ProjectInfo;
+  btsHref?: string | null;
 };
 
 const ProjectImageSequence = ({
   images,
   projectInfo,
+  btsHref,
 }: ProjectImageSequenceProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -241,14 +248,35 @@ const ProjectImageSequence = ({
         ))}
       </div>
 
-      <button
-        type="button"
-        className="absolute right-4 bottom-4 z-10 hidden cursor-pointer items-center gap-3 border border-white/30 bg-black/25 px-8 py-2 text-sm font-semibold tracking-widest text-white uppercase backdrop-blur-md transition-all hover:border-white hover:bg-white hover:text-black active:scale-95 lg:flex"
-        onClick={() => setIsProjectInfoOpen(true)}
-      >
-        <span>Info</span>
-        <FaInfoCircle size={16} />
-      </button>
+      <div className="absolute right-4 bottom-4 z-10 hidden flex-col items-center gap-3 lg:flex">
+        {btsHref && (
+          <Link
+            href={btsHref}
+            className="flex items-center gap-3 border border-white/30 bg-black/25 px-8 py-2 text-sm font-semibold tracking-widest text-white uppercase backdrop-blur-md transition-all hover:border-white hover:bg-white hover:text-black active:scale-95"
+          >
+            <span>BTS</span>
+            <FaCamera size={16} />
+          </Link>
+        )}
+        <button
+          type="button"
+          className="flex cursor-pointer items-center gap-3 border border-white/30 bg-black/25 px-8 py-2 text-sm font-semibold tracking-widest text-white uppercase backdrop-blur-md transition-all hover:border-white hover:bg-white hover:text-black active:scale-95"
+          onClick={() => setIsProjectInfoOpen(true)}
+        >
+          <span>Info</span>
+          <FaInfoCircle size={16} />
+        </button>
+      </div>
+
+      {btsHref && (
+        <Link
+          href={btsHref}
+          aria-label="Open project behind the scenes"
+          className="absolute right-5 bottom-15 z-10 flex size-8 items-center justify-center text-white transition-opacity hover:opacity-70 lg:hidden"
+        >
+          <FaCamera size={16} />
+        </Link>
+      )}
 
       <div className="absolute right-5 bottom-4 left-5 z-10 flex items-center justify-between text-white lg:hidden">
         <div

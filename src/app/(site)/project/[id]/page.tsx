@@ -36,7 +36,15 @@ const Page = async ({ params }: ProjectPageProps) => {
     credits: project.credits?.join(" / ") || null,
   };
 
-  return <ProjectImageSequence images={images} projectInfo={projectInfo} />;
+  const btsHref = project.behindTheScenes?.length ? `/project/${id}/bts` : null;
+
+  return (
+    <ProjectImageSequence
+      images={images}
+      projectInfo={projectInfo}
+      btsHref={btsHref}
+    />
+  );
 };
 
 export default Page;

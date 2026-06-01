@@ -7,7 +7,7 @@ import MobileHeader from "./MobileHeader";
 const SiteChrome = () => {
   const pathname = usePathname();
 
-  if (pathname === "/about/bts") {
+  if (pathname.endsWith("/bts")) {
     return null;
   }
 
