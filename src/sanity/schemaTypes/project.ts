@@ -130,11 +130,10 @@ export const projectType = defineType({
       validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
-      name: "order",
-      title: "Display Order",
-      type: "number",
-      initialValue: 0,
-      validation: (Rule) => Rule.integer().min(0),
+      name: "behindTheScenes",
+      title: "Behind the scenes",
+      type: "array",
+      of: [{ type: "projectImage" }],
     }),
   ],
   preview: {

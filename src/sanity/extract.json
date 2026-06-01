@@ -533,10 +533,25 @@
         },
         "optional": false
       },
-      "order": {
+      "behindTheScenes": {
         "type": "objectAttribute",
         "value": {
-          "type": "number"
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "projectImage"
+            }
+          }
         },
         "optional": true
       }

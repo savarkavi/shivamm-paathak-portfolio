@@ -54,6 +54,17 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
       },
       "video": video.asset->url,
       alt
+    },
+    behindTheScenes[] {
+      mediaType,
+      "image": image.asset-> {
+        url,
+        "width": metadata.dimensions.width,
+        "height": metadata.dimensions.height,
+        "blurDataURL": metadata.lqip
+      },
+      "video": video.asset->url,
+      alt
     }
   }
 `);
@@ -66,7 +77,7 @@ export type CategoryProject = {
 };
 
 export const PROJECTS_BY_CATEGORY_QUERY = defineQuery(`
-  *[_type == "project" && category->slug.current == $category] | order(order asc, _createdAt desc) {
+  *[_type == "project" && category->slug.current == $category] | order(_createdAt desc) {
     _id,
     "projectId": slug.current,
     "imageUrl": coverImage.asset->url,
