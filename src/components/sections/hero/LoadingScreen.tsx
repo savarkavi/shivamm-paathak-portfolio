@@ -122,7 +122,7 @@ const LoadingScreen = ({ isLoaded, onIntroComplete }: LoadingScreenProps) => {
             transform: showIntroScene ? "translateY(38vh)" : "translateY(0)",
           }}
         >
-          Studios
+          Studio
         </p>
       </div>
     </div>

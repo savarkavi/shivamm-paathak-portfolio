@@ -97,9 +97,10 @@ const PageTransition = () => {
             />
           </div> */}
           <p
-            className={`text-center text-xl font-light tracking-[0.35em] text-white/80 uppercase`}
+            className={`text-center text-xl font-bold tracking-[0.35em] text-white uppercase`}
           >
-            Shivamm Paathak Studios
+            Shivamm Paathak{" "}
+            <span className="font-light text-white/80">Studio</span>
           </p>
         </div>
       </div>

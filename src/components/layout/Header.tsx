@@ -138,7 +138,7 @@ const Header = () => {
         </div>
       </div>
       <TransitionLink href="/archive" className="text-base">
-        <AnimatedHeaderLabel label="[Works]" />
+        <AnimatedHeaderLabel label="[Work]" />
       </TransitionLink>
       <TransitionLink href="/about" className="text-base">
         <AnimatedHeaderLabel label="[Profile]" />
