@@ -1,4 +1,4 @@
-import { chonburi } from "@/fonts";
+import { anton } from "@/fonts";
 import CategoryIndicator from "./CategoryIndicator";
 import type { WorkCategory } from "@/sanity/lib/queries";
 
@@ -11,7 +11,7 @@ const ArchiveFooter = ({ categories, activeCategory }: ArchiveFooterProps) => {
   return (
     <div className="pointer-events-none fixed bottom-0 left-0 z-50 flex w-full flex-col items-center justify-between gap-2 px-4 py-4 uppercase mix-blend-difference md:flex-row md:items-center md:gap-0 md:px-6 lg:items-end lg:mix-blend-normal">
       <h1
-        className={`${chonburi.className} text-glow scale=y-110 text-5xl md:text-7xl`}
+        className={`${anton.className} text-glow scale=y-110 text-5xl md:text-7xl`}
       >
         Archive
       </h1>

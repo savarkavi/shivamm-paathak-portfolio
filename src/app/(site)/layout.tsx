@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { flexiIBM } from "@/fonts";
+import { roboto } from "@/fonts";
 import { ReactLenis } from "lenis/react";
 import PageTransition from "../../components/layout/PageTransition";
 import SiteChrome from "../../components/layout/SiteChrome";
@@ -22,7 +22,7 @@ export default function SiteLayout({
 }) {
   return (
     <div
-      className={`${geistSans.variable} ${geistMono.variable} ${flexiIBM.className} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} antialiased`}
     >
       <HeroSceneProvider>
         <ReactLenis root />
