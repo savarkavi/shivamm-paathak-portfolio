@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getPaletteSync } from "colorthief";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -12,6 +12,8 @@ import {
   FaExternalLinkAlt,
   FaInfoCircle,
   FaTimes,
+  FaVolumeMute,
+  FaVolumeUp,
 } from "react-icons/fa";
 import ProjectImageControls from "./ProjectImageControls";
 import Link from "next/link";
@@ -35,11 +37,12 @@ const ProjectDetail = ({ label, value }: ProjectDetailProps) => (
   </div>
 );
 
-type ProjectImage = {
+export type ProjectMedia = {
+  type: "image" | "video";
   src: string;
   alt: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 };
 
 export type ProjectInfo = {
@@ -51,18 +54,19 @@ export type ProjectInfo = {
 };
 
 type ProjectImageSequenceProps = {
-  images: ProjectImage[];
+  media: ProjectMedia[];
   projectInfo?: ProjectInfo;
   btsHref?: string | null;
 };
 
 const ProjectImageSequence = ({
-  images,
+  media,
   projectInfo,
   btsHref,
 }: ProjectImageSequenceProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const activeIndexRef = useRef(0);
   const isAnimatingRef = useRef(false);
   const handleNextRef = useRef<() => void>(() => {});
@@ -70,11 +74,12 @@ const ProjectImageSequence = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const [firstImageColors, setFirstImageColors] = useState(fallbackColors);
   const [isProjectInfoOpen, setIsProjectInfoOpen] = useState(false);
+  const [mutedVideos, setMutedVideos] = useState<Record<string, boolean>>({});
 
-  const firstImage = images[0];
+  const firstMedia = media[0];
   const containerAspectRatio =
-    firstImage?.width && firstImage?.height
-      ? `${firstImage.width} / ${firstImage.height}`
+    firstMedia?.width && firstMedia?.height
+      ? `${firstMedia.width} / ${firstMedia.height}`
       : "1356 / 1800";
 
   const extractFirstImageGradient = (image: HTMLImageElement) => {
@@ -93,18 +98,40 @@ const ProjectImageSequence = ({
     }
   };
 
+  useEffect(() => {
+    videoRefs.current.forEach((video, index) => {
+      if (!video) return;
+
+      if (index === activeIndex) {
+        void video.play().catch(() => {});
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+  }, [activeIndex]);
+
+  const toggleVideoMute = (src: string) => {
+    setMutedVideos((currentMutedVideos) => ({
+      ...currentMutedVideos,
+      [src]: !(currentMutedVideos[src] ?? true),
+    }));
+  };
+
   useGSAP(
     () => {
-      const images = imageRefs.current.filter(Boolean) as HTMLDivElement[];
+      const mediaElements = imageRefs.current.filter(
+        Boolean,
+      ) as HTMLDivElement[];
 
-      if (!containerRef.current || images.length === 0) return;
+      if (!containerRef.current || mediaElements.length === 0) return;
 
-      gsap.set(images, {
+      gsap.set(mediaElements, {
         clipPath: collapsedClipPath,
         zIndex: 0,
       });
 
-      gsap.set(images[0], {
+      gsap.set(mediaElements[0], {
         clipPath: expandedClipPath,
         zIndex: 1,
       });
@@ -113,8 +140,8 @@ const ProjectImageSequence = ({
         if (isAnimatingRef.current) return;
 
         const currentIndex = activeIndexRef.current;
-        const nextIndex = (currentIndex + 1) % images.length;
-        const nextImage = images[nextIndex];
+        const nextIndex = (currentIndex + 1) % mediaElements.length;
+        const nextImage = mediaElements[nextIndex];
 
         isAnimatingRef.current = true;
 
@@ -125,7 +152,7 @@ const ProjectImageSequence = ({
 
         const timeline = gsap.timeline({
           onComplete: () => {
-            gsap.set(images[currentIndex], {
+            gsap.set(mediaElements[currentIndex], {
               clipPath: expandedClipPath,
               zIndex: 0,
             });
@@ -153,9 +180,9 @@ const ProjectImageSequence = ({
 
         const currentIndex = activeIndexRef.current;
         const previousIndex =
-          (currentIndex - 1 + images.length) % images.length;
-        const currentImage = images[currentIndex];
-        const previousImage = images[previousIndex];
+          (currentIndex - 1 + mediaElements.length) % mediaElements.length;
+        const currentImage = mediaElements[currentIndex];
+        const previousImage = mediaElements[previousIndex];
 
         isAnimatingRef.current = true;
 
@@ -216,34 +243,70 @@ const ProjectImageSequence = ({
         className={`${bebasNeue.className} absolute bottom-4 left-4 z-10 hidden flex-col items-end text-8xl leading-none text-white select-none lg:flex xl:text-8xl`}
       >
         <p>FL. {formatImageNumber(activeIndex)}</p>
-        <p>/ {String(images.length).padStart(2, "0")}</p>
+        <p>/ {String(media.length).padStart(2, "0")}</p>
       </div>
       <div
         className="absolute top-1/2 left-0 h-auto w-screen -translate-y-1/2 overflow-hidden bg-zinc-950 lg:inset-y-0 lg:top-0 lg:left-1/2 lg:h-dvh lg:w-auto lg:-translate-x-1/2 lg:translate-y-0"
         style={{ aspectRatio: containerAspectRatio }}
       >
-        {images.map((image, index) => (
+        {media.map((item, index) => (
           <div
-            key={image.src}
+            key={item.src}
             ref={(el) => {
               imageRefs.current[index] = el;
             }}
             className="absolute inset-0 flex items-center justify-center overflow-hidden bg-zinc-950 will-change-[clip-path]"
           >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              width={image.width}
-              height={image.height}
-              className="h-auto w-full object-cover object-center lg:h-dvh lg:w-auto"
-              priority={index === 0}
-              sizes="(max-width: 1024px) 100vw, 100vh"
-              onLoad={(event) => {
-                if (index === 0) {
-                  extractFirstImageGradient(event.currentTarget);
-                }
-              }}
-            />
+            {item.type === "image" ? (
+              <Image
+                src={item.src}
+                alt={item.alt}
+                width={item.width || 1356}
+                height={item.height || 1800}
+                className="h-auto w-full object-cover object-center lg:h-dvh lg:w-auto"
+                priority={index === 0}
+                sizes="(max-width: 1024px) 100vw, 100vh"
+                onLoad={(event) => {
+                  if (index === 0) {
+                    extractFirstImageGradient(event.currentTarget);
+                  }
+                }}
+              />
+            ) : (
+              <>
+                <video
+                  ref={(element) => {
+                    videoRefs.current[index] = element;
+                  }}
+                  src={item.src}
+                  aria-label={item.alt}
+                  className="h-auto w-full object-cover object-center lg:h-dvh lg:w-auto"
+                  loop
+                  muted={mutedVideos[item.src] ?? true}
+                  playsInline
+                  autoPlay={index === 0}
+                >
+                  {item.alt}
+                </video>
+                <button
+                  type="button"
+                  aria-label={
+                    mutedVideos[item.src] ?? true
+                      ? "Unmute video"
+                      : "Mute video"
+                  }
+                  className="absolute right-4 bottom-4 z-10 flex size-10 items-center justify-center border border-white/30 bg-black/40 text-white backdrop-blur-md transition-colors hover:bg-black/70"
+                  onClick={() => toggleVideoMute(item.src)}
+                  onPointerDown={(event) => event.stopPropagation()}
+                >
+                  {mutedVideos[item.src] ?? true ? (
+                    <FaVolumeMute size={16} />
+                  ) : (
+                    <FaVolumeUp size={16} />
+                  )}
+                </button>
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -283,7 +346,7 @@ const ProjectImageSequence = ({
           className={`${bebasNeue.className} flex items-center text-3xl font-bold`}
         >
           <p>FL. {formatImageNumber(activeIndex)}</p>
-          <p>/ {String(images.length).padStart(2, "0")}</p>
+          <p>/ {String(media.length).padStart(2, "0")}</p>
         </div>
 
         <button
