@@ -2,10 +2,10 @@ import { defineQuery } from "next-sanity";
 
 export type WorkCategoryPreviewImage = {
   alt: string;
-  url: string;
-  width?: number;
-  height?: number;
-  blurDataURL?: string;
+  url: string | null;
+  width?: number | null;
+  height?: number | null;
+  blurDataURL?: string | null;
 };
 
 export type WorkCategory = {
@@ -72,7 +72,7 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
 export type CategoryProject = {
   _id: string;
   projectId: string;
-  imageUrl: string;
+  imageUrl: string | null;
   altText: string;
 };
 
@@ -91,14 +91,14 @@ export type AboutPageContent = {
   collaborationNote: string;
   aboutImage: {
     url: string;
-    width?: number;
-    height?: number;
-    blurDataURL?: string;
+    width?: number | null;
+    height?: number | null;
+    blurDataURL?: string | null;
   } | null;
   aboutImageAlt: string;
-  instagramUrl?: string;
-  twitterUrl?: string;
-  email?: string;
+  instagramUrl?: string | null;
+  twitterUrl?: string | null;
+  email?: string | null;
 };
 
 export const ABOUT_PAGE_QUERY = defineQuery(`

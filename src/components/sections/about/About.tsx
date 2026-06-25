@@ -53,7 +53,7 @@ const About = ({ aboutInfo }: AboutProps) => {
                 fill
                 sizes="200px"
                 placeholder={content.aboutImage?.blurDataURL ? "blur" : "empty"}
-                blurDataURL={content.aboutImage?.blurDataURL}
+                blurDataURL={content.aboutImage?.blurDataURL ?? undefined}
                 className="object-cover"
               />
             )}
