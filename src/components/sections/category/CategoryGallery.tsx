@@ -59,13 +59,17 @@ const CategoryGallery = ({ projects }: CategoryGalleryProps) => {
           href={`/project/${photo.projectId}`}
           className="relative h-80 w-60 overflow-hidden bg-black hover:cursor-grab md:hover:cursor-pointer lg:h-100 lg:w-80 xl:h-160 xl:w-140"
         >
-          <Image
-            src={photo.imageUrl}
-            alt={photo.altText}
-            fill
-            className="object-cover opacity-80 grayscale-100 hover:grayscale-0"
-            priority={setKey === "repeat-0-col-0-set-1" && photoIndex < 2}
-          />
+          {photo.imageUrl ? (
+            <Image
+              src={photo.imageUrl}
+              alt={photo.altText}
+              fill
+              className="object-cover opacity-80 grayscale-100 hover:grayscale-0"
+              priority={setKey === "repeat-0-col-0-set-1" && photoIndex < 2}
+            />
+          ) : (
+            <div className="h-full w-full bg-zinc-800" />
+          )}
         </TransitionLink>
       ))}
     </div>

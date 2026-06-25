@@ -23,6 +23,14 @@ const Archive = ({ categories }: ArchiveProps) => {
     gsap.to(".middle-line", { height: "100%", duration: 0.7 });
   });
 
+  if (!categories || categories.length === 0) {
+    return (
+      <div className="relative flex min-h-screen w-full items-center justify-center bg-black text-white">
+        <p className="text-xl uppercase tracking-wider">No categories found</p>
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex min-h-screen w-full justify-center overflow-hidden bg-black py-8 text-4xl text-white">
       <CategoryIndicator
