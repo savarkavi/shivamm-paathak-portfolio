@@ -1,6 +1,7 @@
 import Category from "@/components/sections/category";
 import { sanityFetch } from "@/sanity/lib/live";
 import { PROJECTS_BY_CATEGORY_QUERY } from "@/sanity/lib/queries";
+import type { Metadata } from "next";
 
 type CategoryPageProps = {
   params: Promise<{
@@ -14,6 +15,15 @@ const formatCategoryName = (category: string) =>
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  const { category } = await params;
+  const formattedCategory = formatCategoryName(category);
+  return {
+    title: `${formattedCategory} | Shivamm Paathak`,
+    description: `Explore ${formattedCategory} photography projects by Shivamm Paathak.`,
+  };
+}
 
 const Page = async ({ params }: CategoryPageProps) => {
   const { category } = await params;

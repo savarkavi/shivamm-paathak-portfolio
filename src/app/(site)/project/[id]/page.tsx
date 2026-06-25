@@ -3,10 +3,31 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { PROJECT_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import ProjectImageSequence from "@/components/sections/project/ProjectImageSequence";
 import type { ProjectMedia } from "@/components/sections/project/ProjectImageSequence";
+import type { Metadata } from "next";
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const { data: project } = await sanityFetch({
+    query: PROJECT_BY_SLUG_QUERY,
+    params: { slug: id },
+  });
+
+  if (!project) {
+    return {
+      title: "Project Not Found | Shivamm Paathak",
+    };
+  }
+
+  const clientName = project.client || "Client Work";
+  return {
+    title: `${clientName} | Shivamm Paathak`,
+    description: `Photography project for ${clientName} by Shivamm Paathak.`,
+  };
+}
 
 const Page = async ({ params }: ProjectPageProps) => {
   const { id } = await params;
