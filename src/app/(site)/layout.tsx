@@ -4,6 +4,7 @@ import { ReactLenis } from "lenis/react";
 import PageTransition from "../../components/layout/PageTransition";
 import SiteChrome from "../../components/layout/SiteChrome";
 import { HeroSceneProvider } from "@/components/sections/hero/HeroSceneContext";
+import { SanityLive } from "@/sanity/lib/live";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function SiteLayout({
         <PageTransition />
         <SiteChrome />
         {children}
+        <SanityLive />
       </HeroSceneProvider>
     </div>
   );

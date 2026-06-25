@@ -1,14 +1,13 @@
 import AboutSection from "@/components/sections/about";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import {
   ABOUT_PAGE_QUERY,
-  type AboutPageContent,
 } from "@/sanity/lib/queries";
 
 const Page = async () => {
-  const aboutInfo = await client.fetch<AboutPageContent | null>(
-    ABOUT_PAGE_QUERY,
-  );
+  const { data: aboutInfo } = await sanityFetch({
+    query: ABOUT_PAGE_QUERY,
+  });
 
   return (
     <div>
