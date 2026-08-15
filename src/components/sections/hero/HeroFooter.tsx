@@ -18,11 +18,11 @@ const HeroFooter = ({ isGlyphScene, aboutInfo }: HeroFooterProps) => {
       } lg:flex-row lg:items-end`}
     >
       <div
-        className={`intro-text w-full text-center text-[0.6rem] leading-tight tracking-wide uppercase lg:max-w-2xs lg:text-justify xl:max-w-sm xl:text-xs 2xl:max-w-md 2xl:text-base`}
+        className={`intro-text w-full text-center text-[0.6rem] leading-tight tracking-wide uppercase lg:max-w-2xs lg:text-justify xl:max-w-sm xl:text-xs`}
       >
         <p>{aboutInfo?.landingIntro || fallbackLandingIntro}</p>
       </div>
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-2 text-sm">
         <div className="flex items-center gap-4">
           {aboutInfo?.instagramUrl && (
             <a href={aboutInfo.instagramUrl} target="_blank" rel="noreferrer">

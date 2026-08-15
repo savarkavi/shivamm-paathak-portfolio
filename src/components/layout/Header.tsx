@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
@@ -140,13 +141,20 @@ const Header = () => {
       <TransitionLink href="/archive" className="text-base">
         <AnimatedHeaderLabel label="[Work]" />
       </TransitionLink>
+      <Image
+        src="/shivamm-paathak-logo.png"
+        alt="Shivamm Paathak logo"
+        width={32}
+        height={32}
+        className="h-8 w-8"
+      />
       <TransitionLink href="/about" className="text-base">
         <AnimatedHeaderLabel label="[Profile]" />
       </TransitionLink>
       <TransitionLink href="#" className="text-base">
         <AnimatedHeaderLabel label="[Store]" />
       </TransitionLink>
-      {isHome && (
+      {/* {isHome && (
         <button
           type="button"
           onClick={toggleScene}
@@ -163,7 +171,7 @@ const Header = () => {
             />
           </span>
         </button>
-      )}
+      )} */}
     </div>
   );
 };
