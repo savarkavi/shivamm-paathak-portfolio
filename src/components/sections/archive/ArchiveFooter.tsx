@@ -22,7 +22,7 @@ const ArchiveFooter = ({ categories, activeCategory }: ArchiveFooterProps) => {
         className="top-1/2 hidden md:absolute md:left-1/2 md:flex md:w-auto md:-translate-1/2 md:gap-6 md:text-xl lg:gap-10"
       />
 
-      <p className="text-glow max-w-100 text-center text-xs select-none lg:text-right">
+      <p className="text-glow max-w-100 text-center text-xs select-none lg:text-right lg:text-sm">
         Scroll to experience the collection of past works and visual
         explorations. These works document Shivamm’s journey.
       </p>
