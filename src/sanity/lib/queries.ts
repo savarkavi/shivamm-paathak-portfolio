@@ -47,9 +47,7 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
     gallery[] {
       "mediaType": select(
         _type == "galleryImage" => "image",
-        _type == "galleryVideo" => "video",
-        _type == "projectImage" && mediaType == "image" => "image",
-        _type == "projectImage" && mediaType == "video" => "video"
+        _type == "galleryVideo" => "video"
       ),
       "image": select(
         _type == "galleryImage" => asset-> {
@@ -57,30 +55,17 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
           "width": metadata.dimensions.width,
           "height": metadata.dimensions.height,
           "blurDataURL": metadata.lqip
-        },
-        _type == "projectImage" && mediaType == "image" => image.asset-> {
-          url,
-          "width": metadata.dimensions.width,
-          "height": metadata.dimensions.height,
-          "blurDataURL": metadata.lqip
         }
       ),
       "video": select(
-        _type == "galleryVideo" => asset->url,
-        _type == "projectImage" && mediaType == "video" => video.asset->url
+        _type == "galleryVideo" => asset->url
       ),
-      "alt": select(
-        _type == "galleryImage" => asset->altText,
-        _type == "galleryVideo" => asset->altText,
-        _type == "projectImage" => alt
-      )
+      alt
     },
     behindTheScenes[] {
       "mediaType": select(
         _type == "btsImage" => "image",
-        _type == "btsVideo" => "video",
-        _type == "projectImage" && mediaType == "image" => "image",
-        _type == "projectImage" && mediaType == "video" => "video"
+        _type == "btsVideo" => "video"
       ),
       "image": select(
         _type == "btsImage" => asset-> {
@@ -88,23 +73,12 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
           "width": metadata.dimensions.width,
           "height": metadata.dimensions.height,
           "blurDataURL": metadata.lqip
-        },
-        _type == "projectImage" && mediaType == "image" => image.asset-> {
-          url,
-          "width": metadata.dimensions.width,
-          "height": metadata.dimensions.height,
-          "blurDataURL": metadata.lqip
         }
       ),
       "video": select(
-        _type == "btsVideo" => asset->url,
-        _type == "projectImage" && mediaType == "video" => video.asset->url
+        _type == "btsVideo" => asset->url
       ),
-      "alt": select(
-        _type == "btsImage" => asset->altText,
-        _type == "btsVideo" => asset->altText,
-        _type == "projectImage" => alt
-      )
+      alt
     }
   }
 `);

@@ -134,7 +134,16 @@ export const projectType = defineType({
           options: {
             hotspot: true,
           },
-          validation: (Rule) => Rule.required(),
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alt Text",
+              type: "string",
+              description:
+                "Optional. Describe the image for accessibility when needed.",
+            }),
+          ],
+          validation: (Rule) => Rule.required().assetRequired(),
         }),
         defineArrayMember({
           name: "galleryVideo",
@@ -143,7 +152,16 @@ export const projectType = defineType({
           options: {
             accept: "video/*",
           },
-          validation: (Rule) => Rule.required(),
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alt Text",
+              type: "string",
+              description:
+                "Optional. Add accessible fallback text for this video.",
+            }),
+          ],
+          validation: (Rule) => Rule.required().assetRequired(),
         }),
       ],
       options: {
@@ -163,6 +181,16 @@ export const projectType = defineType({
           options: {
             hotspot: true,
           },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alt Text",
+              type: "string",
+              description:
+                "Optional. Describe the image for accessibility when needed.",
+            }),
+          ],
+          validation: (Rule) => Rule.required().assetRequired(),
         }),
         defineArrayMember({
           name: "btsVideo",
@@ -171,9 +199,17 @@ export const projectType = defineType({
           options: {
             accept: "video/*",
           },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alt Text",
+              type: "string",
+              description:
+                "Optional. Add accessible fallback text for this video.",
+            }),
+          ],
+          validation: (Rule) => Rule.required().assetRequired(),
         }),
-        // Keep supporting existing BTS entries created with the old object shape.
-        defineArrayMember({ type: "projectImage" }),
       ],
       options: {
         layout: "grid",
