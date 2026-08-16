@@ -76,15 +76,35 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
       )
     },
     behindTheScenes[] {
-      mediaType,
-      "image": image.asset-> {
-        url,
-        "width": metadata.dimensions.width,
-        "height": metadata.dimensions.height,
-        "blurDataURL": metadata.lqip
-      },
-      "video": video.asset->url,
-      alt
+      "mediaType": select(
+        _type == "btsImage" => "image",
+        _type == "btsVideo" => "video",
+        _type == "projectImage" && mediaType == "image" => "image",
+        _type == "projectImage" && mediaType == "video" => "video"
+      ),
+      "image": select(
+        _type == "btsImage" => asset-> {
+          url,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height,
+          "blurDataURL": metadata.lqip
+        },
+        _type == "projectImage" && mediaType == "image" => image.asset-> {
+          url,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height,
+          "blurDataURL": metadata.lqip
+        }
+      ),
+      "video": select(
+        _type == "btsVideo" => asset->url,
+        _type == "projectImage" && mediaType == "video" => video.asset->url
+      ),
+      "alt": select(
+        _type == "btsImage" => asset->altText,
+        _type == "btsVideo" => asset->altText,
+        _type == "projectImage" => alt
+      )
     }
   }
 `);

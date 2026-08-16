@@ -155,7 +155,29 @@ export const projectType = defineType({
       name: "behindTheScenes",
       title: "Behind the scenes",
       type: "array",
-      of: [{ type: "projectImage" }],
+      of: [
+        defineArrayMember({
+          name: "btsImage",
+          title: "Image",
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        }),
+        defineArrayMember({
+          name: "btsVideo",
+          title: "Video",
+          type: "file",
+          options: {
+            accept: "video/*",
+          },
+        }),
+        // Keep supporting existing BTS entries created with the old object shape.
+        defineArrayMember({ type: "projectImage" }),
+      ],
+      options: {
+        layout: "grid",
+      },
     }),
   ],
   preview: {

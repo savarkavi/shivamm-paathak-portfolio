@@ -45,18 +45,27 @@ const Page = async ({ params }: ProjectBtsPageProps) => {
 
   const stories = (project.behindTheScenes || []).flatMap<BtsStory>(
     (item, index) => {
-      const src =
-        item.mediaType === "image" ? item.image?.url : item.video || undefined;
+      if (item.mediaType === "image" && item.image?.url) {
+        return [
+          {
+            mediaType: "image" as const,
+            src: item.image.url,
+            title: item.alt || `Behind the scenes ${index + 1}`,
+          },
+        ];
+      }
 
-      return src
-        ? [
-            {
-              mediaType: item.mediaType,
-              src,
-              title: item.alt || `Behind the scenes ${index + 1}`,
-            },
-          ]
-        : [];
+      if (item.mediaType === "video" && item.video) {
+        return [
+          {
+            mediaType: "video" as const,
+            src: item.video,
+            title: item.alt || `Behind the scenes ${index + 1}`,
+          },
+        ];
+      }
+
+      return [];
     },
   );
 

@@ -132,9 +132,23 @@ export type Project = {
       }
   >;
   behindTheScenes?: Array<
-    {
-      _key: string;
-    } & ProjectImage
+    | {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "btsImage";
+        _key: string;
+      }
+    | {
+        asset?: SanityFileAssetReference;
+        media?: unknown;
+        _type: "btsVideo";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & ProjectImage)
   >;
 };
 
@@ -334,7 +348,7 @@ export type WORK_CATEGORIES_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PROJECT_BY_SLUG_QUERY
-// Query: *[_type == "project" && slug.current == $slug][0] {    _id,    "slug": slug.current,    "category": category->title,    shootMonth,    shootYear,    "client": client->name,    instagramUrl,    credits,    shootTitle,    gallery[] {      "mediaType": select(        _type == "galleryImage" => "image",        _type == "galleryVideo" => "video",        _type == "projectImage" && mediaType == "image" => "image",        _type == "projectImage" && mediaType == "video" => "video"      ),      "image": select(        _type == "galleryImage" => asset-> {          url,          "width": metadata.dimensions.width,          "height": metadata.dimensions.height,          "blurDataURL": metadata.lqip        },        _type == "projectImage" && mediaType == "image" => image.asset-> {          url,          "width": metadata.dimensions.width,          "height": metadata.dimensions.height,          "blurDataURL": metadata.lqip        }      ),      "video": select(        _type == "galleryVideo" => asset->url,        _type == "projectImage" && mediaType == "video" => video.asset->url      ),      "alt": select(        _type == "galleryImage" => asset->altText,        _type == "galleryVideo" => asset->altText,        _type == "projectImage" => alt      )    },    behindTheScenes[] {      mediaType,      "image": image.asset-> {        url,        "width": metadata.dimensions.width,        "height": metadata.dimensions.height,        "blurDataURL": metadata.lqip      },      "video": video.asset->url,      alt    }  }
+// Query: *[_type == "project" && slug.current == $slug][0] {    _id,    "slug": slug.current,    "category": category->title,    shootMonth,    shootYear,    "client": client->name,    instagramUrl,    credits,    shootTitle,    gallery[] {      "mediaType": select(        _type == "galleryImage" => "image",        _type == "galleryVideo" => "video",        _type == "projectImage" && mediaType == "image" => "image",        _type == "projectImage" && mediaType == "video" => "video"      ),      "image": select(        _type == "galleryImage" => asset-> {          url,          "width": metadata.dimensions.width,          "height": metadata.dimensions.height,          "blurDataURL": metadata.lqip        },        _type == "projectImage" && mediaType == "image" => image.asset-> {          url,          "width": metadata.dimensions.width,          "height": metadata.dimensions.height,          "blurDataURL": metadata.lqip        }      ),      "video": select(        _type == "galleryVideo" => asset->url,        _type == "projectImage" && mediaType == "video" => video.asset->url      ),      "alt": select(        _type == "galleryImage" => asset->altText,        _type == "galleryVideo" => asset->altText,        _type == "projectImage" => alt      )    },    behindTheScenes[] {      "mediaType": select(        _type == "btsImage" => "image",        _type == "btsVideo" => "video",        _type == "projectImage" && mediaType == "image" => "image",        _type == "projectImage" && mediaType == "video" => "video"      ),      "image": select(        _type == "btsImage" => asset-> {          url,          "width": metadata.dimensions.width,          "height": metadata.dimensions.height,          "blurDataURL": metadata.lqip        },        _type == "projectImage" && mediaType == "image" => image.asset-> {          url,          "width": metadata.dimensions.width,          "height": metadata.dimensions.height,          "blurDataURL": metadata.lqip        }      ),      "video": select(        _type == "btsVideo" => asset->url,        _type == "projectImage" && mediaType == "video" => video.asset->url      ),      "alt": select(        _type == "btsImage" => asset->altText,        _type == "btsVideo" => asset->altText,        _type == "projectImage" => alt      )    }  }
 export type PROJECT_BY_SLUG_QUERY_RESULT = {
   _id: string;
   slug: string;
@@ -376,17 +390,36 @@ export type PROJECT_BY_SLUG_QUERY_RESULT = {
         alt: string | null;
       }
   >;
-  behindTheScenes: Array<{
-    mediaType: "image" | "video";
-    image: {
-      url: string;
-      width: number | null;
-      height: number | null;
-      blurDataURL: string | null;
-    } | null;
-    video: string | null;
-    alt: string | null;
-  }> | null;
+  behindTheScenes: Array<
+    | {
+        mediaType: "video";
+        image: null;
+        video: string | null;
+        alt: string | null;
+      }
+    | {
+        mediaType: "image" | "video";
+        image: {
+          url: string;
+          width: number | null;
+          height: number | null;
+          blurDataURL: string | null;
+        } | null;
+        video: string | null;
+        alt: string | null;
+      }
+    | {
+        mediaType: "image";
+        image: {
+          url: string;
+          width: number | null;
+          height: number | null;
+          blurDataURL: string | null;
+        } | null;
+        video: null;
+        alt: string | null;
+      }
+  > | null;
 } | null;
 
 // Source: src/sanity/lib/queries.ts
@@ -423,7 +456,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "workCategory" && isVisible == true]\n    | order(order asc, title asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      order,\n      "previewImages": previewImages[0...4] {\n        alt,\n        "url": image.asset->url,\n        "width": image.asset->metadata.dimensions.width,\n        "height": image.asset->metadata.dimensions.height,\n        "blurDataURL": image.asset->metadata.lqip\n      }\n    }\n': WORK_CATEGORIES_QUERY_RESULT;
-    '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    "slug": slug.current,\n    "category": category->title,\n    shootMonth,\n    shootYear,\n    "client": client->name,\n    instagramUrl,\n    credits,\n    shootTitle,\n    gallery[] {\n      "mediaType": select(\n        _type == "galleryImage" => "image",\n        _type == "galleryVideo" => "video",\n        _type == "projectImage" && mediaType == "image" => "image",\n        _type == "projectImage" && mediaType == "video" => "video"\n      ),\n      "image": select(\n        _type == "galleryImage" => asset-> {\n          url,\n          "width": metadata.dimensions.width,\n          "height": metadata.dimensions.height,\n          "blurDataURL": metadata.lqip\n        },\n        _type == "projectImage" && mediaType == "image" => image.asset-> {\n          url,\n          "width": metadata.dimensions.width,\n          "height": metadata.dimensions.height,\n          "blurDataURL": metadata.lqip\n        }\n      ),\n      "video": select(\n        _type == "galleryVideo" => asset->url,\n        _type == "projectImage" && mediaType == "video" => video.asset->url\n      ),\n      "alt": select(\n        _type == "galleryImage" => asset->altText,\n        _type == "galleryVideo" => asset->altText,\n        _type == "projectImage" => alt\n      )\n    },\n    behindTheScenes[] {\n      mediaType,\n      "image": image.asset-> {\n        url,\n        "width": metadata.dimensions.width,\n        "height": metadata.dimensions.height,\n        "blurDataURL": metadata.lqip\n      },\n      "video": video.asset->url,\n      alt\n    }\n  }\n': PROJECT_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "project" && slug.current == $slug][0] {\n    _id,\n    "slug": slug.current,\n    "category": category->title,\n    shootMonth,\n    shootYear,\n    "client": client->name,\n    instagramUrl,\n    credits,\n    shootTitle,\n    gallery[] {\n      "mediaType": select(\n        _type == "galleryImage" => "image",\n        _type == "galleryVideo" => "video",\n        _type == "projectImage" && mediaType == "image" => "image",\n        _type == "projectImage" && mediaType == "video" => "video"\n      ),\n      "image": select(\n        _type == "galleryImage" => asset-> {\n          url,\n          "width": metadata.dimensions.width,\n          "height": metadata.dimensions.height,\n          "blurDataURL": metadata.lqip\n        },\n        _type == "projectImage" && mediaType == "image" => image.asset-> {\n          url,\n          "width": metadata.dimensions.width,\n          "height": metadata.dimensions.height,\n          "blurDataURL": metadata.lqip\n        }\n      ),\n      "video": select(\n        _type == "galleryVideo" => asset->url,\n        _type == "projectImage" && mediaType == "video" => video.asset->url\n      ),\n      "alt": select(\n        _type == "galleryImage" => asset->altText,\n        _type == "galleryVideo" => asset->altText,\n        _type == "projectImage" => alt\n      )\n    },\n    behindTheScenes[] {\n      "mediaType": select(\n        _type == "btsImage" => "image",\n        _type == "btsVideo" => "video",\n        _type == "projectImage" && mediaType == "image" => "image",\n        _type == "projectImage" && mediaType == "video" => "video"\n      ),\n      "image": select(\n        _type == "btsImage" => asset-> {\n          url,\n          "width": metadata.dimensions.width,\n          "height": metadata.dimensions.height,\n          "blurDataURL": metadata.lqip\n        },\n        _type == "projectImage" && mediaType == "image" => image.asset-> {\n          url,\n          "width": metadata.dimensions.width,\n          "height": metadata.dimensions.height,\n          "blurDataURL": metadata.lqip\n        }\n      ),\n      "video": select(\n        _type == "btsVideo" => asset->url,\n        _type == "projectImage" && mediaType == "video" => video.asset->url\n      ),\n      "alt": select(\n        _type == "btsImage" => asset->altText,\n        _type == "btsVideo" => asset->altText,\n        _type == "projectImage" => alt\n      )\n    }\n  }\n': PROJECT_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "project" && category->slug.current == $category] | order(_createdAt desc) {\n    _id,\n    "projectId": slug.current,\n    "imageUrl": coverImage.asset->url,\n    "altText": coverAlt\n  }\n': PROJECTS_BY_CATEGORY_QUERY_RESULT;
     '\n  *[_type == "aboutPage"][0] {\n    landingIntro,\n    aboutBio,\n    collaborationNote,\n    "aboutImage": aboutImage.asset-> {\n      url,\n      "width": metadata.dimensions.width,\n      "height": metadata.dimensions.height,\n      "blurDataURL": metadata.lqip\n    },\n    aboutImageAlt,\n    instagramUrl,\n    twitterUrl,\n    email\n  }\n': ABOUT_PAGE_QUERY_RESULT;
   }
