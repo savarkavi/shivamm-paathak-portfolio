@@ -111,7 +111,7 @@ const AnimatedHeaderLabel = ({ label, className }: AnimatedLabelProps) => {
 };
 
 const Header = () => {
-  const { isGlyphScene, toggleScene } = useHeroScene();
+  const { isGlyphScene } = useHeroScene();
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -131,9 +131,18 @@ const Header = () => {
               </span>
             </p>
           ) : (
-            <Link href="/" className="flex items-center gap-1 text-base">
-              <span aria-hidden="true">&larr;</span>
-              <AnimatedHeaderLabel label="Back Home" />
+            <Link
+              href="/"
+              aria-label="Go to home"
+              className="flex items-center"
+            >
+              <Image
+                src="/shivamm-paathak-logo.png"
+                alt="Shivamm Paathak logo"
+                width={32}
+                height={32}
+                className="h-8 w-8"
+              />
             </Link>
           )}
         </div>

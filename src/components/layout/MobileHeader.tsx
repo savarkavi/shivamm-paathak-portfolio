@@ -139,46 +139,19 @@ const MobileHeader = () => {
     <div ref={containerRef}>
       {/* Fixed Header Bar */}
       <div className="fixed top-0 right-0 left-0 z-100 flex items-center justify-between px-4 py-3 lg:hidden">
-        {/* Logo / Back Link */}
+        {/* Home Logo */}
         <div
           className={`flex w-full items-center justify-between gap-4 ${isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"}`}
         >
-          {isHome ? (
-            <>
-              {/* <button
-                type="button"
-                onClick={toggleScene}
-                className="group flex items-center gap-2"
-                aria-pressed={isGlyphScene}
-                aria-label="Toggle hero glyph effect"
-              >
-                <span className="text-xs tracking-[0.18em] uppercase">Glyph</span>
-                <span className="relative h-4 w-8 rounded-full border border-current transition-colors duration-300 group-hover:bg-white/15">
-                  <span
-                    className={`absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full bg-current transition-transform duration-300 ${
-                      isGlyphScene ? "translate-x-5" : "translate-x-1"
-                    }`}
-                  />
-                </span>
-              </button> */}
-              <Image
-                src="/shivamm-paathak-logo.png"
-                alt="Shivamm Paathak logo"
-                width={32}
-                height={32}
-                className="h-8 w-8"
-              />
-            </>
-          ) : (
-            <Link
-              href="/"
-              className="flex items-center gap-1 tracking-[0.18em] uppercase"
-            >
-              <span>←</span>
-              <span>Back Home</span>
-            </Link>
-          )}
-
+          <Link href="/" aria-label="Go to home" className="flex items-center">
+            <Image
+              src="/shivamm-paathak-logo.png"
+              alt="Shivamm Paathak logo"
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
+          </Link>
           {/* Menu Button */}
           <button
             onClick={() => setIsOpen(true)}
@@ -269,7 +242,7 @@ const MobileHeader = () => {
               href={item.href}
               ref={setNavItemRef(index)}
               onClick={() => setIsOpen(false)}
-              className={`${bebasNeue.className} group relative text-4xl tracking-[0.15em] text-black uppercase opacity-0`}
+              className={`${bebasNeue.className} group relative text-4xl tracking-[0.15em] text-white uppercase opacity-0`}
             >
               <span className="relative inline-block">
                 {item.label}

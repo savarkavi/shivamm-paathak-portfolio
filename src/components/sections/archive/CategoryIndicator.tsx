@@ -36,7 +36,7 @@ const CategoryIndicator = ({
       className={`relative flex h-fit w-full animate-bounce flex-wrap items-center justify-center gap-x-6 gap-y-4 tracking-wider text-white hover:bg-white hover:text-black ${className}`}
     >
       <div
-        className={`pointer-events-auto relative top-24 flex h-8 min-w-52 items-center justify-center overflow-hidden border border-dashed border-gray-500 py-2 text-xl transition-all lg:top-0`}
+        className={`pointer-events-auto relative top-20 flex h-8 min-w-52 items-center justify-center overflow-hidden border border-dashed border-gray-500 py-2 text-xl transition-all lg:top-0`}
       >
         {categories.map((cat) => (
           <TransitionLink
