@@ -10,7 +10,9 @@ type ProjectBtsPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: ProjectBtsPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ProjectBtsPageProps): Promise<Metadata> {
   const { id } = await params;
   const { data: project } = await sanityFetch({
     query: PROJECT_BY_SLUG_QUERY,

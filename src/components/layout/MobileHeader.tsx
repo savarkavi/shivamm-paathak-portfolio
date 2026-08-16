@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import TransitionLink from "./TransitionLink";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -19,7 +20,7 @@ const NAV_ITEMS = [
 
 const MobileHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isGlyphScene, toggleScene } = useHeroScene();
+  const { isGlyphScene } = useHeroScene();
   const pathname = usePathname();
   const isHome = pathname === "/";
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -143,22 +144,31 @@ const MobileHeader = () => {
           className={`flex w-full items-center justify-between gap-4 ${isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"}`}
         >
           {isHome ? (
-            <button
-              type="button"
-              onClick={toggleScene}
-              className="group flex items-center gap-2"
-              aria-pressed={isGlyphScene}
-              aria-label="Toggle hero glyph effect"
-            >
-              <span className="text-xs tracking-[0.18em] uppercase">Glyph</span>
-              <span className="relative h-4 w-8 rounded-full border border-current transition-colors duration-300 group-hover:bg-white/15">
-                <span
-                  className={`absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full bg-current transition-transform duration-300 ${
-                    isGlyphScene ? "translate-x-5" : "translate-x-1"
-                  }`}
-                />
-              </span>
-            </button>
+            <>
+              {/* <button
+                type="button"
+                onClick={toggleScene}
+                className="group flex items-center gap-2"
+                aria-pressed={isGlyphScene}
+                aria-label="Toggle hero glyph effect"
+              >
+                <span className="text-xs tracking-[0.18em] uppercase">Glyph</span>
+                <span className="relative h-4 w-8 rounded-full border border-current transition-colors duration-300 group-hover:bg-white/15">
+                  <span
+                    className={`absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full bg-current transition-transform duration-300 ${
+                      isGlyphScene ? "translate-x-5" : "translate-x-1"
+                    }`}
+                  />
+                </span>
+              </button> */}
+              <Image
+                src="/shivamm-paathak-logo.png"
+                alt="Shivamm Paathak logo"
+                width={32}
+                height={32}
+                className="h-8 w-8"
+              />
+            </>
           ) : (
             <Link
               href="/"
