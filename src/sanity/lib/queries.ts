@@ -47,15 +47,33 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
     gallery[] {
       "mediaType": select(
         _type == "galleryImage" => "image",
-        _type == "galleryVideo" => "video"
+        _type == "galleryVideo" => "video",
+        _type == "projectImage" && mediaType == "image" => "image",
+        _type == "projectImage" && mediaType == "video" => "video"
       ),
-      "image": select(_type == "galleryImage" => asset-> {
-        url,
-        "width": metadata.dimensions.width,
-        "height": metadata.dimensions.height,
-        "blurDataURL": metadata.lqip
-      }),
-      "video": select(_type == "galleryVideo" => asset->url)
+      "image": select(
+        _type == "galleryImage" => asset-> {
+          url,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height,
+          "blurDataURL": metadata.lqip
+        },
+        _type == "projectImage" && mediaType == "image" => image.asset-> {
+          url,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height,
+          "blurDataURL": metadata.lqip
+        }
+      ),
+      "video": select(
+        _type == "galleryVideo" => asset->url,
+        _type == "projectImage" && mediaType == "video" => video.asset->url
+      ),
+      "alt": select(
+        _type == "galleryImage" => asset->altText,
+        _type == "galleryVideo" => asset->altText,
+        _type == "projectImage" => alt
+      )
     },
     behindTheScenes[] {
       mediaType,

@@ -41,12 +41,12 @@ const Page = async ({ params }: ProjectPageProps) => {
     notFound();
   }
 
-  const media = (project.gallery || []).flatMap<ProjectMedia>((item) => {
+  const media = (project.gallery || []).flatMap<ProjectMedia>((item, index) => {
     if (item.mediaType === "image" && item.image?.url) {
       return [{
         type: "image" as const,
         src: item.image.url,
-        alt: item.alt || "Project image",
+        alt: item.alt || `Project image ${index + 1}`,
         width: item.image.width || 1356,
         height: item.image.height || 1800,
       }];
@@ -56,7 +56,7 @@ const Page = async ({ params }: ProjectPageProps) => {
       return [{
         type: "video" as const,
         src: item.video,
-        alt: item.alt || "Project video",
+        alt: item.alt || `Project video ${index + 1}`,
       }];
     }
 

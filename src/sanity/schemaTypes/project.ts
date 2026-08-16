@@ -134,6 +134,7 @@ export const projectType = defineType({
           options: {
             hotspot: true,
           },
+          validation: (Rule) => Rule.required(),
         }),
         defineArrayMember({
           name: "galleryVideo",
@@ -142,6 +143,7 @@ export const projectType = defineType({
           options: {
             accept: "video/*",
           },
+          validation: (Rule) => Rule.required(),
         }),
       ],
       options: {
