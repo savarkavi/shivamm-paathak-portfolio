@@ -45,15 +45,17 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`
     credits,
     shootTitle,
     gallery[] {
-      mediaType,
-      "image": image.asset-> {
+      "mediaType": select(
+        _type == "galleryImage" => "image",
+        _type == "galleryVideo" => "video"
+      ),
+      "image": select(_type == "galleryImage" => asset-> {
         url,
         "width": metadata.dimensions.width,
         "height": metadata.dimensions.height,
         "blurDataURL": metadata.lqip
-      },
-      "video": video.asset->url,
-      alt
+      }),
+      "video": select(_type == "galleryVideo" => asset->url)
     },
     behindTheScenes[] {
       mediaType,

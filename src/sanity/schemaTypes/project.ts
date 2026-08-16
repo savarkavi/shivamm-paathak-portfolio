@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 import { apiVersion } from "../env";
 
 const shootMonths = [
@@ -126,7 +126,27 @@ export const projectType = defineType({
       name: "gallery",
       title: "Project Gallery",
       type: "array",
-      of: [{ type: "projectImage" }],
+      of: [
+        defineArrayMember({
+          name: "galleryImage",
+          title: "Image",
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        }),
+        defineArrayMember({
+          name: "galleryVideo",
+          title: "Video",
+          type: "file",
+          options: {
+            accept: "video/*",
+          },
+        }),
+      ],
+      options: {
+        layout: "grid",
+      },
       validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
