@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -122,30 +121,12 @@ const Header = () => {
       } uppercase lg:fixed lg:flex lg:px-6`}
     >
       <div className="-ml-2 flex items-center select-none">
-        <div>
-          {isHome ? (
-            <p>
-              Based in{" "}
-              <span className="inline-flex items-center gap-1">
-                India <MdLocationPin className="inline" />
-              </span>
-            </p>
-          ) : (
-            <Link
-              href="/"
-              aria-label="Go to home"
-              className="flex items-center"
-            >
-              <Image
-                src="/shivamm-paathak-logo.png"
-                alt="Shivamm Paathak logo"
-                width={32}
-                height={32}
-                className="h-8 w-8"
-              />
-            </Link>
-          )}
-        </div>
+        <p>
+          Based in{" "}
+          <span className="inline-flex items-center gap-1">
+            India <MdLocationPin className="inline" />
+          </span>
+        </p>
       </div>
       <TransitionLink href="/archive" className="text-base">
         <AnimatedHeaderLabel label="[Work]" />
