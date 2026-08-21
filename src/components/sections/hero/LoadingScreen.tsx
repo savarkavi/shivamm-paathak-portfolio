@@ -16,6 +16,7 @@ interface LoadingScreenProps {
 const LoadingScreen = ({ isLoaded, onIntroComplete }: LoadingScreenProps) => {
   const [show, setShow] = useState(true);
   const [showIntroScene, setShowIntroScene] = useState(true);
+  const [showLoadingCopy, setShowLoadingCopy] = useState(true);
   const [isIntroSceneLoaded, setIsIntroSceneLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -29,6 +30,7 @@ const LoadingScreen = ({ isLoaded, onIntroComplete }: LoadingScreenProps) => {
       .timeline({
         onComplete: () => {
           setShowIntroScene(false);
+          setShowLoadingCopy(false);
           onIntroComplete();
         },
       })
@@ -105,26 +107,28 @@ const LoadingScreen = ({ isLoaded, onIntroComplete }: LoadingScreenProps) => {
         </div>
       )}
 
-      <div className="pointer-events-none absolute top-1/2 left-1/2 z-10 flex -translate-1/2 flex-col items-center gap-4">
-        <p
-          ref={titleRef}
-          className={`text-center text-xl font-bold tracking-[0.35em] text-white uppercase md:text-3xl`}
-          style={{
-            transform: showIntroScene ? "translateY(-38vh)" : "translateY(0)",
-          }}
-        >
-          Shivamm Paathak
-        </p>
-        <p
-          ref={loadingTextRef}
-          className={`text-sm font-bold tracking-[0.3em] text-white uppercase`}
-          style={{
-            transform: showIntroScene ? "translateY(38vh)" : "translateY(0)",
-          }}
-        >
-          Studio
-        </p>
-      </div>
+      {showLoadingCopy && (
+        <div className="pointer-events-none absolute top-1/2 left-1/2 z-10 flex -translate-1/2 flex-col items-center gap-4">
+          <p
+            ref={titleRef}
+            className={`text-center text-xl font-bold tracking-[0.35em] text-white uppercase md:text-3xl`}
+            style={{
+              transform: showIntroScene ? "translateY(-38vh)" : "translateY(0)",
+            }}
+          >
+            Shivamm Paathak
+          </p>
+          <p
+            ref={loadingTextRef}
+            className={`text-sm font-bold tracking-[0.3em] text-white uppercase`}
+            style={{
+              transform: showIntroScene ? "translateY(38vh)" : "translateY(0)",
+            }}
+          >
+            Studio
+          </p>
+        </div>
+      )}
     </div>
   );
 };
