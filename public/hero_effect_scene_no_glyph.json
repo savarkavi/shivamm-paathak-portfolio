@@ -132,10 +132,10 @@
       "breakpoints": [
         {
           "props": {
-            "lineHeight": 210,
+            "lineHeight": 238,
             "left": 0.5,
-            "top": 0.35,
-            "fontSize": 219,
+            "top": 0.5,
+            "fontSize": 250,
             "width": 1196,
             "fontWeight": "400"
           },
@@ -151,7 +151,7 @@
             "width": 948,
             "lineHeight": 135,
             "fontSize": 140,
-            "top": 0.2811288759689923,
+            "top": 0.5,
             "fontWeight": "400"
           }
         },
@@ -161,7 +161,7 @@
             "lineHeight": 85,
             "width": 706.2,
             "fontSize": 90,
-            "top": 0.24549763033175354,
+            "top": 0.5,
             "fontWeight": "400"
           },
           "max": 575,
@@ -189,18 +189,18 @@
       "fontSize": 219,
       "lineHeight": 210,
       "letterSpacing": 0,
-      "fontFamily": "Talero",
+      "fontFamily": "Anton",
       "fontStyle": "regular",
       "fontWeight": "400",
       "textAlign": "center",
       "textContent": "SHIVAMM\nPAATHAK",
       "href": "",
-      "fill": ["#EEEEEE"],
+      "fill": ["#FFBF45"],
       "fontSizeMode": "fixed",
       "noTextAsHtml": true,
       "fontCSS": {
-        "src": "/fonts/Talero.otf",
-        "family": "Talero"
+        "src": "/fonts/Anton-Regular.ttf",
+        "family": "Anton"
       },
       "compiledFragmentShaders": [
         "#version 300 es\n// Copyright (c) Unicorn Studio. Licensed under the Unicorn Studio Commercial License.\n// Unauthorized copying, redistribution, or use in competing products is prohibited.\nprecision highp float;\nin vec2 vTextureCoord;\nin vec3 vVertexPosition;uniform vec2 uMousePos;\nuniform sampler2D uBgTexture;\nuniform sampler2D uTexture;const float PI = 3.14159265359;out vec4 fragColor;vec4 getNormalOutput(vec4 color, vec4 background) {\nreturn mix(background, color + background * (1.0 - color.a), 1.0000);\n}vec4 getOutputByMode(vec4 color, vec4 background) {\nreturn getNormalOutput(color, background);\n}void main() {\nvec2 uv = vTextureCoord;\nvec2 pos = vec2(0);pos = mix(vec2(0), (uMousePos - 0.5), 0.0000);uv -= pos;vec4 background = vec4(0);background = texture(uBgTexture, vTextureCoord);\nvec4 color = texture(uTexture, uv);vec4 col = getOutputByMode(color, background);fragColor = col;\n}"
@@ -322,7 +322,7 @@
           "max": null,
           "props": {
             "top": 0.6030000000000001,
-            "width": 870,
+            "width": 0,
             "left": 0.49999999999999994
           },
           "min": 992,
@@ -333,7 +333,7 @@
           "min": 0,
           "props": {
             "top": 0.6407582938388625,
-            "width": 667.5999999999999,
+            "width": 0,
             "left": 0.4971794871794872
           },
           "max": 575
@@ -349,13 +349,13 @@
       "maskDepth": 0,
       "maskDepthLayer": 0,
       "layerType": "image",
-      "width": 870,
+      "width": 0,
       "widthMode": 1,
-      "height": 870,
+      "height": 970,
       "heightMode": 2,
       "left": 0.49999999999999994,
-      "top": 0.6030000000000001,
-      "src": "shivamm-photo-bw.webp",
+      "top": 0.8030000000000001,
+      "src": "new-shivamm-test-image.png",
       "imageNaturalSize": { "type": "Vec2", "_x": 1200, "_y": 1200 },
       "compiledFragmentShaders": [
         "#version 300 es\n// Copyright (c) Unicorn Studio. Licensed under the Unicorn Studio Commercial License.\n// Unauthorized copying, redistribution, or use in competing products is prohibited.\nprecision highp float;in vec2 vTextureCoord;\nin vec3 vVertexPosition;uniform sampler2D uSourceImage;\nuniform float uWidth;\nuniform float uLeft;\nuniform float uTop;uniform vec2 uArtboardResolution;\nuniform vec2 uMousePos;const float TAU = 6.28318530718;\nconst float PI = 3.14159265359;out vec4 fragColor;vec2 rotate2D(vec2 p, float angle) {\nfloat s = sin(angle);\nfloat c = cos(angle);\nreturn vec2(p.x * c - p.y * s, p.x * s + p.y * c);\n}vec2 getAnchorOffsets() {\nreturn vec2(0.5, 0.5);\n}vec4 sampleImage(vec2 canvasUV, vec2 mouseOffset, vec2 mouseRotOffset) {\nvec2 canvasPos = vec2(canvasUV.x * uArtboardResolution.x, (1.0 - canvasUV.y) * uArtboardResolution.y);\nvec2 imageUV;float absWidth = uWidth;\nfloat absHeight = 870.0000 * uArtboardResolution.y;\nabsWidth = absWidth;\nabsHeight = (1 != 2 && 2 == 2) ? absWidth / 1.0000 : absHeight;vec2 elementSizePx = vec2(absWidth, absHeight);\nvec2 elementPosPx = vec2(uLeft, uTop) * uArtboardResolution - getAnchorOffsets() * elementSizePx;vec2 centerPos = elementPosPx + (elementSizePx * 0.5);\nvec2 relPos = canvasPos - centerPos + mouseOffset;\nvec2 unrotatedRelPos = rotate2D(relPos, 0.0000 * -TAU);\nvec2 elementPos = unrotatedRelPos + (elementSizePx * 0.5);\nimageUV = elementPos / elementSizePx;\nvec2 flippedUV = vec2(imageUV.x, 1.0 - imageUV.y);\nvec4 color = textureLod(uSourceImage, flippedUV, 0.0);\nif (imageUV.x >= 0.0 && imageUV.x <= 1.0 && imageUV.y >= 0.0 && imageUV.y <= 1.0) {\nreturn color;\n} else {\nreturn vec4(0.0);\n}\n}vec4 applyImageAdjustments(vec4 color) {color.rgb = clamp(color.rgb, 0.0, 1.0);\ncolor.rgb *= color.a;\nreturn color;\n}vec4 getSourceOutput(vec2 uv, vec2 mouseOffsetPx, vec2 mouseRotOffset) {\nvec4 color = sampleImage(uv, mouseOffsetPx, mouseRotOffset);\nreturn applyImageAdjustments(color);\n}void main() {\nvec2 uv = vTextureCoord;\nvec2 mouseOffsetUV = (uMousePos - 0.5) * 0.0000;\nvec2 mouseOffsetPx = mouseOffsetUV;\nvec2 mouseRotOffset = (uMousePos - 0.5) * 0.0000 * PI * 0.5;\nuv -= mouseOffsetUV;\nfragColor = getSourceOutput(uv, mouseOffsetPx, mouseRotOffset);\n}"
