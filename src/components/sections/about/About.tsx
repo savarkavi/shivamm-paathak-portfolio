@@ -42,7 +42,7 @@ const About = ({ aboutInfo }: AboutProps) => {
           sdkUrl={UNICORN_STUDIO_SDK_URL}
         />
       </div>
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center overflow-y-auto px-4 pt-24 pb-8 text-center text-lg text-white lg:pt-20 xl:w-auto">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center overflow-y-auto px-4 pt-24 pb-8 text-center text-lg lg:pt-20 xl:w-auto">
         <div className="flex flex-1 flex-col items-center justify-center gap-6">
           <p>{content.aboutBio}</p>
           <div className="relative h-70 w-50 shrink-0">
@@ -58,9 +58,9 @@ const About = ({ aboutInfo }: AboutProps) => {
               />
             )}
           </div>
-          <p>{content.collaborationNote}</p>
+          <p className="">{content.collaborationNote}</p>
         </div>
-        <div className="mt-auto flex w-full flex-col items-center gap-4 pt-12 text-center text-lg text-white xl:right-8 xl:left-8 xl:flex-row xl:justify-between xl:text-left">
+        <div className="mt-auto flex w-full flex-col items-center gap-4 pt-12 text-center text-lg xl:right-8 xl:left-8 xl:flex-row xl:justify-between xl:text-left">
           <div className="flex flex-col items-center gap-4 xl:flex-row xl:gap-6">
             {content.email && (
               <a

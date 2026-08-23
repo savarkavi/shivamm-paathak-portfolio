@@ -2,13 +2,11 @@
 
 import { useState, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import TransitionLink from "./TransitionLink";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { bebasNeue } from "@/fonts";
 import { useHeroScene } from "@/components/sections/hero/HeroSceneContext";
-import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
 
@@ -20,7 +18,7 @@ const NAV_ITEMS = [
 
 const MobileHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isGlyphScene } = useHeroScene();
+  const { isGlyphScene, toggleScene } = useHeroScene();
   const pathname = usePathname();
   const isHome = pathname === "/";
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -139,19 +137,27 @@ const MobileHeader = () => {
     <div ref={containerRef}>
       {/* Fixed Header Bar */}
       <div className="fixed top-0 right-0 left-0 z-100 flex items-center justify-between px-4 py-3 lg:hidden">
-        {/* Home Logo */}
+        {isHome && (
+          <button
+            type="button"
+            onClick={toggleScene}
+            className={`absolute top-3 left-4 flex cursor-pointer items-center gap-2 text-xs tracking-[0.2em] uppercase ${isGlyphScene ? "glyph-mode" : ""}`}
+            aria-pressed={isGlyphScene}
+            aria-label="Toggle hero glyph effect"
+          >
+            <span>[Glyph]</span>
+            <span className="relative h-4 w-7 rounded-full border border-current transition-colors group-hover:bg-current/10">
+              <span
+                className={`absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full bg-current transition-transform duration-300 ${
+                  isGlyphScene ? "translate-x-4" : "translate-x-1"
+                }`}
+              />
+            </span>
+          </button>
+        )}
         <div
-          className={`flex w-full items-center justify-between gap-4 ${isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"}`}
+          className={`flex w-full items-center justify-end gap-4 ${isGlyphScene && isHome ? "glyph-mode" : ""}`}
         >
-          <Link href="/" aria-label="Go to home" className="flex items-center">
-            <Image
-              src="/shivamm-paathak-logo.png"
-              alt="Shivamm Paathak logo"
-              width={32}
-              height={32}
-              className="h-8 w-8"
-            />
-          </Link>
           {/* Menu Button */}
           <button
             onClick={() => setIsOpen(true)}

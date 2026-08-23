@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -110,14 +109,14 @@ const AnimatedHeaderLabel = ({ label, className }: AnimatedLabelProps) => {
 };
 
 const Header = () => {
-  const { isGlyphScene } = useHeroScene();
+  const { isGlyphScene, toggleScene } = useHeroScene();
   const pathname = usePathname();
   const isHome = pathname === "/";
 
   return (
     <div
       className={`relative z-60 hidden w-full flex-wrap items-center justify-between gap-3 border-dashed border-gray-400 px-4 py-2 leading-4 ${
-        isGlyphScene && isHome ? "text-[#2d4dff]" : "text-white"
+        isGlyphScene && isHome ? "glyph-mode" : ""
       } uppercase lg:fixed lg:flex lg:px-6`}
     >
       <div className="-ml-2 flex items-center select-none">
@@ -131,20 +130,13 @@ const Header = () => {
       <TransitionLink href="/archive" className="text-base">
         <AnimatedHeaderLabel label="[Work]" />
       </TransitionLink>
-      <Image
-        src="/shivamm-paathak-logo.png"
-        alt="Shivamm Paathak logo"
-        width={32}
-        height={32}
-        className="h-8 w-8"
-      />
       <TransitionLink href="/about" className="text-base">
         <AnimatedHeaderLabel label="[Profile]" />
       </TransitionLink>
       <TransitionLink href="#" className="text-base">
         <AnimatedHeaderLabel label="[Store]" />
       </TransitionLink>
-      {/* {isHome && (
+      {isHome && (
         <button
           type="button"
           onClick={toggleScene}
@@ -161,7 +153,7 @@ const Header = () => {
             />
           </span>
         </button>
-      )} */}
+      )}
     </div>
   );
 };

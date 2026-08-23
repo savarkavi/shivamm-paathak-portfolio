@@ -74,7 +74,7 @@ const PageTransition = () => {
       <div
         id="transition-white"
         ref={whiteRef}
-        className="absolute inset-0 bg-white"
+        className="absolute inset-0 bg-[#ffbf45]"
         style={{ clipPath: initialClip }}
       />
 

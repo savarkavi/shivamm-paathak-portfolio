@@ -14,7 +14,7 @@ const HeroFooter = ({ isGlyphScene, aboutInfo }: HeroFooterProps) => {
   return (
     <div
       className={`absolute bottom-0 left-0 z-30 flex w-full flex-col items-center justify-between gap-6 p-6 ${
-        isGlyphScene ? "text-[#2d4dff]" : "text-white"
+        isGlyphScene ? "glyph-mode" : ""
       } lg:flex-row lg:items-end`}
     >
       <div

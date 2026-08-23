@@ -111,7 +111,7 @@ const LoadingScreen = ({ isLoaded, onIntroComplete }: LoadingScreenProps) => {
         <div className="pointer-events-none absolute top-1/2 left-1/2 z-10 flex -translate-1/2 flex-col items-center gap-4">
           <p
             ref={titleRef}
-            className={`text-center text-xl font-bold tracking-[0.35em] text-white uppercase md:text-3xl`}
+            className={`text-center text-xl font-bold tracking-[0.35em] uppercase md:text-3xl`}
             style={{
               transform: showIntroScene ? "translateY(-38vh)" : "translateY(0)",
             }}
@@ -120,7 +120,7 @@ const LoadingScreen = ({ isLoaded, onIntroComplete }: LoadingScreenProps) => {
           </p>
           <p
             ref={loadingTextRef}
-            className={`text-sm font-bold tracking-[0.3em] text-white uppercase`}
+            className={`text-sm font-bold tracking-[0.3em] uppercase`}
             style={{
               transform: showIntroScene ? "translateY(38vh)" : "translateY(0)",
             }}
