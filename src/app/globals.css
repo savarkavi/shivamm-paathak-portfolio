@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
+.site-text,
+.site-text * {
+  color: #ffbf45;
+}
+
+.glyph-mode,
+.glyph-mode * {
+  color: #2d4dff !important;
+}
+
 .text-glow {
   text-shadow:
-    0 0 10px rgba(255, 255, 255, 0.6),
-    0 0 30px rgba(255, 255, 255, 0.3),
-    0 0 60px rgba(255, 255, 255, 0.15);
+    0 0 10px rgba(255, 191, 69, 0.6),
+    0 0 30px rgba(255, 191, 69, 0.3),
+    0 0 60px rgba(255, 191, 69, 0.15);
 }

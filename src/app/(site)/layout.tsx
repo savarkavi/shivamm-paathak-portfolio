@@ -23,7 +23,7 @@ export default function SiteLayout({
 }) {
   return (
     <div
-      className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} site-text antialiased`}
     >
       <HeroSceneProvider>
         <ReactLenis root />
