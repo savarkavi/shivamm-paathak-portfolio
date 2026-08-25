@@ -23,10 +23,13 @@ const ArchiveContent = ({
     const layers = gsap.utils.toArray<HTMLElement>(".category-layer");
     if (!layers.length) return;
 
-    const spacing = 1500;
+    const spacing = 1300;
     const maxBound = spacing;
     const minBound = -spacing * (categories.length - 1);
     const wrapFn = gsap.utils.wrap(minBound, maxBound);
+    const focusPoint = -200;
+    const rearFadeStart = focusPoint - spacing;
+    const minRearOpacity = 0.01;
 
     let targetScroll = 0;
     let currentScroll = 0;
@@ -56,14 +59,33 @@ const ArchiveContent = ({
 
         let opacity = 1;
         if (wrappedZ > 500) {
-          opacity = gsap.utils.mapRange(500, 1000, 1, 0, wrappedZ);
+          opacity = gsap.utils.clamp(
+            0,
+            1,
+            gsap.utils.mapRange(500, 1000, 1, 0, wrappedZ),
+          );
         } else if (wrappedZ < -3000) {
-          opacity = gsap.utils.mapRange(-3000, -4000, 1, 0, wrappedZ);
+          opacity = gsap.utils.clamp(
+            0,
+            minRearOpacity,
+            gsap.utils.mapRange(-3000, -4000, minRearOpacity, 0, wrappedZ),
+          );
+        } else if (wrappedZ < focusPoint) {
+          opacity = gsap.utils.clamp(
+            minRearOpacity,
+            1,
+            gsap.utils.mapRange(
+              rearFadeStart,
+              focusPoint,
+              minRearOpacity,
+              1,
+              wrappedZ,
+            ),
+          );
         }
 
         gsap.set(layer, { z: wrappedZ, opacity });
 
-        const focusPoint = -250;
         if (Math.abs(wrappedZ - focusPoint) < minZDist) {
           minZDist = Math.abs(wrappedZ - focusPoint);
           activeCat = categories[i]?.slug ?? "";
@@ -97,11 +119,11 @@ const ArchiveContent = ({
               key={cat._id}
               className="category-layer absolute flex scale-[0.50] items-center justify-center md:scale-100"
               style={{
-                transform: `translateZ(${-i * 1000}px)`,
+                transform: `translateZ(${-i * 1500}px)`,
               }}
             >
               {catImages[0]?.url && (
-                <div className="absolute top-[-350px] left-1/2 h-[250px] w-[200px] -translate-x-1/2 overflow-hidden">
+                <div className="absolute top-[-450px] left-1/2 h-[300px] w-[250px] -translate-x-1/2 overflow-hidden bg-black">
                   <Image
                     src={catImages[0].url}
                     fill
@@ -111,7 +133,7 @@ const ArchiveContent = ({
                 </div>
               )}
               {catImages[1]?.url && (
-                <div className="absolute bottom-[-350px] left-1/2 h-[250px] w-[200px] -translate-x-1/2 overflow-hidden">
+                <div className="absolute bottom-[-450px] left-1/2 h-[300px] w-[250px] -translate-x-1/2 overflow-hidden bg-black">
                   <Image
                     src={catImages[1].url}
                     fill
@@ -121,7 +143,7 @@ const ArchiveContent = ({
                 </div>
               )}
               {catImages[2]?.url && (
-                <div className="absolute top-1/2 left-[-400px] h-[250px] w-[200px] -translate-y-1/2 overflow-hidden">
+                <div className="absolute top-1/2 left-[-450px] h-[300px] w-[250px] -translate-y-1/2 overflow-hidden bg-black">
                   <Image
                     src={catImages[2].url}
                     fill
@@ -131,7 +153,7 @@ const ArchiveContent = ({
                 </div>
               )}
               {catImages[3]?.url && (
-                <div className="absolute top-1/2 right-[-400px] h-[250px] w-[200px] -translate-y-1/2 overflow-hidden">
+                <div className="absolute top-1/2 right-[-450px] h-[300px] w-[250px] -translate-y-1/2 overflow-hidden bg-black">
                   <Image
                     src={catImages[3].url}
                     fill
