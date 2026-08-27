@@ -251,7 +251,7 @@ const ProjectImageSequence = ({
       >
         {media.map((item, index) => (
           <div
-            key={item.src}
+            key={index}
             ref={(el) => {
               imageRefs.current[index] = el;
             }}
@@ -291,7 +291,7 @@ const ProjectImageSequence = ({
                 <button
                   type="button"
                   aria-label={
-                    mutedVideos[item.src] ?? true
+                    (mutedVideos[item.src] ?? true)
                       ? "Unmute video"
                       : "Mute video"
                   }
@@ -299,7 +299,7 @@ const ProjectImageSequence = ({
                   onClick={() => toggleVideoMute(item.src)}
                   onPointerDown={(event) => event.stopPropagation()}
                 >
-                  {mutedVideos[item.src] ?? true ? (
+                  {(mutedVideos[item.src] ?? true) ? (
                     <FaVolumeMute size={16} />
                   ) : (
                     <FaVolumeUp size={16} />
