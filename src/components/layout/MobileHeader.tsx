@@ -175,7 +175,7 @@ const MobileHeader = () => {
       {/* Overlay Menu */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-200 flex flex-col opacity-0 lg:hidden"
+        className="fixed inset-0 z-200 flex flex-col !text-white opacity-0 lg:hidden"
         style={{
           clipPath: "circle(0% at calc(100% - 40px) 28px)",
           background:
@@ -197,7 +197,7 @@ const MobileHeader = () => {
           <button
             ref={closeRef}
             onClick={() => setIsOpen(false)}
-            className="group flex items-center gap-2 text-white opacity-0"
+            className="group flex items-center gap-2 opacity-0"
             aria-label="Close menu"
           >
             <span className="text-xs font-bold tracking-[0.2em] uppercase">
@@ -208,7 +208,7 @@ const MobileHeader = () => {
                 width="8"
                 height="8"
                 viewBox="0 0 8 8"
-                className="text-white transition-colors duration-300 group-hover:text-black"
+                className="!text-white transition-colors duration-300 group-hover:!text-black"
               >
                 <line
                   x1="1"
@@ -248,9 +248,9 @@ const MobileHeader = () => {
               href={item.href}
               ref={setNavItemRef(index)}
               onClick={() => setIsOpen(false)}
-              className={`${bebasNeue.className} group relative text-4xl tracking-[0.15em] text-white uppercase opacity-0`}
+              className={`${bebasNeue.className} group relative text-4xl tracking-[0.15em] uppercase opacity-0`}
             >
-              <span className="relative inline-block">
+              <span className="relative inline-block !text-white">
                 {item.label}
                 {/* Underline on hover */}
                 <span className="absolute -bottom-1 left-0 h-px w-0 bg-white/50 transition-all duration-300 group-hover:w-full" />
@@ -261,7 +261,7 @@ const MobileHeader = () => {
 
         {/* Bottom line / tagline */}
         <div className="px-6 pb-8 text-center">
-          <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase">
+          <p className="text-[10px] tracking-[0.3em] !text-white/30 uppercase">
             Fine art photographer & Creative director
           </p>
         </div>
