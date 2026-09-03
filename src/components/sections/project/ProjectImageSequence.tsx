@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { type MouseEvent, useEffect, useRef, useState } from "react";
 import { getPaletteSync } from "colorthief";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -15,7 +15,6 @@ import {
   FaVolumeMute,
   FaVolumeUp,
 } from "react-icons/fa";
-import ProjectImageControls from "./ProjectImageControls";
 import Link from "next/link";
 
 gsap.registerPlugin(useGSAP, Observer);
@@ -118,6 +117,16 @@ const ProjectImageSequence = ({
     }));
   };
 
+  const handleImageClick = (event: MouseEvent<HTMLDivElement>) => {
+    const { top, height } = event.currentTarget.getBoundingClientRect();
+
+    if (event.clientY < top + height / 2) {
+      handlePrevRef.current?.();
+    } else {
+      handleNextRef.current?.();
+    }
+  };
+
   useGSAP(
     () => {
       const mediaElements = imageRefs.current.filter(
@@ -135,6 +144,8 @@ const ProjectImageSequence = ({
         clipPath: expandedClipPath,
         zIndex: 1,
       });
+
+      if (mediaElements.length === 1) return;
 
       const goToNextImage = () => {
         if (isAnimatingRef.current) return;
@@ -248,6 +259,7 @@ const ProjectImageSequence = ({
       <div
         className="absolute top-1/2 left-0 h-auto w-screen -translate-y-1/2 overflow-hidden bg-zinc-950 lg:inset-y-0 lg:top-0 lg:left-1/2 lg:h-dvh lg:w-auto lg:-translate-x-1/2 lg:translate-y-0"
         style={{ aspectRatio: containerAspectRatio }}
+        onClick={handleImageClick}
       >
         {media.map((item, index) => (
           <div
@@ -296,7 +308,10 @@ const ProjectImageSequence = ({
                       : "Mute video"
                   }
                   className="absolute right-4 bottom-4 z-10 flex size-10 items-center justify-center border border-white/30 bg-black/40 text-white backdrop-blur-md transition-colors hover:bg-black/70"
-                  onClick={() => toggleVideoMute(item.src)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    toggleVideoMute(item.src);
+                  }}
                   onPointerDown={(event) => event.stopPropagation()}
                 >
                   {(mutedVideos[item.src] ?? true) ? (
@@ -358,11 +373,6 @@ const ProjectImageSequence = ({
           <FaInfoCircle size={16} />
         </button>
       </div>
-
-      <ProjectImageControls
-        onNext={() => handleNextRef.current?.()}
-        onPrevious={() => handlePrevRef.current?.()}
-      />
 
       {isProjectInfoOpen && (
         <div className="absolute inset-0 z-20 flex items-end justify-center bg-black/40 px-5 py-8 backdrop-blur-md lg:items-center">
