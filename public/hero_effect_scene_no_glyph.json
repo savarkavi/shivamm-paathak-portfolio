@@ -33,7 +33,7 @@
     },
     {
       "breakpoints": [],
-      "visible": true,
+      "visible": false,
       "aspectRatio": 1,
       "userDownsample": 1,
       "layerType": "effect",
@@ -172,7 +172,7 @@
       "aspectRatio": 1,
       "userDownsample": 1,
       "states": { "appear": [], "scroll": [], "hover": [], "mousemove": [] },
-      "effects": ["f448af30-2af5-461c-a2cb-ca30e73b4347"],
+      "effects": [],
       "anchorPoint": "center",
       "mask": 0,
       "maskInvert": 0,
